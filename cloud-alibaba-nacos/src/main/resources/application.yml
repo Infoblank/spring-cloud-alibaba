@@ -1,0 +1,15 @@
+# 应用名称
+
+#spring.cloud.nacos.server-addr=106.55.94.123:8848
+#spring.cloud.nacos.discovery.username=nacos
+server:
+  port: 8888
+spring:
+  application:
+    name: cloud-alibaba-nacos
+  cloud:
+    nacos:
+      discovery:
+       server-addr: 106.55.94.123:8848
+  thymeleaf:
+    cache: false

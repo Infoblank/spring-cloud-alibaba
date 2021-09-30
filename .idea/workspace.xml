@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3a6cf3d8-234a-403f-a22d-189ce477cbde" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Kotlin Class" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/groovy-test/src/user.groovy" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/pom.xml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/.gitignore" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/src/test/java/com/nacos/cloudalibabanacos/CloudAlibabaNacosApplicationTests.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/src/main/resources/bootstrap.properties" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pom.xml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-provider/src/main/java/com/ztt/cloudprovider/controller/ProviderController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/src/main/resources/application.yml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-provider/src/main/java/com/ztt/cloudprovider/CloudProviderApplication.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/src/main/java/com/nacos/cloudalibabanacos/CloudAlibabaNacosApplication.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/src/main/java/com/nacos/cloudalibabanacos/nacosconfig/NacosConfigConfiguration.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-alibaba-nacos/src/main/java/com/nacos/cloudalibabanacos/nacosdiscovery/NacosDiscoveryConfiguration.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-consumer/src/main/java/com/ztt/consumer/cloudconsumer/controller/ConsumerController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-consumer/src/main/java/com/ztt/consumer/cloudconsumer/interfaceprovider/ProviderClient.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-consumer/src/main/resources/application.yml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/cloud-consumer/src/main/java/com/ztt/consumer/cloudconsumer/CloudConsumerApplication.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="JRebelWorkspace">
+    <option name="jrebelEnabledAutocompile" value="true" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\resource\Java\maven\repository" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../devresource/Java/maven/apache-maven-3.6.2" />
+        <option name="userSettingsFile" value="D:\devresource\Java\maven\apache-maven-3.6.2\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="11" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="11" />
+    <option name="vmOptions" value="-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true" />
+  </component>
+  <component name="ProjectId" id="1wa2wCWZefd4wKb1x2anFPdfzHi" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="jdk.selected.JAVA_MODULE" value="11" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../hzwork/projects/o3-zj/smartant-inventory" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\IdeaProjects\springCloud\spring-cloud-alibaba\cloud-gateway\src\main\resources" />
+      <recent name="D:\workspace\IdeaProjects\springCloud\spring-cloud-alibaba\cloud-provider\src\main\resources" />
+      <recent name="D:\workspace\IdeaProjects\springCloud\spring-cloud-alibaba\cloud-consumer\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace\IdeaProjects\springCloud\spring-cloud-alibaba\cloud-provider\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.CloudProviderApplication">
+    <configuration name="MainMapTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.ztt.cloudprovider.test.MainMapTest" />
+      <module name="cloud-provider" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ztt.cloudprovider.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.groovy.test.MainTest" />
+      <module name="groovy-test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.groovy.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="user" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="user" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CloudConsumerApplication#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/CloudConsumerApplication.http" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="MainMapTest.testMap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cloud-provider" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ztt.cloudprovider.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ztt.cloudprovider.test" />
+      <option name="MAIN_CLASS_NAME" value="com.ztt.cloudprovider.test.MainMapTest" />
+      <option name="METHOD_NAME" value="testMap" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CloudConsumerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="cloud-consumer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ztt.consumer.cloudconsumer.CloudConsumerApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CloudGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="cloud-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.gateway.cloudgateway.CloudGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CloudProviderApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="cloud-provider" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ztt.cloudprovider.CloudProviderApplication" />
+      <option name="VM_PARAMETERS" value="-Dserver.port=9003" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CloudProviderApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="cloud-provider" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ztt.cloudprovider.CloudProviderApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.MainMapTest" />
+      <item itemvalue="Application.user" />
+      <item itemvalue="Application.MainTest" />
+      <item itemvalue="HTTP Request.CloudConsumerApplication#1" />
+      <item itemvalue="JUnit.MainMapTest.testMap" />
+      <item itemvalue="Spring Boot.CloudConsumerApplication" />
+      <item itemvalue="Spring Boot.CloudGatewayApplication" />
+      <item itemvalue="Spring Boot.CloudProviderApplication (1)" />
+      <item itemvalue="Spring Boot.CloudProviderApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainTest" />
+        <item itemvalue="JUnit.MainMapTest.testMap" />
+        <item itemvalue="HTTP Request.CloudConsumerApplication#1" />
+        <item itemvalue="Application.user" />
+        <item itemvalue="Application.MainMapTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3a6cf3d8-234a-403f-a22d-189ce477cbde" name="Changes" comment="" />
+      <created>1628682615193</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628682615193</updated>
+      <workItem from="1628682616674" duration="2403000" />
+      <workItem from="1628782804597" duration="1628000" />
+      <workItem from="1628784592456" duration="645000" />
+      <workItem from="1628785261413" duration="5195000" />
+      <workItem from="1628877050739" duration="4208000" />
+      <workItem from="1628951128717" duration="9133000" />
+      <workItem from="1629039353324" duration="3160000" />
+      <workItem from="1629856442279" duration="74000" />
+      <workItem from="1629856541920" duration="215000" />
+      <workItem from="1629856785195" duration="4528000" />
+      <workItem from="1629863487715" duration="1087000" />
+      <workItem from="1630910278295" duration="749000" />
+      <workItem from="1630919808862" duration="3000" />
+      <workItem from="1631498989209" duration="29247000" />
+      <workItem from="1631598005597" duration="1699000" />
+      <workItem from="1631600000789" duration="1288000" />
+      <workItem from="1631669189751" duration="1536000" />
+      <workItem from="1631754466594" duration="1195000" />
+      <workItem from="1631943798182" duration="745000" />
+      <workItem from="1632303493944" duration="1470000" />
+      <workItem from="1632392690580" duration="3339000" />
+      <workItem from="1632451490786" duration="8192000" />
+      <workItem from="1632638540581" duration="19585000" />
+      <workItem from="1632710337311" duration="6431000" />
+      <workItem from="1632738835224" duration="86000" />
+      <workItem from="1632738935932" duration="111000" />
+      <workItem from="1632739116945" duration="245000" />
+      <workItem from="1632739394895" duration="4013000" />
+      <workItem from="1632797650070" duration="15576000" />
+      <workItem from="1632967967587" duration="603000" />
+      <workItem from="1632968597510" duration="1773000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../../../devresource/Java/jdk/jdk-11.0.12/jdk-11.0.12/lib/src.zip!/java.base/java/util/Optional.java</url>
+          <line>464</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,0 +1,27 @@
+# 应用名称
+#spring.application.name=cloud-gateway
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 106.55.94.123:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: NAMCOS-CONSUMER
+          uri: lb://nacos-consumer
+          predicates:
+            - Path=/**
+            - Method=POST,GET
+
+server:
+  port: 9004
+
+
+
+
