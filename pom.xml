@@ -42,11 +42,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>2.2.0.RELEASE</version>
-            </dependency>
-            <dependency>
                 <scope>import</scope>
                 <type>pom</type>
                 <groupId>org.springframework.cloud</groupId>

@@ -54,7 +54,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <!-- 版本在parent的pom文件中指定了 -->
         </dependency>
         <dependency>
             <groupId>com.ztt.zpi</groupId>
