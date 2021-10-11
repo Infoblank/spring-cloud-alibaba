@@ -16,6 +16,7 @@
         <module>cloud-api</module>
         <module>cloud-common</module>
         <module>cloud-gateway</module>
+        <module>springboot-dorado</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>

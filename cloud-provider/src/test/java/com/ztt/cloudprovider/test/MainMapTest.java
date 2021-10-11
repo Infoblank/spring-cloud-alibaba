@@ -58,7 +58,8 @@ public class MainMapTest {
 
 
     static void testOptional() {
-        Optional<Integer> list = Optional.ofNullable(MainMapTest.getString("1a"));
+        UUID uuid = UUID.randomUUID();
+        Optional<Integer> list = Optional.ofNullable(MainMapTest.getString(uuid.toString()));
         System.out.println(list);
     }
 
