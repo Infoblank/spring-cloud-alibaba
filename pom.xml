@@ -16,7 +16,7 @@
         <module>cloud-api</module>
         <module>cloud-common</module>
         <module>cloud-gateway</module>
-        <module>cloud-mybatis-dao</module>
+        <module>cloud-dao</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
