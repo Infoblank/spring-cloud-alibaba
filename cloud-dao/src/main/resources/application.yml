@@ -1,0 +1,17 @@
+server:
+  port: 9009
+
+spring:
+  application:
+    name: cloud-dao
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 106.55.94.123:8848
+  datasource:
+    druid:
+      url: jdbc:mysql://106.55.94.123:3306/spring_cloud_alibaba
+      username: root
+      password: 273988
+    driver-class-name: com.alibaba.druid.proxy.DruidDriver
+    type: com.alibaba.druid.pool.DruidDataSource
