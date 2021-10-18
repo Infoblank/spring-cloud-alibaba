@@ -1,5 +1,5 @@
 server:
-  port: 9009
+  port: 9008
 
 spring:
   application:
@@ -12,5 +12,23 @@ spring:
     url: jdbc:mysql://106.55.94.123:3306/spring_cloud_alibaba
     username: root
     password: 123456
-    driver-class-name: com.alibaba.druid.proxy.DruidDriver
     type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      test-while-idle: true
+      validation-query: SELECT 1
+      driverClassName: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      # ??????(??? 1)
+      logic-delete-value: 1
+      # ??????(??? 0)
+      logic-not-delete-value: 0
+
+logging:
+  level:
+    com.ztt.dao.clouddao.mp.mapper: debug
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%thread]){faint} %clr(%-40.40logger{39}){cyan} %L %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"

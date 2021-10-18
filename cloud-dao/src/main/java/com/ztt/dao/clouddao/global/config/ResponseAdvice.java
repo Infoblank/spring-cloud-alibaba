@@ -1,4 +1,4 @@
-package com.ztt.cloudprovider.response;
+package com.ztt.dao.clouddao.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ztt.common.response.CloudResponseEntity;
@@ -40,3 +40,4 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         return CloudResponseEntity.success(o);
     }
 }
+

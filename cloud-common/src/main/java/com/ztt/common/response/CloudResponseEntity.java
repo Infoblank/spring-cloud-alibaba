@@ -1,4 +1,4 @@
-package com.ztt.cloudprovider.response;
+package com.ztt.common.response;
 
 import java.io.Serializable;
 
@@ -6,18 +6,18 @@ import java.io.Serializable;
  * @author ZTT
  */
 
-public class ResponseEntity<T> implements Serializable {
+public class CloudResponseEntity<T> implements Serializable {
     private boolean status;
     private String message;
     private int code;
     private T data;
     private long timestamp;
 
-    public ResponseEntity() {
+    public CloudResponseEntity() {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public ResponseEntity(boolean status, String message, int code, T data) {
+    public CloudResponseEntity(boolean status, String message, int code, T data) {
         this.timestamp = System.currentTimeMillis();
         this.status = status;
         this.message = message;
@@ -65,20 +65,20 @@ public class ResponseEntity<T> implements Serializable {
         this.data = data;
     }
 
-    public static <T> ResponseEntity<T> success(T data) {
-        ResponseEntity<T> responseEntity = new ResponseEntity<>();
-        responseEntity.setStatus(true);
-        responseEntity.setCode(ReturnCode.RC100.getCode());
-        responseEntity.setMessage(ReturnCode.RC100.getMessage());
-        responseEntity.setData(data);
-        return responseEntity;
+    public static <T> CloudResponseEntity<T> success(T data) {
+        CloudResponseEntity<T> cloudResponseEntity = new CloudResponseEntity<>();
+        cloudResponseEntity.setStatus(true);
+        cloudResponseEntity.setCode(ReturnCode.RC100.getCode());
+        cloudResponseEntity.setMessage(ReturnCode.RC100.getMessage());
+        cloudResponseEntity.setData(data);
+        return cloudResponseEntity;
     }
 
-    public static <T> ResponseEntity<T> fail(int code, String message) {
-        ResponseEntity<T> responseEntity = new ResponseEntity<>();
-        responseEntity.setStatus(false);
-        responseEntity.setCode(code);
-        responseEntity.setMessage(message);
-        return responseEntity;
+    public static <T> CloudResponseEntity<T> fail(int code, String message) {
+        CloudResponseEntity<T> cloudResponseEntity = new CloudResponseEntity<>();
+        cloudResponseEntity.setStatus(false);
+        cloudResponseEntity.setCode(code);
+        cloudResponseEntity.setMessage(message);
+        return cloudResponseEntity;
     }
 }

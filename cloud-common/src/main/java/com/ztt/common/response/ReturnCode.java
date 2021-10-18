@@ -1,4 +1,4 @@
-package com.ztt.cloudprovider.response;
+package com.ztt.common.response;
 
 /**
  * @author ZTT

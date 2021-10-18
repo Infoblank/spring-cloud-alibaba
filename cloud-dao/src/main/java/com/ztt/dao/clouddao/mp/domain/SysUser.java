@@ -1,11 +1,9 @@
 package com.ztt.dao.clouddao.mp.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 系统用户表
@@ -32,28 +30,32 @@ public class SysUser implements Serializable {
     /**
      * 登录密码
      */
+
     private String password;
 
     /**
      * 
      */
-    private Date createTime;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
     /**
      * 
      */
-    private Date modifyTim;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime modifyTim;
 
     /**
      * 登录状态
      */
-    private Boolean loginState;
+    private Byte loginState;
 
     /**
      * 逻辑删除标记
 
      */
-    private Object deletedFlag;
+    @TableLogic
+    private Byte deletedFlag;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -117,42 +119,42 @@ public class SysUser implements Serializable {
     /**
      * 
      */
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
     /**
      * 
      */
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
     /**
      * 
      */
-    public Date getModifyTim() {
+    public LocalDateTime getModifyTim() {
         return modifyTim;
     }
 
     /**
      * 
      */
-    public void setModifyTim(Date modifyTim) {
+    public void setModifyTim(LocalDateTime modifyTim) {
         this.modifyTim = modifyTim;
     }
 
     /**
      * 登录状态
      */
-    public Boolean getLoginState() {
+    public Byte getLoginState() {
         return loginState;
     }
 
     /**
      * 登录状态
      */
-    public void setLoginState(Boolean loginState) {
+    public void setLoginState(Byte loginState) {
         this.loginState = loginState;
     }
 
@@ -160,7 +162,7 @@ public class SysUser implements Serializable {
      * 逻辑删除标记
 
      */
-    public Object getDeletedFlag() {
+    public Byte getDeletedFlag() {
         return deletedFlag;
     }
 
@@ -168,7 +170,7 @@ public class SysUser implements Serializable {
      * 逻辑删除标记
 
      */
-    public void setDeletedFlag(Object deletedFlag) {
+    public void setDeletedFlag(byte deletedFlag) {
         this.deletedFlag = deletedFlag;
     }
 
@@ -211,20 +213,18 @@ public class SysUser implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", loginName=").append(loginName);
-        sb.append(", name=").append(name);
-        sb.append(", password=").append(password);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", modifyTim=").append(modifyTim);
-        sb.append(", loginState=").append(loginState);
-        sb.append(", deletedFlag=").append(deletedFlag);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return this.getClass().getSimpleName() +
+                " [" +
+                "Hash = " + hashCode() +
+                ", id=" + id +
+                ", loginName=" + loginName +
+                ", name=" + name +
+                ", password=" + password +
+                ", createTime=" + createTime +
+                ", modifyTim=" + modifyTim +
+                ", loginState=" + loginState +
+                ", deletedFlag=" + deletedFlag +
+                ", serialVersionUID=" + serialVersionUID +
+                "]";
     }
 }
