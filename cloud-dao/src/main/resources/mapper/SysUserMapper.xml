@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com/ztt/dao/clouddao/mp.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com/ztt/dao/clouddao/mp.domain.SysUser">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="loginName" column="login_name" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="modifyTim" column="modify_tim" jdbcType="TIMESTAMP"/>
+            <result property="loginState" column="login_state" jdbcType="BOOLEAN"/>
+            <result property="deletedFlag" column="deleted_flag" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,login_name,name,
+        password,create_time,modify_tim,
+        login_state,deleted_flag
+    </sql>
+</mapper>
