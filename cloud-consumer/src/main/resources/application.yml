@@ -17,3 +17,7 @@ logging:
     root: info
     com.ztt.consumer.cloudconsumer: debug
 
+springfox:
+  swagger2:
+    enabled: true
+

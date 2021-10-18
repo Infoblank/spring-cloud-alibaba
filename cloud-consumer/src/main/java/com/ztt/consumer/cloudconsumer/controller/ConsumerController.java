@@ -2,6 +2,8 @@ package com.ztt.consumer.cloudconsumer.controller;
 
 import com.ztt.common.entity.CommonUser;
 import com.ztt.consumer.cloudconsumer.interfaceprovider.ProviderClient;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +15,15 @@ import java.util.Map;
  */
 @RestController
 @Slf4j
+@Api(tags = "消费者接口")
 @RequestMapping(path = "/consumer")
 public class ConsumerController {
 
     @Resource
     private ProviderClient providerClient;
 
+
+    @ApiOperation("返回相应列表")
     @RequestMapping(path = "/callProvider", name = "返回列表,得到响应的时间。")
     public String callProvider() {
         log.info("服务消费者方法这些了");
@@ -29,11 +34,15 @@ public class ConsumerController {
         return "响应结果：" + list + ",耗时:" + (end - start) / 1000 + "秒";
     }
 
+
+    @ApiOperation("返回服务端端口")
     @RequestMapping(path = "hello", name = "返回服务端的端口")
     public String hello() {
         return this.providerClient.hello();
     }
 
+
+    @ApiOperation("返回相应列表")
     @RequestMapping(path = "hello2/{name}", name = "传递参数到服务端,参数直接在path里面")
     public String hello2(@PathVariable("name") String name) {
         return this.providerClient.hello2(name);
@@ -54,7 +63,7 @@ public class ConsumerController {
         return this.providerClient.hello3(user, name);
     }
 
-    @RequestMapping(path = "hello4", name = "传递参数到服务端,参数包括(对象和字符串)")
+    @PostMapping(path = "hello4", name = "传递参数到服务端,参数包括(对象和字符串)")
     public String hello4(@RequestBody CommonUser user) {
         log.info("调用hello4,参数:{}", user.toString());
         return this.providerClient.hello3(user, null);
