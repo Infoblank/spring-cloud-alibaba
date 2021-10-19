@@ -1,12 +1,11 @@
 package com.ztt.cloudprovider.controller;
 
+import com.ztt.cloudprovider.clouddaointerface.CloudDaoService;
 import com.ztt.common.entity.CommonUser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -26,6 +25,9 @@ public class ProviderController {
 
     @Value("${spring.application.name}")
     String providerName;
+
+    @Autowired
+    private CloudDaoService cloudDaoService;
 
     @RequestMapping(path = "/list")
     public List<String> list() {
@@ -74,5 +76,10 @@ public class ProviderController {
         map.put("serverPost", this.port);
         map.put("url", request.getRequestURL().toString());
         return map;
+    }
+
+    @RequestMapping("sys")
+    public String sysUserList(String loginName,String password){
+        return this.cloudDaoService.sysUserList(loginName,password);
     }
 }

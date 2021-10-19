@@ -7,12 +7,13 @@ import java.time.LocalDateTime;
 
 /**
  * 系统用户表
+ *
  * @TableName sys_user
  */
-@TableName(value ="sys_user")
+@TableName(value = "sys_user")
 public class SysUser implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Integer id;
@@ -34,16 +35,16 @@ public class SysUser implements Serializable {
     private String password;
 
     /**
-     * 
+     *
      */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
-     * 
+     *
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime modifyTim;
+    private LocalDateTime modifyTime;
 
     /**
      * 登录状态
@@ -52,7 +53,6 @@ public class SysUser implements Serializable {
 
     /**
      * 逻辑删除标记
-
      */
     @TableLogic
     private Byte deletedFlag;
@@ -60,116 +60,79 @@ public class SysUser implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
+
     public Integer getId() {
         return id;
     }
 
-    /**
-     * 
-     */
+
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * 登录名称
-     */
+
     public String getLoginName() {
         return loginName;
     }
 
-    /**
-     * 登录名称
-     */
+
     public void setLoginName(String loginName) {
         this.loginName = loginName;
     }
 
-    /**
-     * 用户姓名
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * 用户姓名
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * 登录密码
-     */
+
     public String getPassword() {
         return password;
     }
 
-    /**
-     * 登录密码
-     */
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * 
-     */
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    /**
-     * 
-     */
+
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    /**
-     * 
-     */
-    public LocalDateTime getModifyTim() {
-        return modifyTim;
+
+    public LocalDateTime getModifyTime() {
+        return modifyTime;
     }
 
-    /**
-     * 
-     */
-    public void setModifyTim(LocalDateTime modifyTim) {
-        this.modifyTim = modifyTim;
+    public void setModifyTime(LocalDateTime modifyTim) {
+        this.modifyTime = modifyTim;
     }
 
-    /**
-     * 登录状态
-     */
+
     public Byte getLoginState() {
         return loginState;
     }
 
-    /**
-     * 登录状态
-     */
+
     public void setLoginState(Byte loginState) {
         this.loginState = loginState;
     }
 
-    /**
-     * 逻辑删除标记
 
-     */
     public Byte getDeletedFlag() {
         return deletedFlag;
     }
 
-    /**
-     * 逻辑删除标记
 
-     */
     public void setDeletedFlag(byte deletedFlag) {
         this.deletedFlag = deletedFlag;
     }
@@ -187,13 +150,13 @@ public class SysUser implements Serializable {
         }
         SysUser other = (SysUser) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getLoginName() == null ? other.getLoginName() == null : this.getLoginName().equals(other.getLoginName()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getModifyTim() == null ? other.getModifyTim() == null : this.getModifyTim().equals(other.getModifyTim()))
-            && (this.getLoginState() == null ? other.getLoginState() == null : this.getLoginState().equals(other.getLoginState()))
-            && (this.getDeletedFlag() == null ? other.getDeletedFlag() == null : this.getDeletedFlag().equals(other.getDeletedFlag()));
+                && (this.getLoginName() == null ? other.getLoginName() == null : this.getLoginName().equals(other.getLoginName()))
+                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
+                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+                && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()))
+                && (this.getLoginState() == null ? other.getLoginState() == null : this.getLoginState().equals(other.getLoginState()))
+                && (this.getDeletedFlag() == null ? other.getDeletedFlag() == null : this.getDeletedFlag().equals(other.getDeletedFlag()));
     }
 
     @Override
@@ -205,7 +168,7 @@ public class SysUser implements Serializable {
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getModifyTim() == null) ? 0 : getModifyTim().hashCode());
+        result = prime * result + ((getModifyTime() == null) ? 0 : getModifyTime().hashCode());
         result = prime * result + ((getLoginState() == null) ? 0 : getLoginState().hashCode());
         result = prime * result + ((getDeletedFlag() == null) ? 0 : getDeletedFlag().hashCode());
         return result;
@@ -216,15 +179,14 @@ public class SysUser implements Serializable {
         return this.getClass().getSimpleName() +
                 " [" +
                 "Hash = " + hashCode() +
-                ", id=" + id +
-                ", loginName=" + loginName +
-                ", name=" + name +
-                ", password=" + password +
-                ", createTime=" + createTime +
-                ", modifyTim=" + modifyTim +
-                ", loginState=" + loginState +
-                ", deletedFlag=" + deletedFlag +
-                ", serialVersionUID=" + serialVersionUID +
+                ", id=" + this.id +
+                ", loginName=" + this.loginName +
+                ", name=" + this.name +
+                ", password=" + this.password +
+                ", createTime=" + this.createTime +
+                ", modifyTim=" + this.modifyTime +
+                ", loginState=" + this.loginState +
+                ", deletedFlag=" + this.deletedFlag +
                 "]";
     }
 }

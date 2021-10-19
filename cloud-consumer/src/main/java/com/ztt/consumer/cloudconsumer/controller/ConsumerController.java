@@ -68,4 +68,9 @@ public class ConsumerController {
         log.info("调用hello4,参数:{}", user.toString());
         return this.providerClient.hello3(user, null);
     }
+
+    @RequestMapping("sys/user")
+    String sysUserList(){
+        return this.providerClient.sysUserList("sys_ztt","1234567");
+    }
 }

@@ -14,14 +14,12 @@ import java.util.Map;
 public interface ProviderClient {
 
     /**
-     *
      * @return
      */
     @RequestMapping(path = "list")
     String list();
 
     /**
-     *
      * @return
      */
     @RequestMapping(path = "hello")
@@ -44,14 +42,19 @@ public interface ProviderClient {
      * @return String
      */
     @RequestMapping(path = "hello3")
-    String hello3(@RequestBody CommonUser user,@RequestParam("name") String name);
+    String hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
 
     /**
-     *  cc
-     * @param name 姓名
+     * cc
+     *
+     * @param name     姓名
      * @param password 密码
      * @return string
      */
     @RequestMapping(path = "hello5/{name}/{password}")
-    Map<Object,Object> hello5(@PathVariable("name")  String name, @PathVariable("password") String password);
+    Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password);
+
+
+    @RequestMapping (path = "sys")
+    String sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
 }
