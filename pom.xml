@@ -8,7 +8,6 @@
     <name>spring-cloud-alibaba</name>
     <description>spring-cloud-alibaba</description>
     <packaging>pom</packaging>
-
     <modules>
         <module>cloud-alibaba-nacos</module>
         <module>cloud-provider</module>
@@ -29,7 +28,7 @@
         <spring.cloud.version>Hoxton.SR9</spring.cloud.version>
         <spring.cloud.durid.version>1.2.4</spring.cloud.durid.version>
         <spring.cloud.mybatis.plus.version>3.4.3</spring.cloud.mybatis.plus.version>
-        <spring.cloud.satoken.version>1.27.0</spring.cloud.satoken.version>
+        <spring.cloud.satoken.version>1.28.0</spring.cloud.satoken.version>
         <spring.cloud.postgresql.version>42.3.1</spring.cloud.postgresql.version>
     </properties>
     <dependencyManagement>
@@ -79,6 +78,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--sa-token与jwt集成-->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-jwt</artifactId>
+                <version>${spring.cloud.satoken.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
             <dependency>
                 <groupId>org.postgresql</groupId>
@@ -87,8 +94,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-
     <build>
         <plugins>
             <plugin>
@@ -119,5 +124,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -1,6 +1,6 @@
 # 应用名称
 
-#spring.cloud.nacos.server-addr=106.55.94.123:8848
+#spring.cloud.nacos.server-addr=127.0.0.1:8848
 #spring.cloud.nacos.discovery.username=nacos
 server:
   port: 8888
@@ -10,6 +10,6 @@ spring:
   cloud:
     nacos:
       discovery:
-       server-addr: 106.55.94.123:8848
+       server-addr: 127.0.0.1:8848
   thymeleaf:
     cache: false

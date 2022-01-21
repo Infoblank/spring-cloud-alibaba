@@ -1,5 +1,6 @@
 package com.sa.cloudsatoken.contorller.api.valid;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.sa.cloudsatoken.entity.ValidEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ValidEntityController {
 
     @PostMapping("/valid/json")
-    public String validJson(@RequestBody @Validated ValidEntity validEntity){
+    public Object validJson(@RequestBody @Validated ValidEntity validEntity){
         log.info("ValidEntityController-->validJson");
-        return validEntity.toString();
+        StpUtil.login(validEntity.getId());
+        return StpUtil.getTokenInfo();
     }
 
     @PostMapping("/valid")

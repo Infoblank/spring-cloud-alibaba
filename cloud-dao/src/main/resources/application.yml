@@ -7,9 +7,9 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 106.55.94.123:8848
+        server-addr: 127.0.0.1:8848
   datasource:
-    url: jdbc:mysql://106.55.94.123:3306/spring_cloud_alibaba
+    url: jdbc:mysql://127.0.0.1:3306/spring_cloud_alibaba
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -22,9 +22,7 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
     db-config:
-      # ??????(??? 1)
       logic-delete-value: 1
-      # ??????(??? 0)
       logic-not-delete-value: 0
 
 logging:

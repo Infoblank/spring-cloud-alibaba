@@ -1,0 +1,23 @@
+server:
+  port: 9008
+  servlet:
+    context-path: /cloud-rest
+
+spring:
+  application:
+    name: sa-toke
+  # 对出现不匹配的路径做处理
+  mvc:
+    #开启为找到处理器抛出异常
+    throw-exception-if-no-handler-found: true
+  resources:
+    # 不需要映射resources下的error目录的内容
+    add-mappings: false
+
+sa-token:
+  activity-timeout: -1
+  token-name: zjtoken
+  is-concurrent: true
+  is-log: true
+  jwt-secret-key: asfztt
+

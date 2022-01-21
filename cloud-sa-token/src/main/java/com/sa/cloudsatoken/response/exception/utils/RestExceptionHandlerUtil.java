@@ -11,9 +11,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.ValidationException;
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -29,24 +29,37 @@ public class RestExceptionHandlerUtil {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultData<String> exception(Exception e) {
         log.error("全局异常信息 ex={}", e.getMessage(), e);
+        if (e instanceof NoHandlerFoundException){
+            // 全局处理资源路径找不到的问题
+            return  ResultData.fail(ReturnCode.RC404.getCode(),ReturnCode.RC404.getMessage(),e.getLocalizedMessage());
+        }
         return ResultData.fail(ReturnCode.RC500.getCode(), e.getLocalizedMessage());
     }
 
+    /**
+     * 参数验证的全局处理器
+     * @param e 异常
+     * @return 返回错误结果
+     */
     @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
-    public ResultData<String> handleValidatedException(Exception e) throws IOException {
+    public ResultData<String> handleValidatedException(Exception e) {
         ResultData<String> data = null;
-        if (e instanceof BindException ) {
-            BindException bindException = (BindException)e;
-            data = ResultData.fail(HttpStatus.BAD_REQUEST.value(), bindException.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining()));
-        } else if (e instanceof MethodArgumentNotValidException ) {
+        if (e instanceof BindException) {
+            BindException bindException = (BindException) e;
+            log.error("BindException->{}", bindException.getMessage());
+            data = ResultData.fail(ReturnCode.PARAMETER_VALIDATION_FAILED.getCode(),ReturnCode.PARAMETER_VALIDATION_FAILED.getMessage(), bindException.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(",")));
+        } else if (e instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) e;
+            log.error("MethodArgumentNotValidException->{}", methodArgumentNotValidException.getMessage());
             data = ResultData.fail(HttpStatus.BAD_REQUEST.value(), methodArgumentNotValidException.
                     getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(",")));
-        } else if (e instanceof HttpMessageNotReadableException ) {
-            HttpMessageNotReadableException validationException = (HttpMessageNotReadableException)e;
-            log.error("HttpMessageNotReadableException->{}",validationException.getMessage());
-            data = ResultData.fail(HttpStatus.BAD_REQUEST.value(), validationException.getLocalizedMessage());
+        } else if (e instanceof HttpMessageNotReadableException) {
+            HttpMessageNotReadableException httpMessageNotReadableException = (HttpMessageNotReadableException) e;
+            log.error("HttpMessageNotReadableException->{}", httpMessageNotReadableException.getMessage());
+            data = ResultData.fail(HttpStatus.BAD_REQUEST.value(), httpMessageNotReadableException.getLocalizedMessage());
         }
         return data;
     }
+
+
 }

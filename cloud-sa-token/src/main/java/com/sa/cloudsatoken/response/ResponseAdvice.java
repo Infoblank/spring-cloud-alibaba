@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * RestControllerAdvice:1,全局异常处理;2,全局数据绑定;3,全局数据预处理
  */
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = {"com.sa.cloudsatoken"})
 @Slf4j
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     @Autowired
@@ -23,16 +23,14 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        log.info("ResponseAdvice->supports执行了.....");
+        log.info("ResponseAdvice->supports执行了......");
         return true;
     }
 
     @Override
     @SneakyThrows
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        log.info("ResponseAdvice->beforeBodyWrite");
-        log.info("MethodParameter:{}",returnType);
-        log.info("MediaType:{}",selectedContentType);
+        log.info("ResponseAdvice->beforeBodyWrite......");
         if (body instanceof String) {
            return this.objectMapper.writeValueAsString(ResultData.success(body));
         }
