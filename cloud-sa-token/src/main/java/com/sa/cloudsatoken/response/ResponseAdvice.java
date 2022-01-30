@@ -21,16 +21,23 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /**
+     * 返回true则表示需要执行beforeBodyWrite,否则就不执行
+     * @param returnType e
+     * @param converterType e
+     * @return e
+     */
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        log.info("ResponseAdvice->supports执行了......");
+        log.info("supports已经返回true马上执行beforeBodyWrite");
         return true;
     }
 
     @Override
     @SneakyThrows
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        log.info("ResponseAdvice->beforeBodyWrite......");
+        assert body != null;
+        log.info("ResponseAdvice.supports已经执行完毕开始beforeBodyWrite.");
         if (body instanceof String) {
            return this.objectMapper.writeValueAsString(ResultData.success(body));
         }

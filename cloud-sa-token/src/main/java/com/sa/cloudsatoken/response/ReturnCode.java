@@ -42,9 +42,10 @@ public enum ReturnCode {
      **/
     RC500(500, "系统异常，请稍后重试"),
 
-    RC404(404, "你访问的系统路径不存在或者该路径不正常你当前的请求方式!"),
+    RC404(404, "你访问的系统路径不存在或者该路径不支持你当前的请求方式!"),
 
     INVALID_TOKEN(2001, "访问令牌不合法"),
+    NOT_INVALID_TOKEN(9001, "未登录系统,请前往登录"),
     ACCESS_DENIED(2003, "没有权限访问该资源"),
     CLIENT_AUTHENTICATION_FAILED(1001, "客户端认证失败"),
     USERNAME_OR_PASSWORD_ERROR(1002, "用户名或密码错误"),

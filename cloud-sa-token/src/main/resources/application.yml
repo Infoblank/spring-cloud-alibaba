@@ -20,4 +20,8 @@ sa-token:
   is-concurrent: true
   is-log: true
   jwt-secret-key: asfztt
+  # 关闭从body和cookie里面读取token,只能从请求头里面读取token,对测试不是很友好
+  # 测试可以开启从cookie读取token
+  is-read-body: false
+  #is-read-cookie: false
 

@@ -1,5 +1,7 @@
 package com.sa.cloudsatoken.response.exception.utils;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.SaTokenException;
 import com.sa.cloudsatoken.response.ResultData;
 import com.sa.cloudsatoken.response.ReturnCode;
 import lombok.extern.slf4j.Slf4j;
@@ -61,5 +63,15 @@ public class RestExceptionHandlerUtil {
         return data;
     }
 
+    @ExceptionHandler(value = {SaTokenException.class})
+    public ResultData<String> saTokenException(Exception e){
+        ResultData<String> data = new ResultData<>();
+        if (e instanceof NotLoginException){
+            NotLoginException ex =  (NotLoginException)e;
+            log.info("未登录到系统,不允许获取系统资源.");
+            data = ResultData.fail(ReturnCode.NOT_INVALID_TOKEN.getCode(),ReturnCode.NOT_INVALID_TOKEN.getMessage(),ex.getLocalizedMessage());
+        }
+        return data;
+    }
 
 }

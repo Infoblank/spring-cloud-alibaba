@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/token/api/v2")
 public class MainApiController {
-    //@SaCheckLogin
+
     @RequestMapping("/info")
     public String getInfo() {
+        //StpUtil.hasPermission("user");
         return "hello sa-token";
     }
 
