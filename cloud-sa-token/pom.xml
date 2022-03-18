@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <groupId>com.sa</groupId>
+    <artifactId>cloud-sa-token</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>cloud-sa-token</name>
+    <description>cloud-sa-token</description>
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.ztt</groupId>
         <artifactId>spring-cloud-alibaba</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.sa</groupId>
-    <artifactId>cloud-sa-token</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>cloud-sa-token</name>
-    <description>cloud-sa-token</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -46,17 +46,23 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.0.1-jre</version>
+            <version>31.1-jre</version>
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>1.28.0</version>
+            <version>${spring.cloud.satoken.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-jwt</artifactId>
-            <version>1.28.0</version>
+            <version>${spring.cloud.satoken.version}</version>
+        </dependency>
+        <!-- maven导入 -->
+        <dependency>
+            <groupId>cloud.tianai.captcha</groupId>
+            <artifactId>tianai-captcha-springboot-starter</artifactId>
+            <version>1.3.0</version>
         </dependency>
     </dependencies>
 
