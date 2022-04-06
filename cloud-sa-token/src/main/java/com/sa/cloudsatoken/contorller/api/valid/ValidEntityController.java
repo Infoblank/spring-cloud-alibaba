@@ -18,15 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ValidEntityController {
 
     @RequestMapping("/valid/json")
-    public Object validJson(@Validated CaptchaRequest<ValidEntity> validEntity){
+    public Object validJson(@Validated CaptchaRequest<ValidEntity> validEntity) {
         log.info("ValidEntityController-->validJson");
         StpUtil.login(validEntity.getId());
         return StpUtil.getTokenInfo();
     }
 
     @PostMapping("/valid")
-    public String valid(@Validated ValidEntity validEntity){
+    public String valid(@Validated ValidEntity validEntity) {
         log.info("ValidEntityController-->valid");
         return validEntity.toString();
     }
+
 }
