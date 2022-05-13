@@ -9,24 +9,21 @@
     <description>spring-cloud-alibaba</description>
     <packaging>pom</packaging>
     <modules>
-        <module>cloud-alibaba-nacos</module>
         <module>cloud-provider</module>
         <module>cloud-consumer</module>
         <module>cloud-api</module>
         <module>cloud-common</module>
-        <module>cloud-gateway</module>
         <module>cloud-dao</module>
-        <module>cloud-test</module>
-        <module>cloud-sa-token</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot.version>2.3.8.RELEASE</spring.boot.version>
-        <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
-        <spring.cloud.version>Hoxton.SR9</spring.cloud.version>
+        <spring.boot.version>2.6.3</spring.boot.version>
+        <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
+        <spring.cloud.version>2021.0.1</spring.cloud.version>
         <spring.cloud.durid.version>1.2.4</spring.cloud.durid.version>
+        <spring.cloud.loadbalancer.version>3.1.2</spring.cloud.loadbalancer.version>
         <spring.cloud.mybatis.plus.version>3.4.3</spring.cloud.mybatis.plus.version>
         <spring.cloud.satoken.version>1.28.0</spring.cloud.satoken.version>
         <spring.cloud.postgresql.version>42.3.1</spring.cloud.postgresql.version>
@@ -54,11 +51,23 @@
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+                <version>${spring.cloud.loadbalancer.version}</version>
+            </dependency>
             <!--ORM框架-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${spring.cloud.mybatis.plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>2.8.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

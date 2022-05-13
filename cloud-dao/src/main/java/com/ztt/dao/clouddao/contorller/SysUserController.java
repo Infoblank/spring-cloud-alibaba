@@ -15,9 +15,10 @@ public class SysUserController {
     private SysUserMapper sysUserMapper;
 
     @RequestMapping("user/list")
-    public String queryUserList(){
+    public String queryUserList(String loginName,String password){
         QueryWrapper<SysUser> userWrapper = new QueryWrapper<>();
-        userWrapper.eq("login_name","sys_ztt");
+        userWrapper.eq("login_name",loginName);
+        userWrapper.eq("password",password);
         return this.sysUserMapper.selectList(userWrapper).toString();
     }
 }

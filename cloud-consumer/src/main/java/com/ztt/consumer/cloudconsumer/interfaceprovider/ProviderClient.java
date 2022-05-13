@@ -9,20 +9,20 @@ import java.util.Map;
 /**
  * @author ZTT
  */
-@FeignClient("cloud-provider")
-@RequestMapping(path = "provider/v1")
+@FeignClient(value = "cloud-provider")
+//@RequestMapping(path = "provider/v1")
 public interface ProviderClient {
 
     /**
      * @return
      */
-    @RequestMapping(path = "list")
+    @RequestMapping(path = "provider/v1/list")
     String list();
 
     /**
      * @return
      */
-    @RequestMapping(path = "hello")
+    @RequestMapping(path = "provider/v1/hello")
     String hello();
 
     /**
@@ -31,7 +31,7 @@ public interface ProviderClient {
      * @param name1
      * @return String
      */
-    @RequestMapping(path = "hello2/{name1}")
+    @RequestMapping(path = "provider/v1/hello2/{name1}")
     String hello2(@PathVariable("name1") String name1);
 
     /**
@@ -41,7 +41,7 @@ public interface ProviderClient {
      * @param name name
      * @return String
      */
-    @RequestMapping(path = "hello3")
+    @RequestMapping(path = "provider/v1/hello3")
     String hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
 
     /**
@@ -51,10 +51,10 @@ public interface ProviderClient {
      * @param password 密码
      * @return string
      */
-    @RequestMapping(path = "hello5/{name}/{password}")
+    @RequestMapping(path = "provider/v1/hello5/{name}/{password}")
     Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password);
 
 
-    @RequestMapping (path = "sys")
+    @RequestMapping (path = "provider/v1/sys")
     String sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
 }
