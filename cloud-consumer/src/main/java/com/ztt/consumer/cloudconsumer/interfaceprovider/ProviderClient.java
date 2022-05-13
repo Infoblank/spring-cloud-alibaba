@@ -2,8 +2,12 @@ package com.ztt.consumer.cloudconsumer.interfaceprovider;
 
 import com.ztt.common.entity.CommonUser;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,5 +60,5 @@ public interface ProviderClient {
 
 
     @RequestMapping (path = "provider/v1/sys")
-    String sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
+    List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
 }

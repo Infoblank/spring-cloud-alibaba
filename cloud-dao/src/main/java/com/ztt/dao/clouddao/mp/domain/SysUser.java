@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * @TableName sys_user
  */
-@TableName(value = "sys_user")
+@TableName(value = "rm_pm_user")
 public class SysUser implements Serializable {
     /**
      *
@@ -56,6 +56,9 @@ public class SysUser implements Serializable {
      */
     @TableLogic
     private Byte deletedFlag;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime loginTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -137,6 +140,18 @@ public class SysUser implements Serializable {
         this.deletedFlag = deletedFlag;
     }
 
+    public void setDeletedFlag(Byte deletedFlag) {
+        this.deletedFlag = deletedFlag;
+    }
+
+    public LocalDateTime getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(LocalDateTime loginTime) {
+        this.loginTime = loginTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -156,6 +171,7 @@ public class SysUser implements Serializable {
                 && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
                 && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()))
                 && (this.getLoginState() == null ? other.getLoginState() == null : this.getLoginState().equals(other.getLoginState()))
+                && (this.getLoginTime() == null ? other.getLoginTime() == null : this.getLoginTime().equals(other.getLoginTime()))
                 && (this.getDeletedFlag() == null ? other.getDeletedFlag() == null : this.getDeletedFlag().equals(other.getDeletedFlag()));
     }
 
@@ -170,6 +186,7 @@ public class SysUser implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getModifyTime() == null) ? 0 : getModifyTime().hashCode());
         result = prime * result + ((getLoginState() == null) ? 0 : getLoginState().hashCode());
+        result = prime * result + ((getLoginTime() == null) ? 0 : getLoginTime().hashCode());
         result = prime * result + ((getDeletedFlag() == null) ? 0 : getDeletedFlag().hashCode());
         return result;
     }

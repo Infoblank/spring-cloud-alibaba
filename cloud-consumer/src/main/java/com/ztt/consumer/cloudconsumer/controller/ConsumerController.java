@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +29,11 @@ public class ConsumerController {
         String list = providerClient.list();
         long end = System.currentTimeMillis();
         return "响应结果：" + list + ",耗时:" + (end - start) / 1000 + "秒";
+    }
+    @RequestMapping("/callProvider2")
+    public String callProvider2() {
+        log.info("服务消费者方法这些了");
+        return "callProvider2";
     }
 
 
@@ -64,7 +70,7 @@ public class ConsumerController {
     }
 
     @RequestMapping("sys/user")
-    String sysUserList(){
-        return this.providerClient.sysUserList("sys_ztt","1234567");
+    List<CommonUser> sysUserList(){
+        return this.providerClient.sysUserList("zhangtt","sabdjhk@!@#");
     }
 }

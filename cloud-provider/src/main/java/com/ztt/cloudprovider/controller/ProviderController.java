@@ -79,7 +79,7 @@ public class ProviderController {
     }
 
     @RequestMapping("sys")
-    public String sysUserList(String loginName,String password){
+    public List<CommonUser> sysUserList(String loginName, String password){
         return this.cloudDaoService.sysUserList(loginName,password);
     }
 }

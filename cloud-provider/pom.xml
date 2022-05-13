@@ -75,12 +75,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.ztt.zpi</groupId>
-            <artifactId>cloud-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.ztt.consumer</groupId>
             <artifactId>cloud-consumer</artifactId>
             <version>0.0.1-SNAPSHOT</version>

@@ -21,5 +21,6 @@ public class SysUserMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         log.info("自动填充日期,updateTime");
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictUpdateFill(metaObject, "loginTime", LocalDateTime.class, LocalDateTime.now());
     }
 }
