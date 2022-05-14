@@ -4,19 +4,16 @@
 spring:
   application:
     name: cloud-provider
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
+
 server:
   port: 9001
 
 logging:
-  pattern:
-    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%thread]){faint} %clr(%-40.40logger{39}){cyan} %L %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
   level:
     root: info
-    com.ztt.consumer.cloudconsumer: debug
+    com.ztt.cloudprovider.clouddaointerface: debug
+
+
 
 
 

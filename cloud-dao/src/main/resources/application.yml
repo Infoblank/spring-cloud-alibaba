@@ -4,29 +4,7 @@ server:
 spring:
   application:
     name: cloud-dao
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
-  datasource:
-    url: jdbc:postgresql://47.102.41.197:5433/dbaa753252a99c4131b463e08f92d23a89infozhang_db?currentSchema=zhang_mf,public&serverTimezone=UTC&useSSL=false&stringtype=unspecified
-    username: zhangtt
-    password: memfire@273
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      test-while-idle: true
-      validation-query: SELECT 1
-      driverClassName: org.postgresql.Driver
-
-mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*.xml
-  global-config:
-    db-config:
-      logic-delete-value: 0
-      logic-not-delete-value: 1
 
 logging:
   level:
     com.ztt.dao.clouddao.mp.mapper: debug
-  pattern:
-    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%thread]){faint} %clr(%-40.40logger{39}){cyan} %L %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
