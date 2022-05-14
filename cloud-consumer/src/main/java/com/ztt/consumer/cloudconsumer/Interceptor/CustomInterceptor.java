@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,21 +14,21 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class CustomInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+    public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler)
             throws Exception {
-        log.info("拦截器执行,{}","preHandle");
+        log.info("拦截器执行,{}", "preHandle");
         return true;
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+    public void postHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
-        log.info("拦截器执行,{}","postHandle");
+        log.info("拦截器执行,{}", "postHandle");
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+    public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                                 @Nullable Exception ex) throws Exception {
-        log.info("拦截器执行,{}","afterCompletion");
+        log.info("拦截器执行,{}", "afterCompletion");
     }
 }
