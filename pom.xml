@@ -27,6 +27,7 @@
         <spring.cloud.mybatis.plus.version>3.4.3</spring.cloud.mybatis.plus.version>
         <spring.cloud.satoken.version>1.28.0</spring.cloud.satoken.version>
         <spring.cloud.postgresql.version>42.3.1</spring.cloud.postgresql.version>
+        <spring.boot.hutool.version>5.7.14</spring.boot.hutool.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -100,6 +101,12 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${spring.cloud.postgresql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${spring.boot.hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
