@@ -28,6 +28,7 @@
         <spring.cloud.satoken.version>1.28.0</spring.cloud.satoken.version>
         <spring.cloud.postgresql.version>42.3.1</spring.cloud.postgresql.version>
         <spring.boot.hutool.version>5.7.14</spring.boot.hutool.version>
+        <jasypt.version>3.0.4</jasypt.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -107,6 +108,12 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${spring.boot.hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
