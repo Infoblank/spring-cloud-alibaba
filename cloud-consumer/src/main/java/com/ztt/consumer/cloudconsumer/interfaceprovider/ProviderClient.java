@@ -59,6 +59,6 @@ public interface ProviderClient {
     Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password);
 
 
-    @RequestMapping (path = "provider/v1/sys")
+    @RequestMapping(path = "provider/v1/sys")
     List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
 }
