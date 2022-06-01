@@ -1,7 +1,7 @@
-package com.minio.cloudminio.config.utils;
+package com.minio.cloudminio.utils;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
-import com.minio.cloudminio.config.MinioProperties;
+import com.minio.cloudminio.config.fileconfig.UploadProperties;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Bucket;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,19 +28,19 @@ import java.util.Optional;
 @Component
 public class MinioUtil {
 
-
-    private MinioProperties minioProperties;
-
     private MinioClient minioClient;
 
-    @Autowired
-    public void setMinioProperties(MinioProperties minioProperties) {
-        this.minioProperties = minioProperties;
-    }
+    private UploadProperties uploadProperties;
+
 
     @Autowired
     public void setMinioClient(MinioClient minioClient) {
         this.minioClient = minioClient;
+    }
+
+    @Autowired
+    public void setUploadProperties(UploadProperties uploadProperties) {
+        this.uploadProperties = uploadProperties;
     }
 
 
@@ -49,40 +50,43 @@ public class MinioUtil {
         }
     }
 
-    public String uploadFile(MultipartFile file, String bucketName) throws Exception {
+    public String uploadFile(MultipartFile file) throws Exception {
         //判断文件是否为空
         if (null == file || 0 == file.getSize()) {
             return null;
         }
         //判断存储桶是否存在  不存在则创建
-        createBucket(bucketName);
+        createBucket(this.uploadProperties.getBucketName());
         //文件名
         String originalFilename = file.getOriginalFilename();
         assert originalFilename != null;
-        String fileName = NanoIdUtils.randomNanoId() + originalFilename.substring(originalFilename.lastIndexOf("."));
+        int beginIndex = originalFilename.lastIndexOf(".");
+        String fileName = NanoIdUtils.randomNanoId() + originalFilename.substring(beginIndex);
         //开始上传
         log.info("file压缩前大小:{}", file.getSize());
         if (file.getSize() > 0) {
             FileItemFactory fileItemFactory = new DiskFileItemFactory();
-            FileItem fileItem = fileItemFactory.createItem(fileName, "text/plain", true, fileName);
+            FileItem fileItem = fileItemFactory.createItem(fileName, this.uploadProperties.getFileContentType(), true, fileName);
             OutputStream outputStream = fileItem.getOutputStream();
-            Thumbnails.of(file.getInputStream()).scale(1f).outputFormat(originalFilename.substring(originalFilename.lastIndexOf(".") + 1)).outputQuality(0.25f).toOutputStream(outputStream);
+            Thumbnails.of(file.getInputStream()).scale(this.uploadProperties.getCompressionRatio())
+                    .outputFormat(originalFilename.substring(beginIndex + 1))
+                    .outputQuality(this.uploadProperties.getOutputQuality())
+                    .toOutputStream(outputStream);
             file = new CommonsMultipartFile(fileItem);
         }
         log.info("file压缩后大小:{}", file.getSize());
         minioClient.putObject(
-                PutObjectArgs.builder().bucket(bucketName).object(fileName).stream(
+                PutObjectArgs.builder().bucket(this.uploadProperties.getBucketName()).object(fileName).stream(
                                 file.getInputStream(), file.getSize(), -1)
                         .contentType(file.getContentType())
                         .build());
-        String url = minioProperties.getEndpoint() + "/" + bucketName + "/" + fileName;
-        return url;
+        return File.separator + this.uploadProperties.getBucketName() + File.separator + fileName;
     }
 
     /**
      * 获取全部bucket
      *
-     * @return
+     * @return list
      */
     public List<Bucket> getAllBuckets() throws Exception {
         return minioClient.listBuckets();
@@ -174,13 +178,12 @@ public class MinioUtil {
     /***
      * 上传视频
      * @param file
-     * @param bucketName
      * @return
      * @throws Exception
      */
-    public String uploadVideo(MultipartFile file, String bucketName) throws Exception {
+    public String uploadVideo(MultipartFile file) throws Exception {
         //判断存储桶是否存在  不存在则创建
-        createBucket(bucketName);
+        createBucket(this.uploadProperties.getBucketName());
         //文件名
         String originalFilename = file.getOriginalFilename();
         //新的文件名 = 时间戳_随机数.后缀名
@@ -189,12 +192,11 @@ public class MinioUtil {
         //开始上传
         log.info("file大小:{}", file.getSize());
         minioClient.putObject(
-                PutObjectArgs.builder().bucket(bucketName).object(fileName).stream(
+                PutObjectArgs.builder().bucket(this.uploadProperties.getBucketName()).object(fileName).stream(
                                 file.getInputStream(), file.getSize(), -1)
-                        .contentType("video/mp4")
+                        .contentType(this.uploadProperties.getVideoContentType())
                         .build());
-        String url = minioProperties.getEndpoint() + "/" + bucketName + "/" + fileName;
-        return url;
+        return File.separatorChar + this.uploadProperties.getBucketName() + File.separatorChar + fileName;
     }
 
 }

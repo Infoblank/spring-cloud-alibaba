@@ -1,7 +1,8 @@
 package com.minio.cloudminio.contorller;
 
 import cn.hutool.core.io.IoUtil;
-import com.minio.cloudminio.config.utils.MinioUtil;
+import com.minio.cloudminio.utils.MinioUtil;
+import io.minio.messages.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("minio")
@@ -26,7 +28,7 @@ public class MinioController {
 
     @RequestMapping("/upload")
     public String upload(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
-        return minioUtil.uploadFile(multipartFile, "zhang-bucket");
+        return minioUtil.uploadFile(multipartFile);
     }
 
     @RequestMapping("download")
@@ -39,5 +41,10 @@ public class MinioController {
         IoUtil.copy(object, stream, IoUtil.DEFAULT_BUFFER_SIZE);
         IoUtil.close(object);
         IoUtil.close(stream);
+    }
+
+    @RequestMapping("getBucket")
+    public Optional<Bucket> getBucket(@RequestParam(value = "bucketName") String bucketName) throws Exception {
+        return minioUtil.getBucket(bucketName);
     }
 }

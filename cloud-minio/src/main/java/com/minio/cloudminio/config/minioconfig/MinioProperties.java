@@ -1,4 +1,4 @@
-package com.minio.cloudminio.config;
+package com.minio.cloudminio.config.minioconfig;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.minio.cloudminio.config;
+package com.minio.cloudminio.config.minioconfig;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
