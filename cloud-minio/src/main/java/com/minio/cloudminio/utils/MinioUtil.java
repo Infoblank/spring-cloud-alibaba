@@ -169,7 +169,7 @@ public class MinioUtil {
      *
      * @param bucketName bucket名称
      * @param objectName ⽂件名称
-     * @throws Exception https://docs.minio.io/cn/java-minioClient-apireference.html#removeObject
+     * @throws Exception <a href="https://docs.minio.io/cn/java-minioClient-apireference.html#removeObject"</a>
      */
     public void removeObject(String bucketName, String objectName) throws Exception {
         minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
