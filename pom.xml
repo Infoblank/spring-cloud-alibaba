@@ -67,7 +67,7 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${spring.cloud.mybatis.plus.version}</version>
-                <type>jar</type>
+                <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
