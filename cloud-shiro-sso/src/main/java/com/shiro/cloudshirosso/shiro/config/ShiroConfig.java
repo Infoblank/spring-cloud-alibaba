@@ -3,6 +3,8 @@ package com.shiro.cloudshirosso.shiro.config;
 import com.shiro.cloudshirosso.shiro.JwtDefaultSubjectFactory;
 import com.shiro.cloudshirosso.shiro.JwtRealm;
 import com.shiro.cloudshirosso.shiro.filter.JwtFilter;
+import com.shiro.cloudshirosso.shiro.matcher.CustomHashedCredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
@@ -34,12 +36,18 @@ public class ShiroConfig {
     @Bean
     public Realm realm() {
         JwtRealm jwtRealm = new JwtRealm();
-        /*HashedCredentialsMatcher credentialsMatcher = new CustomHashedCredentialsMatcher();
+        HashedCredentialsMatcher credentialsMatcher = new CustomHashedCredentialsMatcher();
         jwtRealm.setCachingEnabled(false);
-        jwtRealm.setCredentialsMatcher(credentialsMatcher);*/
+        jwtRealm.setCredentialsMatcher(credentialsMatcher);
         return jwtRealm;
     }
 
+    /**
+     * Bean的方法的参数,spring容器会直接在容器中拿对应的bean来注入
+     *
+     * @param realm          认证
+     * @param subjectFactory session
+     */
     @Bean
     public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm, SubjectFactory subjectFactory) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -75,15 +83,11 @@ public class ShiroConfig {
         return factoryBean;
     }
 
-    /**
-     *
-     *
+    /*
      *  启用代理会导致一次操作走两次授权,关闭代理
+     *  @return
      *
-     * @return
-     */
-
-    /*@Bean
+    @Bean
     @DependsOn("lifecycleBeanPostProcessor")
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
         DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
@@ -98,12 +102,13 @@ public class ShiroConfig {
 
     /**
      * 注解支持,不然shiro的相关注解无法识别,RequiresPermissions等等
-     * @param securityManager
-     * @return
+     *
+     * @param securityManager 安全管理器
+     * @return sourceAdvisor
      */
 
     @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultSecurityManager securityManager){
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultSecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor sourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         sourceAdvisor.setSecurityManager(securityManager);
         return sourceAdvisor;
