@@ -18,4 +18,6 @@ public interface Constant {
 
     String AUTHORIZATION = "Authorization";
 
+    int JWT_MINUTE = 30;
+
 }

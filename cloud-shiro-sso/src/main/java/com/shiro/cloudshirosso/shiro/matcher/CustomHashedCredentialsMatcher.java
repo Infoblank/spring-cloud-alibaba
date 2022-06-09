@@ -6,6 +6,9 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 
+/**
+ * 自定义的密码匹配器,来判断当前验证是否正确,当前模式下不需要
+ */
 @Slf4j
 public class CustomHashedCredentialsMatcher extends HashedCredentialsMatcher {
 

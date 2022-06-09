@@ -58,17 +58,17 @@ public class JwtFilter extends AccessControlFilter {
             getSubject(httpServletRequest, response).login(jwtToken);
             //也就是subject.login(token)
         } catch (AuthenticationException e) {
-            onLoginFail(response);
+            onLoginFail(response,e);
             return false;
         }
         return true;
     }
 
     //登录失败时默认返回 401 状态码
-    private void onLoginFail(ServletResponse response) throws IOException {
+    private void onLoginFail(ServletResponse response,Exception e) throws IOException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        httpResponse.getWriter().write("login error");
+        httpResponse.getWriter().write(e.getMessage());
     }
 
     private void requestNoContainJwt(ServletResponse response) throws IOException {

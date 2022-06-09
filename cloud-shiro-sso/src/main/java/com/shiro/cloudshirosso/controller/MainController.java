@@ -56,7 +56,7 @@ public class MainController {
         info.setEmail(NanoIdUtils.randomNanoId());
         PasswordUtil.saltPassword(info);
         ArrayList<Role> arrayList = new ArrayList<>();
-        Optional<Role> byId = roleRepositories.findById(1l);
+        Optional<Role> byId = roleRepositories.findById(1L);
         boolean present = byId.isPresent();
         if (present) {
             arrayList.add(byId.get());
@@ -70,7 +70,7 @@ public class MainController {
     @RequiresPermissions("user:modify")
     @GetMapping("modifyUser")
     public String modify() {
-        Optional<UserInfo> byId = this.userInfoRepositories.findById(2L);
+        Optional<UserInfo> byId = this.userInfoRepositories.findById(3L);
         UserInfo info = byId.get();
         info.setUserName(NanoIdUtils.randomNanoId());
         this.userInfoRepositories.save(info);
