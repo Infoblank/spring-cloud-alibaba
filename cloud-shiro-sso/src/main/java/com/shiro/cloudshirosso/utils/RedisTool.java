@@ -1,24 +1,19 @@
 package com.shiro.cloudshirosso.utils;
 
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * redis工具类,分别对对象,集合进行存取
  */
-@Component
 public class RedisTool {
 
-    private static RedisTemplate<String, Object> redisTemplate;
-
-    @PostConstruct
-    public void init() {
-        redisTemplate = (RedisTemplate<String, Object>) ApplicationContextUtils.getBean("customRedisTemplate");
-    }
+    /**
+     * ApplicationContextUtils.setApplicationContext 当中初始化redisTemplate
+     */
+    public static RedisTemplate<String, Object> redisTemplate;
 
 
     /**
@@ -29,6 +24,10 @@ public class RedisTool {
      */
     public static void setKey(String key, Object value) {
         redisTemplate.opsForValue().set(key, value);
+    }
+
+    public static void deleteKey(String key) {
+         redisTemplate.delete(key);
     }
 
     /**

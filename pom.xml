@@ -21,7 +21,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot.version>2.6.3</spring.boot.version>
+        <spring.boot.version>2.6.8</spring.boot.version>
         <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
         <spring.cloud.version>2021.0.1</spring.cloud.version>
         <spring.cloud.durid.version>1.2.4</spring.cloud.durid.version>
@@ -31,6 +31,9 @@
         <spring.cloud.postgresql.version>42.3.1</spring.cloud.postgresql.version>
         <spring.boot.hutool.version>5.7.14</spring.boot.hutool.version>
         <jasypt.version>3.0.4</jasypt.version>
+        <java.jwt.version>3.19.2</java.jwt.version>
+        <shiro.spring.version>1.9.0</shiro.spring.version>
+        <jnanoid.version>2.0.0</jnanoid.version>
     </properties>
     <dependencyManagement>
         <dependencies>

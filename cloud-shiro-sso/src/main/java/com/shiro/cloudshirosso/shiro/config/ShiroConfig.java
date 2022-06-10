@@ -61,6 +61,13 @@ public class ShiroConfig {
         return securityManager;
     }
 
+    /**
+     * 当前bean:ShiroFilterFactoryBean实现现BeanPostProcessor接口,但是它有依赖理别的bean,所以它说依赖的bean会在它初始化前初始化
+     * 所以不会走postProcessBeforeInitialization,postProcessAfterInitialization
+     *
+     * @param securityManager 安全管理器
+     * @return
+     */
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();

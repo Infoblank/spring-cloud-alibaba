@@ -46,7 +46,7 @@ public class JwtFilter extends AccessControlFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String jwt = httpServletRequest.getHeader(Constant.AUTHORIZATION);
-        log.info("请求的 Header 中藏有 jwtToken {}", jwt);
+        log.info("RequestHeader的jwtToken:{}", jwt);
         JwtToken jwtToken = new JwtToken(jwt);
         if (jwt == null) {
             requestNoContainJwt(response);
@@ -58,14 +58,14 @@ public class JwtFilter extends AccessControlFilter {
             getSubject(httpServletRequest, response).login(jwtToken);
             //也就是subject.login(token)
         } catch (AuthenticationException e) {
-            onLoginFail(response,e);
+            onLoginFail(response, e);
             return false;
         }
         return true;
     }
 
     //登录失败时默认返回 401 状态码
-    private void onLoginFail(ServletResponse response,Exception e) throws IOException {
+    private void onLoginFail(ServletResponse response, Exception e) throws IOException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         httpResponse.getWriter().write(e.getMessage());

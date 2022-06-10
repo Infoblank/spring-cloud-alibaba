@@ -7,7 +7,6 @@ import com.shiro.cloudshirosso.entity.Role;
 import com.shiro.cloudshirosso.entity.UserInfo;
 import com.shiro.cloudshirosso.jpa.repositories.RoleRepositories;
 import com.shiro.cloudshirosso.jpa.repositories.UserInfoRepositories;
-import com.shiro.cloudshirosso.service.MainService;
 import com.shiro.cloudshirosso.utils.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -24,10 +23,6 @@ import java.util.Optional;
 @RequestMapping(path = "sso", name = "sso路径")
 @Slf4j
 public class MainController {
-
-    @Autowired
-    private MainService mainService;
-
     @Autowired
     private UserInfoRepositories userInfoRepositories;
 
@@ -40,7 +35,7 @@ public class MainController {
 
     @GetMapping("hello")
     public String hello() throws JsonProcessingException {
-        List<UserInfo> info = this.mainService.findAllUserInfo();
+        List<UserInfo> info = this.userInfoRepositories.findAll();
         log.info("info={}", info);
         log.info("hello sso");
         return objectMapper.writeValueAsString(info.toString());

@@ -18,14 +18,8 @@ import java.util.Map;
 
 @Component
 public class JWTUtil {
-    // 过期时间30分钟
-    private static final long EXPIRE_TIME = 30 * 60 * 1000;
-
     //自己定制密钥
     public static final String SECRET = "SECRET_VALUE";
-
-    //请求头
-    public static final String AUTH_HEADER = "X-Authorization-With";
 
     /**
      * 验证token是否正确
@@ -121,17 +115,19 @@ public class JWTUtil {
     }
 
     /**
-     * 刷新token的有效期
+     * 刷新token的有效期,有效期30分钟
      *
      * @param token
      * @return
      */
     public static String refreshTokenExpired(String token) {
         DecodedJWT jwt = JWT.decode(token); //解析token
-        Map<String, Claim> claims = jwt.getClaims(); //获取token的参数信息
-        Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
+        Map<String, Claim> claims = jwt.getClaims();
+        Calendar calendar = Calendar.getInstance();
+        int minute = Calendar.MINUTE;
+        calendar.add(minute, JwtConstant.JWT_MINUTE);//获取token的参数信息
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
-        JWTCreator.Builder builder = JWT.create().withExpiresAt(date);
+        JWTCreator.Builder builder = JWT.create().withExpiresAt(calendar.getTime());
         claims.forEach((key, value) -> builder.withClaim(key, value.asString()));
         return builder.sign(algorithm);
     }

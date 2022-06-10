@@ -8,6 +8,7 @@ import com.shiro.cloudshirosso.jpa.repositories.UserInfoRepositories;
 import com.shiro.cloudshirosso.shiro.utils.JWTUtil;
 import com.shiro.cloudshirosso.utils.ApplicationContextUtils;
 import com.shiro.cloudshirosso.utils.RedisTool;
+import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -75,15 +76,12 @@ public class JwtRealm extends AuthorizingRealm {
             log.info("在Redis当中获取权限赋值..");
             perValues.forEach(v -> {
                 // 权限字符串
-                String toString = v.toString();
-                String replace = toString.replace("[", "");
-                String replace1 = replace.replace("]", "");
-                simpleAuthorizationInfo.addStringPermission(replace1);
+                simpleAuthorizationInfo.addStringPermissions(perOrRole(v.toString()));
             });
         }
         if (roleValues.size() > 0) {
             log.info("在Redis当中获取角色赋值..");
-            roleValues.forEach(v -> simpleAuthorizationInfo.addRole(v.toString()));
+            roleValues.forEach(v -> simpleAuthorizationInfo.addRoles(perOrRole(v.toString())));
         }
         // 当前用户没有权限角色信息就去数据库查询
         if (perValues.size() == 0 || roleValues.size() == 0) {
@@ -112,5 +110,20 @@ public class JwtRealm extends AuthorizingRealm {
                 log.info("redis插入权限条数:{}", aLongPer);
             }
         }
+    }
+
+    /**
+     *  对权限和角色字符串进行处理,权限字符串会被[]包含,先去掉,暂时还会发现是什么地方导致的
+     * @param str
+     * @return
+     */
+    private Set<String> perOrRole(String str) {
+        Set<String> strings = new HashSet<>();
+        if (!StringUtil.isNullOrEmpty(str)) {
+            str = str.replace("[", "").replace("]", "");
+            String[] split = str.split(",");
+            strings.addAll(Arrays.asList(split));
+        }
+        return strings;
     }
 }
