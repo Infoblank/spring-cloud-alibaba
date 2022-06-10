@@ -74,6 +74,7 @@ public class MainController {
 
 
     @GetMapping("delete")
+    @RequiresPermissions("user:delete")
     public String delete() {
         this.userInfoRepositories.deleteById(1L);
         return "success";

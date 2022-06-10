@@ -69,9 +69,10 @@ public class JwtRealm extends AuthorizingRealm {
     private void fromRedisValidationPerAndRole(String token, SimpleAuthorizationInfo simpleAuthorizationInfo) {
         // token的唯一Id
         String jti = JWTUtil.getJTI(token);
+        String id = JWTUtil.getClaimFiledUserId(token);
         // redis查询权限和角色
-        Set<Object> perValues = RedisTool.getValuesBySetKey(RedisConstant.USER_PER_PREFIX + jti);
-        Set<Object> roleValues = RedisTool.getValuesBySetKey(RedisConstant.USER_ROLE_PREFIX + jti);
+        Set<Object> perValues = RedisTool.getValuesBySetKey(RedisConstant.USER_PER_PREFIX + id);
+        Set<Object> roleValues = RedisTool.getValuesBySetKey(RedisConstant.USER_ROLE_PREFIX + id);
         if (perValues.size() > 0) {
             log.info("在Redis当中获取权限赋值..");
             perValues.forEach(v -> {
@@ -104,8 +105,8 @@ public class JwtRealm extends AuthorizingRealm {
                 simpleAuthorizationInfo.addRoles(roleSet);
                 log.info("数据库查询到角色{}", Arrays.toString(roleSet.toArray()));
                 log.info("数据库查询到权限{}", Arrays.toString(perSet.toArray()));
-                Long aLongPer = RedisTool.setKeyBySet(RedisConstant.USER_PER_PREFIX + jti, perSet);
-                Long aLongRole = RedisTool.setKeyBySet(RedisConstant.USER_ROLE_PREFIX + jti, roleSet);
+                Long aLongPer = RedisTool.setKeyBySet(RedisConstant.USER_PER_PREFIX + id, perSet);
+                Long aLongRole = RedisTool.setKeyBySet(RedisConstant.USER_ROLE_PREFIX + id, roleSet);
                 log.info("redis插入角色条数:{}", aLongRole);
                 log.info("redis插入权限条数:{}", aLongPer);
             }
@@ -113,7 +114,8 @@ public class JwtRealm extends AuthorizingRealm {
     }
 
     /**
-     *  对权限和角色字符串进行处理,权限字符串会被[]包含,先去掉,暂时还会发现是什么地方导致的
+     * 对权限和角色字符串进行处理,权限字符串会被[]包含,先去掉,暂时还会发现是什么地方导致的
+     *
      * @param str
      * @return
      */
