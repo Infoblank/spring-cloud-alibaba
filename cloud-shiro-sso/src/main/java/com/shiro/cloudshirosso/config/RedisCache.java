@@ -33,7 +33,11 @@ public class RedisCache implements ApplicationRunner {
 
     @Override
     @Transactional
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
+        cacheData();
+    }
+
+    public void cacheData() {
         log.info("用户角色权限缓存开始...");
         List<UserInfo> userInfoList = userInfoRepositories.findAll();
         userInfoList.forEach(userInfo -> {
@@ -43,9 +47,7 @@ public class RedisCache implements ApplicationRunner {
             roles.forEach(role -> {
                 rolesSet.add(role.getRoleName());
                 List<Permissions> permissionsList = role.getPermissions();
-                permissionsList.forEach(permissions -> {
-                    perSet.add(permissions.getPerStrName());
-                });
+                permissionsList.forEach(permissions -> perSet.add(permissions.getPerStrName()));
             });
             if (rolesSet.size() > 0) {
                 RedisTool.setKeyBySet(RedisConstant.USER_ROLE_PREFIX + userInfo.getId(), rolesSet);
