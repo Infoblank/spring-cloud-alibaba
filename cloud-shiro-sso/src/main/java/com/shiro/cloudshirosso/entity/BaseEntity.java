@@ -21,9 +21,13 @@ public abstract class BaseEntity implements Serializable {
 
     /**
      * GenerationType.IDENTITY 对应mysql的id自动生成规则
+     * MySQL：@GeneratedValue(strategy = GenerationType.AUTO)
+     * Sql Server：@GeneratedValue(strategy = GenerationType.IDENTITY)
+     * Oracle：@GeneratedValue(strategy = GenerationType.SEQUENCE)
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
     @CreatedDate

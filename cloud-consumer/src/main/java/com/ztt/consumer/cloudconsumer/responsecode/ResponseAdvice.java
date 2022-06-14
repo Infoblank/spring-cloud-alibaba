@@ -2,6 +2,7 @@ package com.ztt.consumer.cloudconsumer.responsecode;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ztt.consumer.cloudconsumer.util.RequestIdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -24,7 +25,6 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Autowired
     public void setObjectMapper(ObjectMapper objectMapper) {
-        // objectMapper.set
         this.objectMapper = objectMapper;
     }
 
@@ -37,24 +37,30 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
      */
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        log.info("supports已经返回true马上执行beforeBodyWrite{}", returnType.getParameterType());
+        log.info("ResponseAdvice:supports:{}", returnType.getParameterType());
         return true;
     }
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, @NonNull MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         assert body != null;
-        log.info("ResponseAdvice.supports已经执行完毕开始beforeBodyWrite{}", returnType.getParameterType());
+        String requestId = RequestIdUtils.getRequestId();
+        log.info("ResponseAdvice:beforeBodyWrite,start:{}", returnType.getParameterType());
         if (body instanceof String) {
             try {
-                return this.objectMapper.writeValueAsString(ResultData.success(body));
+                ResultData<Object> data = ResultData.success(body);
+                data.setRequestId(requestId);
+                return this.objectMapper.writeValueAsString(data);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
         }
-        if (body instanceof ResultData) {
-            return body;
+        if (body instanceof ResultData<?> data) {
+            data.setRequestId(requestId);
+            return data;
         }
-        return ResultData.success(body);
+        ResultData<Object> success = ResultData.success(body);
+        success.setRequestId(requestId);
+        return success;
     }
 }

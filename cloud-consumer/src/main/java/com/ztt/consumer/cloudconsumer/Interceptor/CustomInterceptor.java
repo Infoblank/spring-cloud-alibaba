@@ -1,8 +1,9 @@
 package com.ztt.consumer.cloudconsumer.Interceptor;
 
+import com.ztt.consumer.cloudconsumer.util.RequestIdUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
-@Component
 public class CustomInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler)
@@ -29,6 +29,11 @@ public class CustomInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                                 @Nullable Exception ex) throws Exception {
-        log.info("拦截器执行,{}", "afterCompletion");
+        log.info("拦截器执行,{}", "CustomInterceptor:afterCompletion");
+        // 清除掉请求ID
+        RequestIdUtils.removeRequestId();
+        // 清除MDC,即日志的[%X{REQUEST_ID}]
+        MDC.clear();
+        log.info("清除RequestId,MDC");
     }
 }

@@ -30,6 +30,7 @@ public class ConsumerController {
         long end = System.currentTimeMillis();
         return "响应结果：" + list + ",耗时:" + (end - start) / 1000 + "秒";
     }
+
     @RequestMapping("/callProvider2")
     public String callProvider2() {
         log.info("服务消费者方法这些了");
@@ -70,7 +71,7 @@ public class ConsumerController {
     }
 
     @RequestMapping("sys/user")
-    List<CommonUser> sysUserList(){
-        return this.providerClient.sysUserList("zhangtt","sabdjhk@!@#");
+    List<CommonUser> sysUserList() {
+        return this.providerClient.sysUserList("zhangtt", "sabdjhk@!@#");
     }
 }

@@ -7,6 +7,19 @@ public class ResultData<T> {
     private T data;
     private long operationTimestamp;
 
+    /**
+     * 唯一的响应id,贯彻整个的服务调用链
+     */
+    private String requestId;
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
     public int getStatus() {
         return status;
     }
