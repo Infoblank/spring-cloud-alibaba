@@ -9,9 +9,14 @@ import com.shiro.cloudshirosso.shiro.utils.JWTUtil;
 import com.shiro.cloudshirosso.utils.RedisTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
@@ -19,6 +24,8 @@ import java.util.HashMap;
 @Service
 public class MainService {
 
+    @PersistenceContext
+    private EntityManager entityManager;
     private UserInfoRepositories userInfoRepositories;
 
     @Autowired
@@ -58,5 +65,13 @@ public class MainService {
             return sign;
         }
         return "登录失败!用户名或密码错误.";
+    }
+
+
+    @Modifying
+    @Transactional
+    public int test(String sql, Object... o) {
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        return nativeQuery.executeUpdate();
     }
 }

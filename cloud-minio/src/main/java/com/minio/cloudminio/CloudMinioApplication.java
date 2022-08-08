@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CloudMinioApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CloudMinioApplication.class, args);
+        SpringApplication springApplication = new SpringApplication(CloudMinioApplication.class);
+        springApplication.addInitializers();
+        springApplication.run(args);
+       // SpringApplication.run(CloudMinioApplication.class, args);
     }
 
 }

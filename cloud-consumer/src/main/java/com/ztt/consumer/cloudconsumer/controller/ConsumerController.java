@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,18 +24,21 @@ public class ConsumerController {
 
     @RequestMapping(path = "/callProvider", name = "返回列表,得到响应的时间。")
     public String callProvider() {
-        log.info("服务消费者方法这些了");
         long start = System.currentTimeMillis();
         //使用Feign客户端调用其他服务的接口
         String list = providerClient.list();
         long end = System.currentTimeMillis();
-        return "响应结果：" + list + ",耗时:" + (end - start) / 1000 + "秒";
+        return "响应结果：" + list + ",耗时:" + (end - start) +"ms";
     }
 
     @RequestMapping("/callProvider2")
-    public String callProvider2() {
+    public List<String> callProvider2() {
         log.info("服务消费者方法这些了");
-        return "callProvider2";
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add("callProvider2");
+        objects.add("callProvider0");
+        objects.add("callProvider1");
+        return objects;
     }
 
 

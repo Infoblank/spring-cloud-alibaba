@@ -16,6 +16,7 @@
         <module>cloud-dao</module>
         <module>cloud-minio</module>
         <module>cloud-shiro-sso</module>
+        <module>spring-boot-webflux</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
@@ -34,6 +35,7 @@
         <java.jwt.version>3.19.2</java.jwt.version>
         <shiro.spring.version>1.9.0</shiro.spring.version>
         <jnanoid.version>2.0.0</jnanoid.version>
+        <transmittable.thread.local.version>2.13.2</transmittable.thread.local.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -123,6 +125,14 @@
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
                 <version>${jasypt.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--子线程继承父线程的实现-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable.thread.local.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

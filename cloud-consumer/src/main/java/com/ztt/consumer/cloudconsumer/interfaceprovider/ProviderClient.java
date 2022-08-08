@@ -11,22 +11,28 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author ZTT
+ * @author ZTT,当前版本不在支持RequestMapping,直接使用FeignClient的path属性
+ * value == name 服务的名称,url -- 直接填写地址
+ * decode404 -- 404是被解码还是抛出异常
+ *
+  configuration()指明FeignClient的配置类，
+  默认的配置类为FeignClientsConfiguration类，在缺省的情况下，这个类注入了默认的Decoder、Encoder和Contract等配置的Bean
+
+fallback()为配置熔断器的处理类
  */
-@FeignClient(value = "cloud-provider")
-//@RequestMapping(path = "provider/v1")
+@FeignClient(value = "cloud-provider", path = "/provider")
 public interface ProviderClient {
 
     /**
      * @return
      */
-    @RequestMapping(path = "provider/v1/list")
+    @RequestMapping(path = "/v1/list")
     String list();
 
     /**
      * @return
      */
-    @RequestMapping(path = "provider/v1/hello")
+    @RequestMapping(path = "/v1/hello")
     String hello();
 
     /**
@@ -35,7 +41,7 @@ public interface ProviderClient {
      * @param name1
      * @return String
      */
-    @RequestMapping(path = "provider/v1/hello2/{name1}")
+    @RequestMapping(path = "/v1/hello2/{name1}")
     String hello2(@PathVariable("name1") String name1);
 
     /**
@@ -45,7 +51,7 @@ public interface ProviderClient {
      * @param name name
      * @return String
      */
-    @RequestMapping(path = "provider/v1/hello3")
+    @RequestMapping(path = "/v1/hello3")
     String hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
 
     /**
@@ -55,10 +61,10 @@ public interface ProviderClient {
      * @param password 密码
      * @return string
      */
-    @RequestMapping(path = "provider/v1/hello5/{name}/{password}")
+    @RequestMapping(path = "/v1/hello5/{name}/{password}")
     Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password);
 
 
-    @RequestMapping(path = "provider/v1/sys")
+    @RequestMapping(path = "/v1/sys")
     List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
 }
