@@ -13,6 +13,16 @@ public class ResultData<T> {
     private T data;
     private long operationTimestamp;
 
+    private String requestPath;
+
+    public String getRequestPath() {
+        return requestPath;
+    }
+
+    public void setRequestPath(String requestPath) {
+        this.requestPath = requestPath;
+    }
+
     /**
      * 唯一的响应id,贯彻整个的服务调用链
      */
@@ -62,6 +72,7 @@ public class ResultData<T> {
         this.operationTimestamp = System.currentTimeMillis();
         // 当前请求回去唯一的请求id
         this.requestId = RequestIdUtils.getRequestId();
+        this.requestPath = "";
     }
 
     public static <T> ResultData<T> success(T data) {

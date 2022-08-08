@@ -101,7 +101,6 @@
             <groupId>com.ztt.common</groupId>
             <artifactId>cloud-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>

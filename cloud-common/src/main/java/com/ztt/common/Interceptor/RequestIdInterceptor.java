@@ -1,9 +1,7 @@
 package com.ztt.common.Interceptor;
 
-import com.ztt.common.constant.CommonConstant;
-import com.ztt.common.util.RequestIdUtils;
+import com.ztt.common.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -30,11 +28,7 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler)
             throws Exception {
-        String requestId = RequestIdUtils.getRequestId();
-        MDC.put(CommonConstant.REQUEST_ID, requestId);
-        log.info("拦截器执行,添加了MDCKey:REQUEST_ID,value:{}", requestId);
-        String requestURI = request.getRequestURI();
-        log.info("请求路径:{}",requestURI);
+        CommonUtil.addRequestIdAndMDCId(request, response);
         return true;
     }
 
@@ -69,11 +63,6 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                                 @Nullable Exception ex) throws Exception {
-        log.info("拦截器执行,{}", "RequestIdInterceptor:afterCompletion");
-        // 清除掉请求ID
-        RequestIdUtils.removeRequestId();
-        // 清除MDC,即日志的[%X{REQUEST_ID}]
-        MDC.clear();
-        log.info("当前请求已完成,清除RequestId,MDC");
+        CommonUtil.clearRequestIdAndMDCId(request, response);
     }
 }

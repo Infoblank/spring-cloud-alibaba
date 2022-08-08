@@ -12,15 +12,12 @@ public class RequestIdUtils {
     // private static final InheritableThreadLocal<String> requestIdHolder = new InheritableThreadLocal<>();
     private static final TransmittableThreadLocal<String> requestIdHolder = new TransmittableThreadLocal<>();
 
+
     private RequestIdUtils() {
     }
 
     public static void generateRequestId() {
         requestIdHolder.set(NanoIdUtils.randomNanoId());
-    }
-
-    public static void generateRequestId(String id) {
-        requestIdHolder.set(id);
     }
 
     /**

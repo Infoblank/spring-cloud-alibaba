@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 @RestControllerAdvice
 @Slf4j
+@SuppressWarnings("all")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     private ObjectMapper objectMapper;
@@ -38,7 +39,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
      * @return e
      */
     @Override
-    public boolean supports(MethodParameter returnType, @lombok.NonNull Class<? extends HttpMessageConverter<?>> converterType) {
+    public boolean supports(MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
         log.info("ResponseAdvice:supports:{}", returnType.getParameterType());
         // 判断有某一个类型的注解才使用该类来转换消息
         boolean ann = (returnType.getContainingClass().isAnnotationPresent(ResponseBody.class) || returnType.hasMethodAnnotation(ResponseBody.class));
@@ -46,20 +47,29 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         return true;
     }
 
+    /**
+     * 通用的返回数据处理方法
+     *
+     * @param body                  the body to be written
+     * @param returnType            the return type of the controller method
+     * @param selectedContentType   the content type selected through content negotiation
+     * @param selectedConverterType the converter type selected to write to the response
+     * @param request               the current request
+     * @param response              the current response
+     * @return
+     */
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, @NonNull MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body, @NonNull MethodParameter returnType, @NonNull MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         assert body != null;
-        log.info("ResponseAdvice:beforeBodyWrite,start:{}", returnType.getParameterType());
         if (body instanceof String) {
             try {
-
-                // String s = new String("".getBytes(), StandardCharsets.UTF_8);
                 return this.objectMapper.writeValueAsString(ResultData.success(body));
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("返回数据:[" + body.toString() + "]转化为JSON出错.");
             }
         }
         if (body instanceof ResultData<?> data) {
+            // 这个位置主要是发生异常后进入,手动的ResultData基本上都是异常处理
             return data;
         }
         return ResultData.success(body);
