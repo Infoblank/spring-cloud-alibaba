@@ -29,23 +29,22 @@ public class ProviderController {
     @Autowired
     private CloudDaoService cloudDaoService;
 
-    @RequestMapping(path = "/list")
+    @PostMapping(path = "/list")
     public List<String> list() {
         log.info("执行了cloud-provider的list....");
         List<String> list = new ArrayList<>();
         list.add("java技术爱好者");
         list.add("SpringCloud");
         list.add("没有人比我更懂了");
-        // int i = 9/0;
         return list;
     }
 
-    @RequestMapping(path = "hello")
+    @PostMapping(path = "hello")
     public String hello() {
-        return "当前服务端口：" + this.port;
+        return "当前服务端口:" + this.port;
     }
 
-    @RequestMapping(path = "hello2/{name}", name = "hello2")
+    @PostMapping(path = "hello2/{name}", name = "hello2")
     public Map<Object, Object> hello2(@PathVariable("name") String name, HttpServletRequest request) {
         HashMap<Object, Object> map = new HashMap<>(3);
         map.put("methodName", "hello2");
@@ -56,7 +55,7 @@ public class ProviderController {
         return map;
     }
 
-    @RequestMapping(path = "hello3")
+    @PostMapping(path = "hello3")
     public Map<Object, Object> hello3(@RequestBody CommonUser user, String name, HttpServletRequest request) {
         log.info("hello3调用,参数：{}，{}", user, name);
         HashMap<Object, Object> map = new HashMap<>(3);
@@ -68,7 +67,7 @@ public class ProviderController {
         return map;
     }
 
-    @RequestMapping(path = "hello5/{name}/{password}")
+    @PostMapping(path = "hello5/{name}/{password}")
     public Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password, HttpServletRequest request) {
         HashMap<Object, Object> map = new HashMap<>(3);
         map.put("methodName", "hello5");
@@ -79,8 +78,8 @@ public class ProviderController {
         return map;
     }
 
-    @RequestMapping("sys")
-    public List<CommonUser> sysUserList(String loginName, String password){
-        return this.cloudDaoService.sysUserList(loginName,password);
+    @PostMapping("sys")
+    public List<CommonUser> sysUserList(String loginName, String password) {
+        return this.cloudDaoService.sysUserList(loginName, password);
     }
 }

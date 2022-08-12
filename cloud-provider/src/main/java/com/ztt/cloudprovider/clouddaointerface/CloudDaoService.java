@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient("cloud-dao")
-//@RequestMapping("/sys")
+@FeignClient(value = "cloud-dao", path = "/sys/user")
 public interface CloudDaoService {
 
-     @RequestMapping("/sys/user/list")
-     List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password")String password);
+    @RequestMapping("/list")
+    List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
 }

@@ -7,6 +7,11 @@ import org.slf4j.MDC;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * spring注入bean的两种模式：full和lite
+ * full：@Configuration+@bean ioc当中的是代理的bean
+ * lite: 没有Configuration的bean ioc当中是原始的类型
+ */
 @Slf4j
 public class CommonUtil {
 

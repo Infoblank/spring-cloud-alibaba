@@ -27,7 +27,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Autowired
     public void setObjectMapper(ObjectMapper objectMapper) {
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
         this.objectMapper = objectMapper;
     }
 

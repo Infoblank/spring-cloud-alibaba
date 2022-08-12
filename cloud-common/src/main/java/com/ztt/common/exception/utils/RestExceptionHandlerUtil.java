@@ -94,8 +94,10 @@ public class RestExceptionHandlerUtil {
                 String fileName = element.getFileName();
                 String name = element.getClassName();
                 assert fileName != null;
-                String message = "在文件:" + name + "." + fileName.split("\\.")[1] + "的方法" + methodName + "第" + lineNumber + "行发生了{" + exception.getMessage() + "}错误。";
-                list.add(message);
+                if (fileName.contains(".java")) {
+                    String message = "在文件:" + name + "." + fileName.split("\\.")[1] + "的方法" + methodName + "第" + lineNumber + "行发生了{" + exception.getMessage() + "}错误。";
+                    list.add(message);
+                }
             }
         }
         return list;
