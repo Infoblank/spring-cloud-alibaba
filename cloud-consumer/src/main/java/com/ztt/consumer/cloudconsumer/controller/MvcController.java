@@ -17,7 +17,7 @@ public class MvcController {
 
     @RequestMapping(value = "/test")
     public String mvcTest() {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 2; i++) {
             taskService.task();
         }
         log.info("MvcController.mvcTest()");

@@ -59,8 +59,8 @@ public class ConsumerController {
         return this.providerClient.hello5(name, password);
     }
 
-    @RequestMapping(path = "hello3", name = "传递参数到服务端,参数包括(对象和字符串)")
-    public String hello3() {
+    @PostMapping(path = "hello3", name = "传递参数到服务端,参数包括(对象和字符串)")
+    public Map<String, Object> hello3() {
         CommonUser user = new CommonUser();
         user.setName("ztt");
         user.setPassword("123456");
@@ -69,7 +69,7 @@ public class ConsumerController {
     }
 
     @PostMapping(path = "hello4", name = "传递参数到服务端,参数包括(对象和字符串)")
-    public String hello4(@RequestBody CommonUser user) {
+    public Map<String, Object> hello4(@RequestBody CommonUser user) {
         log.info("调用hello4,参数:{}", user.toString());
         return this.providerClient.hello3(user, null);
     }

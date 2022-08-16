@@ -2,6 +2,7 @@ package com.ztt.common.config;
 
 import com.ztt.common.async.CloudAsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -11,10 +12,26 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 
+/**
+ * //@ConditionalOnBean 当容器有指定Bean的条件下
+ * //@ConditionalOnClass 当容器有指定类的条件下
+ * //@ConditionalOnExpression 基于SpEL表达式作为判断条件
+ * //@ConditionalOnJava 基于JVM版本作为判断条件
+ * //@ConditionalOnJndi 在JDNI存在的条件下查找指定位置
+ * //@ConditionalOnMissingBean 当容器没有指定Bean的情况下
+ * //@ConditionalOnMissingClass 当容器没有指定类的情况下
+ * //@ConditionalOnNotWebApplication 当前项目不是Web项目的条件下
+ * //@ConditionalOnProperty 指定的属性是否有指定的值
+ * //@ConditionalOnResource 类路径是否有指定的值
+ * //@ConditionalOnSingleCandidate 当前指定Bean在容器中只有一个，或者虽然有多个但是指定首选Bean
+ * //@ConditionalOnWebApplication 当前项目是Web项目的情况下
+ */
+@ConditionalOnMissingBean(ThreadPoolTaskExecutor.class)
 @Configuration
 @EnableAsync
+// 是否开启sleuth
+//@ConditionalOnProperty(prefix = "cloud.sleuth", havingValue = "false", name = "enable")
 public class SpringAsyncConfiguration implements AsyncConfigurer {
-
 
     @Resource
     private ThreadPoolTaskExecutorProperty tp;
@@ -40,7 +57,7 @@ public class SpringAsyncConfiguration implements AsyncConfigurer {
      *
      * @return threadPoolTaskExecutor
      */
-    @Bean
+    // @Bean
     @Override
     public Executor getAsyncExecutor() {
         return threadPoolTaskExecutor();

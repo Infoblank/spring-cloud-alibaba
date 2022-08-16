@@ -1,4 +1,4 @@
-package com.ztt.consumer.cloudconsumer.feign;
+package com.ztt.common.config.feign;
 
 import com.ztt.common.constant.CommonConstant;
 import com.ztt.common.util.RequestIdUtils;
@@ -38,7 +38,8 @@ public class FeignRequestInterceptor implements RequestInterceptor {
             while (headerNames.hasMoreElements()) {
                 String name = headerNames.nextElement();
                 // Accept值不传递，避免出现需要响应xml的情况
-                if ("Accept".equalsIgnoreCase(name)) {
+                // 服务之间携带信息,content-length长度可能和body不一致导致写入出错,直接过滤掉该属性
+                if ("Accept".equalsIgnoreCase(name) || "content-length".equalsIgnoreCase(name)) {
                     continue;
                 }
                 String values = request.getHeader(name);
@@ -48,6 +49,8 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         template.header(CommonConstant.APPLICATION_NAME, appName);
         template.header(CommonConstant.REQUEST_ID, RequestIdUtils.getRequestId());
         template.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        // 如果设置了Transfer-Encoding为chunked,content-length将被忽略
+        template.header(HttpHeaders.TRANSFER_ENCODING, "chunked");
         log.info("feign的头部设置了请求ID:{}", RequestIdUtils.getRequestId());
     }
 }

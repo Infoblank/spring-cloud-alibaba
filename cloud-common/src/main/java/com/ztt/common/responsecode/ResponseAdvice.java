@@ -3,6 +3,7 @@ package com.ztt.common.responsecode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ztt.common.constant.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
+
 /**
  * RestControllerAdvice:1,全局异常处理;2,全局数据绑定;3,全局数据预处理
  */
@@ -22,6 +26,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @Slf4j
 @SuppressWarnings("all")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     private ObjectMapper objectMapper;
 
@@ -43,7 +50,10 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.info("ResponseAdvice:supports:{}", returnType.getParameterType());
         // 判断有某一个类型的注解才使用该类来转换消息
         boolean ann = (returnType.getContainingClass().isAnnotationPresent(ResponseBody.class) || returnType.hasMethodAnnotation(ResponseBody.class));
-        // 消息转换器的类型
+        // 如果存在appname就表示是feign发送的请求,不需要就行消息转换
+        if (Objects.nonNull(httpServletRequest.getHeader(CommonConstant.APPLICATION_NAME))) {
+            return false;
+        }
         return true;
     }
 

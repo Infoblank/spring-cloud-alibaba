@@ -1,4 +1,4 @@
-package com.ztt.consumer.cloudconsumer.feign.decoder;
+package com.ztt.common.config.feign.decoder;
 
 import feign.FeignException;
 import feign.Response;
@@ -24,12 +24,13 @@ public class FeignDecoder implements Decoder {
     @Override
     public Object decode(Response response, Type type) throws IOException, FeignException {
         String responseJson = getResponseJson(response);
-        log.info("feign 返回数据:{}", responseJson);
         try {
             return decoder.decode(response, type);
         } catch (DecodeException e) {
+            log.info("feign 返回数据:{}", responseJson);
             throw new DecodeException(response.status(), e.getMessage(), response.request(), e);
         } catch (FeignException e) {
+            log.info("feign 返回数据:{}", responseJson);
             throw e;
         }
     }

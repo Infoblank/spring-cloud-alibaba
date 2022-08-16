@@ -1,4 +1,4 @@
-package com.ztt.consumer.cloudconsumer.config;
+package com.ztt.common.config.feign;
 
 import feign.Logger;
 import org.springframework.context.annotation.Bean;

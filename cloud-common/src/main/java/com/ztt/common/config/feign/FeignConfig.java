@@ -1,6 +1,6 @@
-package com.ztt.consumer.cloudconsumer.config;
+package com.ztt.common.config.feign;
 
-import com.ztt.consumer.cloudconsumer.feign.decoder.FeignDecoder;
+import com.ztt.common.config.feign.decoder.FeignDecoder;
 import feign.codec.Decoder;
 import feign.optionals.OptionalDecoder;
 import org.springframework.beans.factory.ObjectFactory;

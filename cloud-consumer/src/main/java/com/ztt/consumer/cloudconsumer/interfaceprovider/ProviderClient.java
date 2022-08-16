@@ -2,35 +2,32 @@ package com.ztt.consumer.cloudconsumer.interfaceprovider;
 
 import com.ztt.common.entity.CommonUser;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author ZTT,当前版本不在支持RequestMapping,直接使用FeignClient的path属性
+ * @author ZTT, 当前版本不在支持RequestMapping, 直接使用FeignClient的path属性
  * value == name 服务的名称,url -- 直接填写地址
  * decode404 -- 404是被解码还是抛出异常
- *
-  configuration()指明FeignClient的配置类，
-  默认的配置类为FeignClientsConfiguration类，在缺省的情况下，这个类注入了默认的Decoder、Encoder和Contract等配置的Bean
-
-fallback()为配置熔断器的处理类
+ * <p>
+ * configuration()指明FeignClient的配置类，
+ * 默认的配置类为FeignClientsConfiguration类，在缺省的情况下，这个类注入了默认的Decoder、Encoder和Contract等配置的Bean
+ * <p>
+ * fallback()为配置熔断器的处理类
  */
 @FeignClient(value = "cloud-provider", path = "/provider")
 public interface ProviderClient {
 
     /**
-     * @return
+     * @return str
      */
     @RequestMapping(path = "/v1/list")
     String list();
 
     /**
-     * @return
+     * @return  str
      */
     @RequestMapping(path = "/v1/hello")
     String hello();
@@ -38,7 +35,7 @@ public interface ProviderClient {
     /**
      * 通过openfeign调用cloud-provider提供的服务
      *
-     * @param name1
+     * @param name1 name
      * @return String
      */
     @RequestMapping(path = "/v1/hello2/{name1}")
@@ -51,8 +48,8 @@ public interface ProviderClient {
      * @param name name
      * @return String
      */
-    @RequestMapping(path = "/v1/hello3")
-    String hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
+    @PostMapping(path = "/v1/hello3")
+    Map<String,Object> hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
 
     /**
      * cc
