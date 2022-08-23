@@ -1,16 +1,6 @@
 package com.ztt.common.config;
 
-import com.ztt.common.async.CloudAsyncUncaughtExceptionHandler;
-import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
-import javax.annotation.Resource;
-import java.util.concurrent.Executor;
 
 /**
  * //@ConditionalOnBean 当容器有指定Bean的条件下
@@ -26,21 +16,21 @@ import java.util.concurrent.Executor;
  * //@ConditionalOnSingleCandidate 当前指定Bean在容器中只有一个，或者虽然有多个但是指定首选Bean
  * //@ConditionalOnWebApplication 当前项目是Web项目的情况下
  */
-@ConditionalOnMissingBean(ThreadPoolTaskExecutor.class)
-@Configuration
-@EnableAsync
+//@ConditionalOnMissingBean(ThreadPoolTaskExecutor.class)
+//@Configuration
+//@EnableAsync
 // 是否开启sleuth
 //@ConditionalOnProperty(prefix = "cloud.sleuth", havingValue = "false", name = "enable")
 public class SpringAsyncConfiguration implements AsyncConfigurer {
 
-    @Resource
+    /*@Resource
     private ThreadPoolTaskExecutorProperty tp;
 
-    /**
+    *//**
      * 应用内部的线程池,做一些基本的配置
      *
      * @return threadPoolTaskExecutor 线程池
-     */
+     *//*
     @Bean
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
@@ -52,24 +42,24 @@ public class SpringAsyncConfiguration implements AsyncConfigurer {
         return threadPoolTaskExecutor;
     }
 
-    /**
+    *//**
      * 返回线程池
      *
      * @return threadPoolTaskExecutor
-     */
+     *//*
     // @Bean
     @Override
     public Executor getAsyncExecutor() {
         return threadPoolTaskExecutor();
     }
 
-    /**
+    *//**
      * 异常处理器,返回的方法为void的时候使用
      *
      * @return CloudAsyncUncaughtExceptionHandler
-     */
+     *//*
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return new CloudAsyncUncaughtExceptionHandler();
-    }
+    }*/
 }

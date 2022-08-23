@@ -1,6 +1,7 @@
 package com.ztt.common.config.feign;
 
 import feign.Logger;
+import feign.Retryer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,5 +22,8 @@ public class OpenFeignLog {
         return Logger.Level.FULL;
     }
 
-
+    @Bean
+    public Retryer feignRetryer() {
+        return new Retryer.Default();
+    }
 }

@@ -8,3 +8,7 @@ spring:
 logging:
   level:
     com.ztt.dao.clouddao.mp.mapper: debug
+
+jasypt:
+  encryptor:
+    password: 123456

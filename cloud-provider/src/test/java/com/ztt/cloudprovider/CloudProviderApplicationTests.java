@@ -10,7 +10,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Predicate;
@@ -95,8 +98,25 @@ class CloudProviderApplicationTests {
     }
 
 
+    // 测试清除内容
     @Test
     public void __c2() {
+        HashMap<String, List<String>> hashMap = new HashMap<>();
+        for (int i = 0; i < 2; i++) {
+            hashMap.put(String.valueOf(i), new ArrayList<>());
+        }
+        for (int i = 0; i < 2; i++) {
+            hashMap.get(String.valueOf(i)).add(String.valueOf(i));
+        }
+        log.info("清除前第一个list{}", hashMap.get("0").toArray());
+        log.info("清除前第二个list{}", hashMap.get("1").toArray());
+
+        for (int i = 0; i < 2; i++) {
+            hashMap.get(String.valueOf(i)).clear();
+        }
+
+        log.info("清除后第一个list{}", hashMap.get("0").toArray());
+        log.info("清除后第二个list{}", hashMap.get("1").toArray());
 
     }
 

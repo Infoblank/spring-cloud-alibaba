@@ -46,7 +46,8 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
-        log.info("拦截器执行,{}", "postHandle");
+        String requestURI = request.getRequestURI();
+        log.info("拦截器执行,请求路径{}", requestURI);
     }
 
     /**

@@ -6,5 +6,5 @@ public interface CommonConstant {
 
     String X_REQUEST_ID ="x-request-id";
 
-    String APPLICATION_NAME = "application_name";
+    String APPLICATION_NAME = "appName";
 }

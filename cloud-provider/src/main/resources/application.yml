@@ -1,21 +1,53 @@
 # 应用名称
-#spring.application.name=cloud-provider
-# 服务提供者 cluster
+#spring.application.name=cloud-consumer
 spring:
   application:
     name: cloud-provider
-
+  jackson:
+    serialization:
+      indent-output: false
+  sleuth:
+    async:
+      configurer:
+        enabled: false
+  mvc:
+    # 抛出控制器报错(NoHandlerFoundException),让报错得到控制,不然会返回默认的报错页面
+    throw-exception-if-no-handler-found: true
+    converters:
+      preferred-json-mapper: jackson
 server:
+  error:
+    path: /cloud/error
   port: 9001
+  # 支持 HTTP 响应压缩,默认情况下，响应的长度必须至少为 2048 字节才能执行压缩
+  compression:
+    enabled: true
+    #min-response-size 可以改变默认的压缩
+    min-response-size: 2048KB
+  servlet:
+    encoding:
+      # http响应编码,默认UTF-8
+      charset: UTF-8
+      # 是否强制编码,true才会真正的变成UTF-8
+      force: true
+#management.endpoints.web.exposure.include=*
+
+jasypt:
+  encryptor:
+    password: 123456
 
 logging:
   level:
     root: info
-    com.ztt.cloudprovider.clouddaointerface: debug
+    com.ztt.consumer.cloudconsumer.interfaceprovider: debug
 
+mv:
+  locationMappings:
+    - "/favicon.ico"
 
+  #Whether to enable thread pooling
 
-
-
-
-
+whether:
+  enable:
+    thread:
+      pool: true

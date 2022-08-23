@@ -3,15 +3,14 @@ package com.ztt.common.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.instrument.async.LazyTraceAsyncCustomizer;
-import org.springframework.cloud.sleuth.instrument.async.LazyTraceThreadPoolTaskExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -27,7 +26,7 @@ public class ThreadPoolConfig {
     private static final ThreadPoolExecutor.CallerRunsPolicy runsPolicy = new ThreadPoolExecutor.CallerRunsPolicy();
 
 
-    @Autowired
+    @Resource
     private BeanFactory beanFactory;
 
     /**
@@ -46,20 +45,7 @@ public class ThreadPoolConfig {
         return new LazyTraceAsyncCustomizer(this.beanFactory, new AsyncConfigurer() {
             @Override
             public Executor getAsyncExecutor() {
-                ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-                //配置核心线程数
-                executor.setCorePoolSize(Runtime.getRuntime().availableProcessors() * 2);
-                //配置最大线程数
-                executor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 20);
-                //配置队列大小
-                executor.setQueueCapacity(500);
-                //配置线程池中的线程的名称前缀
-                executor.setThreadNamePrefix("Yk-async-task-");
-                //配置保存时间
-                executor.setRejectedExecutionHandler(runsPolicy);
-                //执行初始化
-                executor.initialize();
-                return executor;
+                return threadPoolTaskExecutor();
             }
 
             @Override
@@ -73,12 +59,17 @@ public class ThreadPoolConfig {
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setThreadNamePrefix("Yk-task-");
-        threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        // 拒绝处理程序
+        threadPoolTaskExecutor.setRejectedExecutionHandler(runsPolicy);
+        // 队列大小
         threadPoolTaskExecutor.setQueueCapacity(1000);
+        //配置核心线程数
         threadPoolTaskExecutor.setCorePoolSize(Runtime.getRuntime().availableProcessors() * 2);
+        //配置最大线程数
         threadPoolTaskExecutor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 20);
+        //执行初始化
         threadPoolTaskExecutor.initialize();
-        // sleuth 中延时跟踪执行
-        return new LazyTraceThreadPoolTaskExecutor(beanFactory, threadPoolTaskExecutor);
+        log.info("初始化ThreadPoolTaskExecutor");
+        return threadPoolTaskExecutor;
     }
 }
