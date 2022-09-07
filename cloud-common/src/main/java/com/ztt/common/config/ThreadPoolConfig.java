@@ -1,5 +1,6 @@
 package com.ztt.common.config;
 
+import com.ztt.common.async.CloudAsyncUncaughtExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.BeanFactory;
@@ -50,7 +51,7 @@ public class ThreadPoolConfig {
 
             @Override
             public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-                return (throwable, method, obj) -> log.error("{}", throwable.getMessage());
+                return new CloudAsyncUncaughtExceptionHandler();
             }
         });
     }

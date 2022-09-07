@@ -19,6 +19,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +38,11 @@ public class RestExceptionHandlerUtil {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultData<String> exception(Exception e) {
-        log.error("全局异常信息 ex={}", e.getLocalizedMessage());
+        String localizedMessage = e.getLocalizedMessage();
+        if (Objects.isNull(localizedMessage)) {
+            localizedMessage = e.getCause().getLocalizedMessage();
+        }
+        log.error("全局异常信息 ex={}", localizedMessage);
         // 全局处理资源路径找不到的问题
         if (e instanceof NoHandlerFoundException exception) {
             String httpMethod = exception.getHttpMethod();

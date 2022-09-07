@@ -21,11 +21,6 @@ public class TaskServiceImpl implements TaskService {
     public void task() {
         try {
             Thread.sleep(0);
-            /*String requestId = RequestIdUtils.getRequestId();
-            MDC.put(CommonConstant.REQUEST_ID, requestId);
-            Thread thread = Thread.currentThread();
-            String name = thread.getName();
-            log.info("子线程:{}获取到父线程的REQUEST_ID:{}", name, requestId);*/
             consumerService.test();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

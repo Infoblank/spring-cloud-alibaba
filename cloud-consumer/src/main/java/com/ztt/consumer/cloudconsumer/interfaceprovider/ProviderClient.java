@@ -27,7 +27,7 @@ public interface ProviderClient {
     String list();
 
     /**
-     * @return  str
+     * @return str
      */
     @RequestMapping(path = "/v1/hello")
     String hello();
@@ -49,7 +49,7 @@ public interface ProviderClient {
      * @return String
      */
     @PostMapping(path = "/v1/hello3")
-    Map<String,Object> hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
+    Map<String, Object> hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
 
     /**
      * cc
@@ -58,7 +58,7 @@ public interface ProviderClient {
      * @param password 密码
      * @return string
      */
-    @RequestMapping(path = "/v1/hello5/{name}/{password}")
+    @PostMapping(path = "/v1/hello5/{name}/{password}")
     Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password);
 
 
