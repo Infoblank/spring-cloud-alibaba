@@ -3,6 +3,7 @@ package com.ztt.common.responsecode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ztt.common.aop.ClearId;
 import com.ztt.common.constant.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -21,6 +21,8 @@ import java.util.Objects;
 
 /**
  * RestControllerAdvice:1,全局异常处理;2,全局数据绑定;3,全局数据预处理
+ *
+ * 按道理只需要在网关做统一封装局可以了 这里主要是集成了很多不好重构 暂时不处理。
  */
 @RestControllerAdvice
 @Slf4j
@@ -47,14 +49,11 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
      */
     @Override
     public boolean supports(MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
-        log.info("ResponseAdvice:supports:{}", returnType.getParameterType());
         // 判断有某一个类型的注解才使用该类来转换消息
-        boolean ann = (returnType.getContainingClass().isAnnotationPresent(ResponseBody.class) || returnType.hasMethodAnnotation(ResponseBody.class));
-        // 如果存在appname就表示是feign发送的请求,不需要就行消息转换
-        if (Objects.nonNull(httpServletRequest.getHeader(CommonConstant.APPLICATION_NAME))) {
-            return false;
-        }
-        return true;
+        boolean ann = (returnType.getContainingClass().isAnnotationPresent(ClearId.class) || returnType.hasMethodAnnotation(ClearId.class));
+        // 如果有appName就不需要做结果封装处理
+        String header = httpServletRequest.getHeader(CommonConstant.APPLICATION_NAME);
+        return !Objects.nonNull(header);
     }
 
     /**
@@ -70,7 +69,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
      */
     @Override
     public Object beforeBodyWrite(Object body, @NonNull MethodParameter returnType, @NonNull MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        assert body != null;
+        // 所以的服务都做了返回封装,有可能回导致取不到最开始进入的链路traceId (在链路里面的服务报错的情况下)
         if (body instanceof String) {
             try {
                 return this.objectMapper.writeValueAsString(ResultData.success(body));

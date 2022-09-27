@@ -23,14 +23,17 @@ public class FeignDecoder implements Decoder {
 
     @Override
     public Object decode(Response response, Type type) throws IOException, FeignException {
+        // 这里读取后response里面的body无法再次读取,在31行重新封装了返回的response
         String responseJson = getResponseJson(response);
+        log.info("feign返回数据:{}", responseJson);
         try {
-            return decoder.decode(response, type);
+            // 因为Response只能读取异常,所以重新回写body在把response传递到下一个Decoder
+            return decoder.decode(response.toBuilder().body(responseJson, StandardCharsets.UTF_8).build(), type);
         } catch (DecodeException e) {
-            log.info("feign 返回数据:{}", responseJson);
+            log.info("feign返回数据:{}", responseJson);
             throw new DecodeException(response.status(), e.getMessage(), response.request(), e);
         } catch (FeignException e) {
-            log.info("feign 返回数据:{}", responseJson);
+            log.info("feign返回数据:{}", responseJson);
             throw e;
         }
     }

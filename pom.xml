@@ -17,9 +17,11 @@
         <module>cloud-minio</module>
         <module>cloud-shiro-sso</module>
         <module>spring-boot-webflux</module>
+        <module>cloud-gateway</module>
     </modules>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
+        <project.encoding>UTF-8</project.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring.boot.version>2.6.8</spring.boot.version>
@@ -60,6 +62,7 @@
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
             </dependency>
+            <!-- 负载均很策略 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-loadbalancer</artifactId>
@@ -75,6 +78,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- 缓存 -->
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
@@ -121,6 +125,7 @@
                 <type>jar</type>
                 <scope>import</scope>
             </dependency>
+            <!-- 加密配置文件,但是只解密一次 nacos动态加载后无法解密已经加密的选项 可以自己实现在读取了nacos配置后再解密一次 -->
             <dependency>
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
@@ -128,7 +133,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--子线程继承父线程的实现-->
+            <!-- 线程池的线程获取来自父线程的变量 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
@@ -145,9 +150,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.encoding}</encoding>
                 </configuration>
             </plugin>
             <plugin>

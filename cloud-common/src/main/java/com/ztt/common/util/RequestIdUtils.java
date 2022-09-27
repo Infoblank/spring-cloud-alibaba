@@ -9,9 +9,7 @@ import java.util.Objects;
  * 生成和存储唯一的请求id
  */
 public class RequestIdUtils {
-    // private static final InheritableThreadLocal<String> requestIdHolder = new InheritableThreadLocal<>();
     private static final TransmittableThreadLocal<String> requestIdHolder = new TransmittableThreadLocal<>();
-
 
     private RequestIdUtils() {
     }

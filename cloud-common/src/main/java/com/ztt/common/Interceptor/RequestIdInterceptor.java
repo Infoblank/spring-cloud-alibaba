@@ -1,6 +1,5 @@
 package com.ztt.common.Interceptor;
 
-import com.ztt.common.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.HandlerMethod;
@@ -28,7 +27,7 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler)
             throws Exception {
-        CommonUtil.addRequestIdAndMDCId(request, response);
+        //CommonUtil.addRequestIdAndMDCId(request, response);
         return true;
     }
 
@@ -64,6 +63,6 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                                 @Nullable Exception ex) throws Exception {
-        CommonUtil.clearRequestIdAndMDCId(request, response);
+       // CommonUtil.clearRequestIdAndMDCId(request, response);
     }
 }

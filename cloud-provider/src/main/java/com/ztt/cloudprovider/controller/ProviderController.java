@@ -5,6 +5,7 @@ import com.ztt.common.entity.CommonUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +21,10 @@ import java.util.Map;
 @Slf4j
 @RequestMapping(path = "/provider/v1")
 public class ProviderController {
-    @Value("${server.port}")
+    @Value("${server.port:9001}")
     Integer port;
 
-    @Value("${spring.application.name}")
+    @Value("${spring.application.name:'cloud-provider'}")
     String providerName;
 
     @Autowired
@@ -39,6 +40,7 @@ public class ProviderController {
         return list;
     }
 
+    @Cacheable(value = "server_port")
     @PostMapping(path = "hello")
     public String hello() {
         return "当前服务端口:" + this.port;
@@ -46,7 +48,8 @@ public class ProviderController {
 
     @PostMapping(path = "hello2/{name}", name = "hello2")
     public Map<Object, Object> hello2(@PathVariable("name") String name, HttpServletRequest request) {
-        HashMap<Object, Object> map = new HashMap<>(3);
+        // initialCapacity的值大概是需要存储的元素个数/0.75 -- 5/0.75=6.6-->7
+        HashMap<Object, Object> map = new HashMap<>(7);
         map.put("methodName", "hello2");
         map.put("param", name);
         map.put("serverName", this.providerName);

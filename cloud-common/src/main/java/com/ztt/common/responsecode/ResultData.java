@@ -1,9 +1,9 @@
 package com.ztt.common.responsecode;
 
-import com.ztt.common.util.RequestIdUtils;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 
 @Slf4j
 @ToString
@@ -23,14 +23,15 @@ public class ResultData<T> {
     public ResultData() {
         this.operationTimestamp = System.currentTimeMillis();
         // 当前请求回去唯一的请求id
-        this.requestId = RequestIdUtils.getRequestId();
+        // this.requestId = RequestIdUtils.getRequestId();
+        this.requestId = MDC.get("traceId");
         this.requestPath = null;
     }
 
     public static <T> ResultData<T> success(T data) {
         ResultData<T> resultData = new ResultData<>();
-        resultData.setStatus(ReturnCode.RC100.getCode());
-        resultData.setMessage(ReturnCode.RC100.getMessage());
+        resultData.setStatus(ReturnCode.RC200.getCode());
+        resultData.setMessage(ReturnCode.RC200.getMessage());
         resultData.setData(data);
         return resultData;
     }

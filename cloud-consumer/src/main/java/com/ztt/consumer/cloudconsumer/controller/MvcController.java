@@ -8,10 +8,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -35,11 +33,19 @@ public class MvcController {
 
     @RequestMapping(value = "/test")
     public String mvcTest() {
+        // 在多线程里面调用了feign的服务,无法回去到父请求对象,需要加上这一行代码 加在需要开始子线程任务开始的地方
+        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
         for (int i = 0; i < 2; i++) {
             taskService.task();
         }
         log.info("MvcController.mvcTest()");
         return "mvcTest";
+    }
+
+    @PostMapping(value = "/hello")
+    public String mvcHello() {
+        log.info("MvcController.mvcHello()");
+        return taskService.mvcHello();
     }
 
     @GetMapping(path = "/git/{query}")
@@ -60,6 +66,7 @@ public class MvcController {
         try {
             fileReader = new FileReader("");
 
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } finally {
@@ -78,5 +85,10 @@ public class MvcController {
 
         // fileSystemService.downloadFile("/chunk1/ccsftp/ltenoc/chunk1/ccsftp/5gnoc_test","C_5GR_PHUB_VIEW_20220822.txt");
         return fileSystemService.listNames("/chunk1/ccsftp/ltenoc/chunk1/ccsftp/5gnoc_test/", "20220821");
+    }
+
+    @PostMapping("/self")
+    public String callSelf() {
+        return "调用了Self方法...";
     }
 }

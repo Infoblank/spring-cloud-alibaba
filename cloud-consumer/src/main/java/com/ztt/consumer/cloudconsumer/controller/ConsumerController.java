@@ -18,6 +18,7 @@ import java.util.Map;
 @RequestMapping(path = "/consumer")
 public class ConsumerController {
 
+
     @Resource
     private ProviderClient providerClient;
 
@@ -28,7 +29,7 @@ public class ConsumerController {
         //使用Feign客户端调用其他服务的接口
         String list = providerClient.list();
         long end = System.currentTimeMillis();
-        return "响应结果：" + list + ",耗时:" + (end - start) +"ms";
+        return "响应结果：" + list + ",耗时:" + (end - start) + "ms";
     }
 
     @RequestMapping("/callProvider2")
@@ -53,7 +54,7 @@ public class ConsumerController {
         return this.providerClient.hello2(name);
     }
 
-    @RequestMapping(path = "hello5/{name}/{password}", name = "传递参数到服务端,双参数path里面")
+    @PostMapping(path = "hello5/{name}/{password}", name = "传递参数到服务端,双参数path里面")
     public Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password) {
         log.info("调用hello5,参数:{}", name + password);
         return this.providerClient.hello5(name, password);
