@@ -2,6 +2,7 @@ package com.minio.cloudminio.utils;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.minio.cloudminio.config.fileconfig.UploadProperties;
+import com.ztt.common.util.SpringApplicationContextHolder;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Bucket;
@@ -24,11 +25,15 @@ import java.util.Optional;
 
 @Slf4j
 public class MinioUtil {
-
     public static MinioClient minioClient;
-
     public static UploadProperties uploadProperties;
 
+
+    static {
+        // SpringApplicationContextHolder :common模块提供的公共获取bean的工具类
+        minioClient = SpringApplicationContextHolder.getBean(MinioClient.class);
+        uploadProperties = SpringApplicationContextHolder.getBean(UploadProperties.class);
+    }
 
     public static void createBucket(String bucketName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())) {
@@ -119,6 +124,10 @@ public class MinioUtil {
      */
     public static InputStream getObject(String bucketName, String objectName) throws Exception {
         return minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(objectName).build());
+    }
+
+    public static InputStream getObject(String objectName) throws Exception {
+        return getObject(uploadProperties.getBucketName(), objectName);
     }
 
     /**

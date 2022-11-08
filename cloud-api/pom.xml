@@ -22,8 +22,12 @@
            <artifactId>spring-boot-starter-web</artifactId>
        </dependency>
        <dependency>
-           <groupId>com.ztt.common</groupId>
-           <artifactId>cloud-common</artifactId>
+           <groupId>org.projectlombok</groupId>
+           <artifactId>lombok</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>com.ztt</groupId>
+           <artifactId>cloud-class</artifactId>
            <version>0.0.1-SNAPSHOT</version>
            <scope>compile</scope>
        </dependency>

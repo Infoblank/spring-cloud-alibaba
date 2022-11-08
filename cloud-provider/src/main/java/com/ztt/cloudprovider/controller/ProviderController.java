@@ -1,11 +1,10 @@
 package com.ztt.cloudprovider.controller;
 
 import com.ztt.cloudprovider.clouddaointerface.CloudDaoService;
-import com.ztt.common.entity.CommonUser;
+import com.ztt.common.util.EnvironmentUtil;
+import com.ztt.entity.CommonUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +20,6 @@ import java.util.Map;
 @Slf4j
 @RequestMapping(path = "/provider/v1")
 public class ProviderController {
-    @Value("${server.port:9001}")
-    Integer port;
-
-    @Value("${spring.application.name:'cloud-provider'}")
-    String providerName;
-
     @Autowired
     private CloudDaoService cloudDaoService;
 
@@ -40,10 +33,10 @@ public class ProviderController {
         return list;
     }
 
-    @Cacheable(value = "server_port")
+    //@Cacheable(value = "server_port")
     @PostMapping(path = "hello")
     public String hello() {
-        return "当前服务端口:" + this.port;
+        return "当前服务端口:" + EnvironmentUtil.getLocationPort();
     }
 
     @PostMapping(path = "hello2/{name}", name = "hello2")
@@ -52,8 +45,8 @@ public class ProviderController {
         HashMap<Object, Object> map = new HashMap<>(7);
         map.put("methodName", "hello2");
         map.put("param", name);
-        map.put("serverName", this.providerName);
-        map.put("serverPost", this.port);
+        map.put("serverName", EnvironmentUtil.getLocationAppName());
+        map.put("serverPost", EnvironmentUtil.getLocationPort());
         map.put("url", request.getRequestURL().toString());
         return map;
     }
@@ -64,8 +57,8 @@ public class ProviderController {
         HashMap<Object, Object> map = new HashMap<>(3);
         map.put("methodName", "hello3");
         map.put("param", new String[]{name, user.toString()});
-        map.put("serverName", this.providerName);
-        map.put("serverPost", this.port);
+        map.put("serverName", EnvironmentUtil.getLocationAppName());
+        map.put("serverPost", EnvironmentUtil.getLocationPort());
         map.put("url", request.getRequestURL().toString());
         return map;
     }
@@ -75,8 +68,8 @@ public class ProviderController {
         HashMap<Object, Object> map = new HashMap<>(3);
         map.put("methodName", "hello5");
         map.put("param", new String[]{name, password});
-        map.put("serverName", this.providerName);
-        map.put("serverPost", this.port);
+        map.put("serverName", EnvironmentUtil.getLocationAppName());
+        map.put("serverPost", EnvironmentUtil.getLocationPort());
         map.put("url", request.getRequestURL().toString());
         return map;
     }

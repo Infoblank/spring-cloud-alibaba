@@ -1,4 +1,4 @@
-package com.ztt.common.responsecode;
+package com.ztt.responsecode;
 
 public enum ReturnCode {
     /**

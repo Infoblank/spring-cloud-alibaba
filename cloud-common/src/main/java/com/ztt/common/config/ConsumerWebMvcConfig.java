@@ -53,9 +53,6 @@ public class ConsumerWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         for (HttpMessageConverter<?> httpMessageConverter : converters) {
-            /*if (StringHttpMessageConverter.class.isAssignableFrom(httpMessageConverter.getClass())) {
-                ((StringHttpMessageConverter) httpMessageConverter).setDefaultCharset(StandardCharsets.UTF_8);
-            }*/
             if (httpMessageConverter instanceof StringHttpMessageConverter stringHttpMessageConverter) {
                 stringHttpMessageConverter.setDefaultCharset(StandardCharsets.UTF_8);
                 stringHttpMessageConverter.setSupportedMediaTypes(List.of(MediaType.APPLICATION_JSON));

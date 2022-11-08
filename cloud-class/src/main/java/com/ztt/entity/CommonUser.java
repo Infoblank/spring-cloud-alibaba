@@ -1,4 +1,4 @@
-package com.ztt.common.entity;
+package com.ztt.entity;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.ztt.common.util;
 
-import com.ztt.common.constant.CommonConstant;
+import com.ztt.constant.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 

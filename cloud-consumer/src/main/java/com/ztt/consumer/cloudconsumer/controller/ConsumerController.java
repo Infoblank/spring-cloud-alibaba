@@ -1,7 +1,7 @@
 package com.ztt.consumer.cloudconsumer.controller;
 
-import com.ztt.common.entity.CommonUser;
 import com.ztt.consumer.cloudconsumer.interfaceprovider.ProviderClient;
+import com.ztt.entity.CommonUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

@@ -2,7 +2,7 @@ package com.ztt.common.exception;
 
 
 import com.ztt.common.exception.custom.CustomServiceException;
-import com.ztt.common.responsecode.ResultData;
+import com.ztt.responsecode.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,8 +1,8 @@
 package com.ztt.common.exception.utils;
 
 
-import com.ztt.common.responsecode.ResultData;
-import com.ztt.common.responsecode.ReturnCode;
+import com.ztt.responsecode.ResultData;
+import com.ztt.responsecode.ReturnCode;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -80,7 +80,7 @@ public class RestExceptionHandlerUtil {
             return ResultData.fail(ReturnCode.PARAMETER_VALIDATION_FAILED.getCode(), ReturnCode.PARAMETER_VALIDATION_FAILED.getMessage(), bindException.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(",")));
         } else if (e instanceof HttpMessageNotReadableException httpMessageNotReadableException) {
             log.error("HttpMessageNotReadableException->{}", httpMessageNotReadableException.getMessage());
-            return ResultData.fail(HttpStatus.BAD_REQUEST.value(), httpMessageNotReadableException.getLocalizedMessage());
+            return ResultData.fail(HttpStatus.BAD_REQUEST.value(), httpMessageNotReadableException.getLocalizedMessage(),null);
         } else {
             return null;
         }
@@ -93,7 +93,7 @@ public class RestExceptionHandlerUtil {
         for (StackTraceElement element : trace) {
             String className = element.getClassName();
             // 暂时只得到代码本身的错误
-            if (className.contains("com.ztt")) {
+            //if (className.contains("com.ztt")) {
                 int lineNumber = element.getLineNumber();
                 String methodName = element.getMethodName();
                 String fileName = element.getFileName();
@@ -103,7 +103,7 @@ public class RestExceptionHandlerUtil {
                     String message = "在文件:" + name + "." + fileName.split("\\.")[1] + "的方法" + methodName + "第" + lineNumber + "行发生了{" + exception.getMessage() + "}错误。";
                     list.add(message);
                 }
-            }
+            //}
         }
         return list;
     }

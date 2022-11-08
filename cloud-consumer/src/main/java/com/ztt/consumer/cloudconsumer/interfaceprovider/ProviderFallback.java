@@ -1,7 +1,7 @@
 package com.ztt.consumer.cloudconsumer.interfaceprovider;
 
-import com.ztt.common.entity.CommonUser;
-import com.ztt.common.provider.ProviderInterface;
+import com.ztt.api.provider.ProviderInterface;
+import com.ztt.entity.CommonUser;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

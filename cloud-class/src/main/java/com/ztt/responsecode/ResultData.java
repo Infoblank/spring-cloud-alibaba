@@ -1,11 +1,8 @@
-package com.ztt.common.responsecode;
+package com.ztt.responsecode;
 
 import lombok.Data;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 
-@Slf4j
 @ToString
 @Data
 public class ResultData<T> {
@@ -14,18 +11,17 @@ public class ResultData<T> {
     private String message;
     private T data;
     private long operationTimestamp;
+
     private String requestPath;
     /**
      * 唯一的响应id,贯彻整个的服务调用链
      */
     private String requestId;
 
+    private String dataType;
+
     public ResultData() {
-        this.operationTimestamp = System.currentTimeMillis();
-        // 当前请求回去唯一的请求id
-        // this.requestId = RequestIdUtils.getRequestId();
-        this.requestId = MDC.get("traceId");
-        this.requestPath = null;
+        this.operationTimestamp = System.nanoTime();
     }
 
     public static <T> ResultData<T> success(T data) {
@@ -33,6 +29,7 @@ public class ResultData<T> {
         resultData.setStatus(ReturnCode.RC200.getCode());
         resultData.setMessage(ReturnCode.RC200.getMessage());
         resultData.setData(data);
+        resultData.setDataType(getDataType(data));
         return resultData;
     }
 
@@ -54,7 +51,13 @@ public class ResultData<T> {
         resultData.setStatus(code);
         resultData.setMessage(message);
         resultData.setData(data);
+        resultData.setDataType(getDataType(data));
         return resultData;
+    }
+
+
+    public static <T> String getDataType(T data) {
+        return data == null ? "other" : data.getClass().getSimpleName();
     }
 
 }

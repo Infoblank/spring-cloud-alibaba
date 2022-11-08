@@ -1,7 +1,7 @@
 package com.ztt.dao.clouddao.utils;
 
-import com.ztt.common.entity.CommonUser;
 import com.ztt.dao.clouddao.mp.domain.SysUser;
+import com.ztt.entity.CommonUser;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

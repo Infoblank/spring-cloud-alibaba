@@ -3,7 +3,7 @@ package com.ztt.common.config.feign.decoder;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ztt.common.exception.custom.CustomServiceException;
-import com.ztt.common.responsecode.ResultData;
+import com.ztt.responsecode.ResultData;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class CloudErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
         ResultData<?> data;
         try {
-            var responseBody = IOUtils.toString(response.body().asInputStream(), "UTF-8");
+            var responseBody = IOUtils.toString(response.body().asInputStream(), StandardCharsets.UTF_8);
             String message = new String(responseBody.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
             data = objectMapper.readValue(message, ResultData.class);
         } catch (IOException e) {

@@ -1,12 +1,11 @@
 package com.ztt.common.config.feign;
 
-import com.ztt.common.constant.CommonConstant;
-import com.ztt.common.util.RequestIdUtils;
+import com.ztt.common.util.EnvironmentUtil;
+import com.ztt.constant.CommonConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -32,8 +31,6 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         CHECK_LIST.add("accept-encoding");
     }
 
-    @Value("${spring.application.name:'appName'}")
-    private String appName;
     private HttpServletRequest request;
 
     @Autowired
@@ -59,14 +56,14 @@ public class FeignRequestInterceptor implements RequestInterceptor {
 
 
     public void customHeaders(RequestTemplate template) {
-        template.header(CommonConstant.APPLICATION_NAME, appName);
+        template.header(CommonConstant.APPLICATION_NAME, EnvironmentUtil.getLocationAppName());
         // template.header(CommonConstant.REQUEST_ID, RequestIdUtils.getRequestId());
         template.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         // 如果设置了Transfer-Encoding为chunked,content-length将被忽略
         template.header(HttpHeaders.TRANSFER_ENCODING, "chunked");
         // 当feign返回了异常消息后,压缩算法导致了数据乱码无法解码
         template.header(HttpHeaders.ACCEPT_ENCODING, "identity");
-        log.info("feign的头部设置了请求ID:{}", RequestIdUtils.getRequestId());
+        //log.info("feign的头部设置了请求ID:{}", RequestIdUtils.getRequestId());
     }
 
     private boolean checkTransmit(String name) {
