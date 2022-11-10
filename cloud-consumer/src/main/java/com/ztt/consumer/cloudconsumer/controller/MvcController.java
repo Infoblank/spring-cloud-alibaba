@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @Slf4j
-@RequestMapping("/mvc")
+@RequestMapping("/consumer/mvc")
 @RestController
 public class MvcController {
 
@@ -23,8 +23,8 @@ public class MvcController {
     @Autowired
     private TaskService taskService;
 
-   /* @Autowired
-    private FileSystemService fileSystemService;*/
+    /* @Autowired
+     private FileSystemService fileSystemService;*/
     @Autowired
     private GitHubFeign gitHubFeign;
 
@@ -67,18 +67,10 @@ public class MvcController {
         }
     }
 
-    /*@GetMapping("/ftp")
-    public String[] ftp() throws Exception {
-        Properties properties = PropertiesLoaderUtils.loadAllProperties("ftp.properties");
-        String property = properties.getProperty("ftp.ip");
-        Set<Map.Entry<Object, Object>> entries = properties.entrySet();
-
-        // fileSystemService.downloadFile("/chunk1/ccsftp/ltenoc/chunk1/ccsftp/5gnoc_test","C_5GR_PHUB_VIEW_20220822.txt");
-        return fileSystemService.listNames("/chunk1/ccsftp/ltenoc/chunk1/ccsftp/5gnoc_test/", "20220821");
-    }*/
 
     @PostMapping("/self")
     public String callSelf() {
         return "调用了Self方法...";
     }
+
 }

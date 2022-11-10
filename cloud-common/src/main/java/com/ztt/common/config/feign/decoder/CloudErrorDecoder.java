@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ztt.common.exception.custom.CustomServiceException;
 import com.ztt.responsecode.ResultData;
+import com.ztt.responsecode.ReturnCode;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,17 @@ public class CloudErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String methodKey, Response response) {
-        ResultData<?> data;
+        ResultData data;
         try {
-            var responseBody = IOUtils.toString(response.body().asInputStream(), StandardCharsets.UTF_8);
+            String responseBody = IOUtils.toString(response.body().asInputStream(), StandardCharsets.UTF_8);
             String message = new String(responseBody.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-            data = objectMapper.readValue(message, ResultData.class);
+            if ("status".equals(message)) {
+                data = objectMapper.readValue(message, ResultData.class);
+            } else {
+                ResultData fail = ResultData.fail(ReturnCode.RC209.getCode(), ReturnCode.RC209.getMessage());
+                fail.setData(message);
+                data = fail;
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -37,7 +37,7 @@ public class RestExceptionHandlerUtil {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResultData<String> exception(Exception e) {
+    public ResultData exception(Exception e) {
         String localizedMessage = e.getLocalizedMessage();
         if (Objects.isNull(localizedMessage)) {
             localizedMessage = e.getCause().getLocalizedMessage();
@@ -74,13 +74,13 @@ public class RestExceptionHandlerUtil {
      * @return 返回错误结果
      */
     @ExceptionHandler(value = {BindException.class, MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
-    public ResultData<String> handleValidatedException(Exception e) {
+    public ResultData handleValidatedException(Exception e) {
         if (e instanceof BindException bindException) {
             log.error("BindException->{}", bindException.getMessage());
             return ResultData.fail(ReturnCode.PARAMETER_VALIDATION_FAILED.getCode(), ReturnCode.PARAMETER_VALIDATION_FAILED.getMessage(), bindException.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(",")));
         } else if (e instanceof HttpMessageNotReadableException httpMessageNotReadableException) {
             log.error("HttpMessageNotReadableException->{}", httpMessageNotReadableException.getMessage());
-            return ResultData.fail(HttpStatus.BAD_REQUEST.value(), httpMessageNotReadableException.getLocalizedMessage(),null);
+            return ResultData.fail(HttpStatus.BAD_REQUEST.value(), httpMessageNotReadableException.getLocalizedMessage(), null);
         } else {
             return null;
         }
@@ -93,17 +93,17 @@ public class RestExceptionHandlerUtil {
         for (StackTraceElement element : trace) {
             String className = element.getClassName();
             // 暂时只得到代码本身的错误
-            //if (className.contains("com.ztt")) {
-                int lineNumber = element.getLineNumber();
-                String methodName = element.getMethodName();
-                String fileName = element.getFileName();
-                String name = element.getClassName();
-                assert fileName != null;
-                if (fileName.contains(".java")) {
-                    String message = "在文件:" + name + "." + fileName.split("\\.")[1] + "的方法" + methodName + "第" + lineNumber + "行发生了{" + exception.getMessage() + "}错误。";
-                    list.add(message);
-                }
-            //}
+            if (className.contains("com.ztt")) {
+            int lineNumber = element.getLineNumber();
+            String methodName = element.getMethodName();
+            String fileName = element.getFileName();
+            String name = element.getClassName();
+            assert fileName != null;
+            if (fileName.contains(".java")) {
+                String message = "在文件:" + name + "." + fileName.split("\\.")[1] + "的方法" + methodName + "第" + lineNumber + "行发生了{" + exception.getMessage() + "}错误。";
+                list.add(message);
+            }
+            }
         }
         return list;
     }

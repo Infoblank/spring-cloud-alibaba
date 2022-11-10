@@ -1,5 +1,6 @@
 package com.ztt.cloudgateway.responsecode;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ztt.cloudgateway.utils.GZIPUtils;
 import com.ztt.responsecode.ResultData;
@@ -15,6 +16,7 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
@@ -55,7 +57,8 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
 
         // 这里可以增加一些业务判断条件，进行跳过处理
         ServerHttpResponse response = exchange.getResponse();
-        String path = exchange.getRequest().getURI().getPath();
+        ServerHttpRequest request = exchange.getRequest();
+        String path = request.getURI().getPath();
         DataBufferFactory bufferFactory = response.bufferFactory();
         // 响应装饰
         ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(response) {
@@ -79,7 +82,12 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         String responseData = getResponseData(zip, content);
 
                         // 重置返回参数
-                        String result = responseConversion(responseData, path);
+                        String result;
+                        try {
+                            result = responseConversion(responseData, path);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
                         byte[] uppedContent = getUppedContent(zip, result);
                         response.getHeaders().setContentLength(uppedContent.length);
                         response.setStatusCode(HttpStatus.OK);
@@ -95,15 +103,21 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
         return chain.filter(exchange.mutate().response(decoratedResponse).build());
     }
 
-    private String responseConversion(String result, String path) {
+    private String responseConversion(String result, String path) throws JsonProcessingException {
         try {
             log.info("响应结果为：{}", result);
             // 返回值基本数据类型、返回对象、数组的判断 当能读取(readValue)到数据的时候就说明发生了异常
-            ResultData<?> readValue = objectMapper.readValue(result, ResultData.class);
-            // readValue.getStatus() == 0 说明返回的是正常的数据 需要统一包装成为我们需要返回的对象
-            readValue = readValue.getStatus() == 0 ? ResultData.success(this.objectMapper.readValue(result, Object.class)) : readValue;
-            readValue.setRequestPath(path);
-            return this.objectMapper.writeValueAsString(readValue);
+            if (result.contains("status")) {
+                ResultData readValue = objectMapper.readValue(result, ResultData.class);
+                // readValue.getStatus() == 0 说明返回的是正常的数据 需要统一包装成为我们需要返回的对象
+                readValue = readValue.getStatus() == 0 ? ResultData.success(this.objectMapper.readValue(result, Object.class)) : readValue;
+                readValue.setRequestPath(path);
+                return this.objectMapper.writeValueAsString(readValue);
+            }
+            ResultData success = ResultData.success(result);
+            success.setRequestPath(path);
+            return this.objectMapper.writeValueAsString(success);
+
         } catch (Exception e) {
             log.error("响应包装转换失败，异常信息为：", e);
             return result;

@@ -1,7 +1,5 @@
-package com.ztt.common.config;
+package com.ztt.cloudgateway.config;
 
-import com.ztt.common.async.CloudAsyncUncaughtExceptionHandler;
-import com.ztt.common.util.EnvironmentUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.BeanFactory;
@@ -17,9 +15,6 @@ import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
-/**
- * 线程池初始化配置 开启了sleuth是加载
- */
 @Configuration
 @EnableAsync
 @Slf4j
@@ -54,7 +49,14 @@ public class ThreadPoolConfig {
 
             @Override
             public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-                return new CloudAsyncUncaughtExceptionHandler();
+                return (ex, method, params) -> {
+                    log.error("Async Exception**************************************************************");
+                    log.error("method happen: {}", method);
+                    log.error("method params: {}", params);
+                    log.error("Exception class: {}", ex.getClass().getName());
+                    log.error("ex.getMessage(): {}", ex.getMessage());
+                    log.error("**************************************************************");
+                };
             }
         });
     }
@@ -62,7 +64,7 @@ public class ThreadPoolConfig {
     @Bean
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setThreadNamePrefix(EnvironmentUtil.getLocationAppName() + "Yk-task-");
+        threadPoolTaskExecutor.setThreadNamePrefix("Gateway-Yk-task-");
         // 拒绝处理程序
         threadPoolTaskExecutor.setRejectedExecutionHandler(runsPolicy);
         // 队列大小
@@ -73,7 +75,7 @@ public class ThreadPoolConfig {
         threadPoolTaskExecutor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 20);
         //执行初始化
         threadPoolTaskExecutor.initialize();
-        log.info(EnvironmentUtil.getLocationAppName() + "初始化ThreadPoolTaskExecutor");
+        log.info("网关初始化ThreadPoolTaskExecutor");
         return threadPoolTaskExecutor;
     }
 }

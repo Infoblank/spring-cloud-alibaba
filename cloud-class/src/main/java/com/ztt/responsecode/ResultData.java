@@ -1,15 +1,19 @@
 package com.ztt.responsecode;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 @ToString
 @Data
-public class ResultData<T> {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResultData {
 
     private int status;
     private String message;
-    private T data;
+
+    private Object data;
+
     private long operationTimestamp;
 
     private String requestPath;
@@ -20,17 +24,10 @@ public class ResultData<T> {
 
     private String dataType;
 
-    public ResultData() {
-        this.operationTimestamp = System.nanoTime();
-    }
 
-    public static <T> ResultData<T> success(T data) {
-        ResultData<T> resultData = new ResultData<>();
-        resultData.setStatus(ReturnCode.RC200.getCode());
-        resultData.setMessage(ReturnCode.RC200.getMessage());
-        resultData.setData(data);
-        resultData.setDataType(getDataType(data));
-        return resultData;
+    public static ResultData success(Object data) {
+        ResultDataBuilder dataBuilder = ResultData.builder().status(ReturnCode.RC200.getCode()).message(ReturnCode.RC200.getMessage()).data(data).dataType(getDataType(data)).operationTimestamp(System.nanoTime());
+        return dataBuilder.build();
     }
 
     /**
@@ -39,20 +36,13 @@ public class ResultData<T> {
      * @param <T>     消息
      * @return ResultData
      */
-    public static <T> ResultData<T> fail(int code, String message) {
-        ResultData<T> resultData = new ResultData<>();
-        resultData.setStatus(code);
-        resultData.setMessage(message);
-        return resultData;
+    public static ResultData fail(int code, String message) {
+        return ResultData.builder().status(code).message(message).operationTimestamp(System.nanoTime()).build();
+
     }
 
-    public static <T> ResultData<T> fail(int code, String message, T data) {
-        ResultData<T> resultData = new ResultData<>();
-        resultData.setStatus(code);
-        resultData.setMessage(message);
-        resultData.setData(data);
-        resultData.setDataType(getDataType(data));
-        return resultData;
+    public static ResultData fail(int code, String message, Object data) {
+        return ResultData.builder().status(code).message(message).data(data).dataType(getDataType(data)).operationTimestamp(System.nanoTime()).build();
     }
 
 

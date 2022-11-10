@@ -14,7 +14,7 @@
     <description>cloud-minio</description>
     <properties>
         <java.version>17</java.version>
-        <minio.version>8.4.5</minio.version>
+        <minio.version>8.2.1</minio.version>
     </properties>
     <dependencies>
         <dependency>

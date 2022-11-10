@@ -14,9 +14,9 @@ public class CustomServiceException extends RuntimeException {
 
     private String message;
 
-    private ResultData<?> resultData;
+    private ResultData resultData;
 
-    public CustomServiceException(String methodKey, String message, ResultData<?> resultData) {
+    public CustomServiceException(String methodKey, String message, ResultData resultData) {
         super(message);
         this.methodKey = methodKey;
         this.message = message;
