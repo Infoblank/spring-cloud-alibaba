@@ -1,8 +1,10 @@
 package com.ztt.common.config.feign.decoder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ztt.common.exception.custom.CustomServiceException;
+import com.ztt.common.util.EnvironmentUtil;
 import com.ztt.responsecode.ResultData;
 import com.ztt.responsecode.ReturnCode;
 import feign.Response;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 
 @Slf4j
 @Configuration
@@ -33,7 +36,15 @@ public class CloudErrorDecoder implements ErrorDecoder {
         try {
             String responseBody = IOUtils.toString(response.body().asInputStream(), StandardCharsets.UTF_8);
             String message = new String(responseBody.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-            if ("status".equals(message)) {
+            Object readValue;
+            boolean isLink = true;
+            try {
+                readValue = objectMapper.readValue(message, Object.class);
+            } catch (JsonProcessingException e) {
+                readValue = message;
+                isLink = false;
+            }
+            if (readValue instanceof ResultData || (isLink && ((LinkedHashMap<?, ?>) readValue).containsKey("status"))) {
                 data = objectMapper.readValue(message, ResultData.class);
             } else {
                 ResultData fail = ResultData.fail(ReturnCode.RC209.getCode(), ReturnCode.RC209.getMessage());
@@ -41,6 +52,7 @@ public class CloudErrorDecoder implements ErrorDecoder {
                 data = fail;
             }
         } catch (IOException e) {
+            log.error(EnvironmentUtil.getLocationAppName() + "CloudErrorDecoder:decode()发生错误{}", e.getMessage());
             throw new RuntimeException(e);
         }
         return new CustomServiceException(methodKey, response.body().toString(), data);

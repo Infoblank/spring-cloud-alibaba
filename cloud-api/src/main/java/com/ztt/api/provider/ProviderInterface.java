@@ -1,9 +1,6 @@
 package com.ztt.api.provider;
 
 import com.ztt.entity.CommonUser;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +22,7 @@ public interface ProviderInterface {
      * @param name1 name
      * @return String
      */
-    String hello2(@PathVariable("name1") String name1);
+    String hello2(String name1);
 
     /**
      * 传递对象到服务端
@@ -34,7 +31,7 @@ public interface ProviderInterface {
      * @param name name
      * @return String
      */
-    Map<String, Object> hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
+    Map<String, Object> hello3(CommonUser user, String name);
 
     /**
      * cc
@@ -43,8 +40,8 @@ public interface ProviderInterface {
      * @param password 密码
      * @return string
      */
-    Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password);
+    Map<Object, Object> hello5(String name, String password);
 
 
-    List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
+    List<CommonUser> sysUserList(String loginName,String password);
 }

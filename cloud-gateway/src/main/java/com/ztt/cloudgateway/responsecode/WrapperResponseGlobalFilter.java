@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ztt.cloudgateway.utils.GZIPUtils;
 import com.ztt.responsecode.ResultData;
+import com.ztt.responsecode.ReturnCode;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
@@ -26,6 +27,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -54,7 +56,6 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         log.info("global filter HttpResponseBody，processing response results");
-
         // 这里可以增加一些业务判断条件，进行跳过处理
         ServerHttpResponse response = exchange.getResponse();
         ServerHttpRequest request = exchange.getRequest();
@@ -86,7 +87,8 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         try {
                             result = responseConversion(responseData, path);
                         } catch (JsonProcessingException e) {
-                            throw new RuntimeException(e);
+                            log.error("重置返回参数出错,{}", e.getMessage());
+                            result = responseData;
                         }
                         byte[] uppedContent = getUppedContent(zip, result);
                         response.getHeaders().setContentLength(uppedContent.length);
@@ -103,24 +105,24 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
         return chain.filter(exchange.mutate().response(decoratedResponse).build());
     }
 
+    @SuppressWarnings("all")
     private String responseConversion(String result, String path) throws JsonProcessingException {
         try {
             log.info("响应结果为：{}", result);
-            // 返回值基本数据类型、返回对象、数组的判断 当能读取(readValue)到数据的时候就说明发生了异常
-            if (result.contains("status")) {
-                ResultData readValue = objectMapper.readValue(result, ResultData.class);
-                // readValue.getStatus() == 0 说明返回的是正常的数据 需要统一包装成为我们需要返回的对象
-                readValue = readValue.getStatus() == 0 ? ResultData.success(this.objectMapper.readValue(result, Object.class)) : readValue;
-                readValue.setRequestPath(path);
-                return this.objectMapper.writeValueAsString(readValue);
+            Object resultValue = this.objectMapper.readValue(result, Object.class);
+            if (resultValue instanceof LinkedHashMap<?, ?> && ((LinkedHashMap<?, ?>) resultValue).containsKey("status")) {
+                ((LinkedHashMap<String, Object>) resultValue).put("requestPath", path);
+                ((LinkedHashMap<String, Object>) resultValue).put("dataType", "String");
+                return this.objectMapper.writeValueAsString(resultValue);
+            } else {
+                ResultData build = ResultData.builder().status(ReturnCode.RC200.getCode()).message(ReturnCode.RC200.getMessage()).data(resultValue).dataType(resultValue.getClass().getSimpleName()).operationTimestamp(System.nanoTime()).requestPath(path).build();
+                return this.objectMapper.writeValueAsString(build);
             }
+        } catch (Exception e) {
+            log.error("响应包装转换失败，异常信息为：", e);
             ResultData success = ResultData.success(result);
             success.setRequestPath(path);
             return this.objectMapper.writeValueAsString(success);
-
-        } catch (Exception e) {
-            log.error("响应包装转换失败，异常信息为：", e);
-            return result;
         }
     }
 
@@ -133,7 +135,6 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
         }
         return responseData;
     }
-
 
     private byte[] getUppedContent(boolean zip, String result) {
         byte[] uppedContent;

@@ -17,9 +17,6 @@ public class CloudFeignException {
     @ExceptionHandler(CustomServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultData exception(Exception e) {
-        if (e instanceof CustomServiceException feignException) {
-            return feignException.getResultData();
-        }
-        return null;
+        return ((CustomServiceException) e).getResultData();
     }
 }

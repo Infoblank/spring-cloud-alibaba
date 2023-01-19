@@ -74,6 +74,6 @@ public interface ProviderClient extends ProviderInterface {
 
 
     @Override
-    @RequestMapping(path = "/v1/sys")
+    @PostMapping(path = "/v1/sys")
     List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
 }

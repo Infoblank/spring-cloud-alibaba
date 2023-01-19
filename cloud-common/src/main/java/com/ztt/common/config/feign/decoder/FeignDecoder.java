@@ -30,10 +30,10 @@ public class FeignDecoder implements Decoder {
             // 因为Response只能读取异常,所以重新回写body在把response传递到下一个Decoder
             return decoder.decode(response.toBuilder().body(responseJson, StandardCharsets.UTF_8).build(), type);
         } catch (DecodeException e) {
-            log.info("feign返回数据:{}", responseJson);
+            log.info("DecodeException feign返回数据:{}", responseJson);
             throw new DecodeException(response.status(), e.getMessage(), response.request(), e);
         } catch (FeignException e) {
-            log.info("feign返回数据:{}", responseJson);
+            log.info("FeignException feign返回数据:{}", responseJson);
             throw e;
         }
     }

@@ -1,8 +1,10 @@
 package com.ztt.consumer.cloudconsumer.controller;
 
+import com.ztt.common.util.SpringApplicationContextHolder;
 import com.ztt.consumer.cloudconsumer.interfaceprovider.ProviderClient;
 import com.ztt.entity.CommonUser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -39,6 +41,7 @@ public class ConsumerController {
         objects.add("callProvider2");
         objects.add("callProvider0");
         objects.add("callProvider1");
+        String property = SpringApplicationContextHolder.getBean(Environment.class).getProperty("file.path");
         return objects;
     }
 
@@ -75,7 +78,7 @@ public class ConsumerController {
         return this.providerClient.hello3(user, null);
     }
 
-    @RequestMapping("sys/user")
+    @PostMapping("sys/user")
     List<CommonUser> sysUserList() {
         return this.providerClient.sysUserList("zhangtt", "sabdjhk@!@#");
     }

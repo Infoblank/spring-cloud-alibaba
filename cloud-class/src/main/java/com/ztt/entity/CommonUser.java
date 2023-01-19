@@ -1,5 +1,7 @@
 package com.ztt.entity;
 
+import com.ztt.datainterface.PrivacyEncrypt;
+import com.ztt.datainterface.PrivacyTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,15 +23,15 @@ public class CommonUser implements Serializable {
      */
     private String loginName;
 
-    /**
-     * 用户姓名
-     */
+
+    @PrivacyEncrypt(type = PrivacyTypeEnum.NAME)
     private String name;
 
     /**
      * 登录密码
      */
 
+    @PrivacyEncrypt(type = PrivacyTypeEnum.CUSTOMER, prefixNoMaskLen = 3, suffixNoMaskLen = 3)
     private String password;
 
     /**
