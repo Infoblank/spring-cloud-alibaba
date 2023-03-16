@@ -27,13 +27,13 @@ public class TaskServiceImpl implements TaskService {
             Thread.sleep(0);
             consumerService.test();
             providerClient.list();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String mvcHello() {
+    public String mvcHello() throws Exception {
         return providerClient.hello();
     }
 }

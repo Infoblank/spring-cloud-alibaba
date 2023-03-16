@@ -1,4 +1,4 @@
-package com.ztt.cloudgateway.responsecode;
+package com.ztt.cloudgateway.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +43,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         // -1 is response write filter, must be called before that
-        return -2;
+        return Ordered.HIGHEST_PRECEDENCE + 2;
     }
 
     /**
@@ -55,7 +55,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("global filter HttpResponseBody，processing response results");
+        log.info("网关开始处理响应结果...");
         // 这里可以增加一些业务判断条件，进行跳过处理
         ServerHttpResponse response = exchange.getResponse();
         ServerHttpRequest request = exchange.getRequest();
@@ -65,12 +65,12 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(response) {
             @Override
             public @NonNull Mono<Void> writeWith(@NonNull Publisher<? extends DataBuffer> body) {
-                log.info("global filter HttpResponseBody,Response processing，getStatusCode={}", getStatusCode());
                 if (getStatusCode() != null && body instanceof Flux) {
                     Flux<? extends DataBuffer> fluxBody = Flux.from(body);
                     return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
                         // 如果响应过大，会进行截断，出现乱码，看api DefaultDataBufferFactory
                         // 有个join方法可以合并所有的流，乱码的问题解决
+                        log.info("请求返回数据处理中,请求响应状态码{}", getStatusCode());
                         DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
                         DataBuffer dataBuffer = dataBufferFactory.join(dataBuffers);
                         byte[] content = new byte[dataBuffer.readableByteCount()];

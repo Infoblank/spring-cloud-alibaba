@@ -21,7 +21,7 @@ import java.util.Map;
  * <p>
  * 默认的配置类为FeignClientsConfiguration类，在缺省的情况下，这个类注入了默认的Decoder、Encoder和Contract等配置的Bean
  * <p>
- * fallback()为配置熔断器的处理类
+ * fallback()为配置熔断器的处理类 一定要实现的是当前FeignClient标记的接口,而不是它的父接口
  *
  * @author ZTT
  */
@@ -33,14 +33,14 @@ public interface ProviderClient extends ProviderInterface {
      */
     @Override
     @PostMapping(path = "/v1/list")
-    String list();
+    String list() throws Exception;
 
     /**
      * @return str
      */
     @Override
     @PostMapping(path = "/v1/hello")
-    String hello();
+    String hello() throws Exception;
 
     /**
      * 通过openfeign调用cloud-provider提供的服务
@@ -50,7 +50,7 @@ public interface ProviderClient extends ProviderInterface {
      */
     @Override
     @PostMapping(path = "/v1/hello2/{name1}")
-    String hello2(@PathVariable("name1") String name1);
+    String hello2(@PathVariable("name1") String name1) throws Exception;
 
     /**
      * 传递对象到服务端
@@ -61,7 +61,7 @@ public interface ProviderClient extends ProviderInterface {
      */
     @Override
     @PostMapping(path = "/v1/hello3")
-    Map<String, Object> hello3(@RequestBody CommonUser user, @RequestParam("name") String name);
+    Map<String, Object> hello3(@RequestBody CommonUser user, @RequestParam("name") String name) throws Exception;
 
     /**
      * @param name     姓名
@@ -70,10 +70,10 @@ public interface ProviderClient extends ProviderInterface {
      */
     @Override
     @PostMapping(path = "/v1/hello5/{name}/{password}")
-    Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password);
+    Map<Object, Object> hello5(@PathVariable("name") String name, @PathVariable("password") String password) throws Exception;
 
 
     @Override
     @PostMapping(path = "/v1/sys")
-    List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password);
+    List<CommonUser> sysUserList(@RequestParam("loginName") String loginName, @RequestParam("password") String password) throws Exception;
 }

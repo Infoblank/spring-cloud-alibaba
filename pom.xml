@@ -19,7 +19,6 @@
         <module>spring-boot-webflux</module>
         <module>cloud-gateway</module>
         <module>cloud-redis</module>
-        <module>cloud-authorization-server</module>
     </modules>
     <properties>
         <java.version>17</java.version>

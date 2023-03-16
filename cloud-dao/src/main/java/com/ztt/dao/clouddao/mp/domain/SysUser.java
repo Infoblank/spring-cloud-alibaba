@@ -1,8 +1,11 @@
 package com.ztt.dao.clouddao.mp.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -11,12 +14,13 @@ import java.time.LocalDateTime;
  * @TableName sys_user
  */
 @TableName(value = "rm_pm_user")
+@Data
 public class SysUser implements Serializable {
     /**
      *
      */
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private BigDecimal id;
 
     /**
      * 登录名称
@@ -60,97 +64,12 @@ public class SysUser implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime loginTime;
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
 
-    public Integer getId() {
-        return id;
-    }
 
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-
-    public LocalDateTime getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(LocalDateTime modifyTim) {
-        this.modifyTime = modifyTim;
-    }
-
-
-    public Byte getLoginState() {
-        return loginState;
-    }
-
-
-    public void setLoginState(Byte loginState) {
-        this.loginState = loginState;
-    }
-
-
-    public Byte getDeletedFlag() {
-        return deletedFlag;
-    }
-
-
-    public void setDeletedFlag(byte deletedFlag) {
-        this.deletedFlag = deletedFlag;
-    }
-
-    public void setDeletedFlag(Byte deletedFlag) {
-        this.deletedFlag = deletedFlag;
-    }
-
-    public LocalDateTime getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(LocalDateTime loginTime) {
-        this.loginTime = loginTime;
-    }
 
     @Override
     public boolean equals(Object that) {

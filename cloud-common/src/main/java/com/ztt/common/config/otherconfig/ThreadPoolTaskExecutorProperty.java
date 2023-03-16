@@ -1,4 +1,4 @@
-package com.ztt.common.config;
+package com.ztt.common.config.otherconfig;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

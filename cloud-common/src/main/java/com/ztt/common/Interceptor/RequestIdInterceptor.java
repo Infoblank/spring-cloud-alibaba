@@ -7,8 +7,14 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Nonnull;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
  * 为每一次请求赋值唯一请求id和请求结束清除唯一id
@@ -27,7 +33,8 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler)
             throws Exception {
-        //CommonUtil.addRequestIdAndMDCId(request, response);
+        //  CommonUtil.addRequestIdAndMDCId(request, response);
+        log.info("token:{}", request.getHeader("accessToken"));
         return true;
     }
 
@@ -45,8 +52,7 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
-        String requestURI = request.getRequestURI();
-        log.info("拦截器执行,请求路径{}", requestURI);
+        log.info("拦截器执行,请求路径{}", request.getRequestURI());
     }
 
     /**
@@ -63,6 +69,31 @@ public class RequestIdInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler,
                                 @Nullable Exception ex) throws Exception {
-       // CommonUtil.clearRequestIdAndMDCId(request, response);
+        // CommonUtil.clearRequestIdAndMDCId(request, response);
+        // response.getOutputStream().print("jsanjdfknas");
     }
+
+    public String obtain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String body = "";
+        try (ServletInputStream stream = request.getInputStream();
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream))) {
+            char[] chars = new char[1024];
+            StringBuilder builder = new StringBuilder();
+            int bytesRead;
+            while ((bytesRead = bufferedReader.read(chars)) > 0) {
+                builder.append(chars, 0, bytesRead);
+            }
+            body = builder.toString();
+        } catch (Exception e) {
+
+        }
+
+        ServletOutputStream stream = response.getOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(stream);
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+
+        return body;
+    }
+
 }

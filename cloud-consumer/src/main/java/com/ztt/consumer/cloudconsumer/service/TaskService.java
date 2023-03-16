@@ -5,5 +5,5 @@ public interface TaskService {
     void task();
 
 
-    String mvcHello();
+    String mvcHello() throws Exception;
 }

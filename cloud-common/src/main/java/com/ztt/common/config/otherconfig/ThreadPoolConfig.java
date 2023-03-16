@@ -1,4 +1,4 @@
-package com.ztt.common.config;
+package com.ztt.common.config.otherconfig;
 
 import com.ztt.common.async.CloudAsyncUncaughtExceptionHandler;
 import com.ztt.common.util.EnvironmentUtil;
@@ -73,6 +73,8 @@ public class ThreadPoolConfig {
         threadPoolTaskExecutor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 20);
         //执行初始化
         threadPoolTaskExecutor.initialize();
+        // 设置TaskDecorator，解决父子线程数据服用
+        threadPoolTaskExecutor.setTaskDecorator(new ContextTaskDecorator());
         log.info(EnvironmentUtil.getLocationAppName() + "初始化ThreadPoolTaskExecutor");
         return threadPoolTaskExecutor;
     }

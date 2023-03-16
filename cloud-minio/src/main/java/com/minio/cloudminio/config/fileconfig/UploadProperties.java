@@ -3,7 +3,7 @@ package com.minio.cloudminio.config.fileconfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 文件上传的基础配置,后面还有的再加
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "upload")
 @Setter
 @Getter
-@Component
+@Configuration
 public class UploadProperties {
     // 压缩比例
     private float compressionRatio = 1.0f;

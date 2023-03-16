@@ -7,6 +7,7 @@ import com.ztt.dao.clouddao.utils.SysUserUtil;
 import com.ztt.entity.CommonUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,7 @@ public class SysUserController {
     }
 
     @RequestMapping("list")
+    @Cacheable(value = "systemEnvironment")
     public List<CommonUser> getUserList() {
         return SysUserUtil.sysUerToCommonUserList(this.sysUserService.list());
     }
