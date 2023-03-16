@@ -54,23 +54,22 @@ public class JsonErrorWebExceptionHandler implements ErrorWebExceptionHandler {
         } else if (ex instanceof WebExchangeBindException webExchangeBindException) {
             // 参数验证
             response.setStatusCode(webExchangeBindException.getStatus());
-            message = webExchangeBindException.getMessage();
+            message = webExchangeBindException.getLocalizedMessage();
             data = ReturnCode.RC202.getMessage();
         } else if (ex instanceof ResponseStatusException responseStatusException) {
             response.setStatusCode(responseStatusException.getStatus());
             if (responseStatusException.getStatus().value() == ReturnCode.RC404.getCode()) {
                 message = ReturnCode.RC404.getMessage();
-                data = "";
             } else {
-                message = responseStatusException.getMessage();
-                data = "";
+                message = responseStatusException.getLocalizedMessage();
             }
+            data = "";
         }/* else if (ex instanceof GateWayException) {
             response.setStatusCode(HttpStatus.FORBIDDEN);
             message = ex.getMessage();
         }*/ else {
             response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
-            message = ReturnCode.RC500.getMessage();
+            message = ex.getLocalizedMessage();
             data = "请联系管理员";
         }
         ResultData build = ResultData.builder().status(Objects.requireNonNull(response.getStatusCode()).value()).dataType("String").message(message).requestPath(request.getPath().toString()).data(data).operationTimestamp(System.nanoTime()).build();

@@ -1,4 +1,4 @@
-package com.ztt.common.config;
+package com.ztt.common.config.otherconfig;
 
 import com.ztt.common.Interceptor.RequestIdInterceptor;
 import lombok.extern.slf4j.Slf4j;
