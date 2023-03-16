@@ -2,11 +2,12 @@ package com.ztt.consumer.cloudconsumer.interfaceprovider.impl;
 
 import com.ztt.consumer.cloudconsumer.interfaceprovider.GitHubFeign;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-//@Component
+@Component
 @Slf4j
 public class GitHubFeignFallback implements GitHubFeign {
     @Override

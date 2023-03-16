@@ -1,11 +1,18 @@
 package com.minio.cloudminio.config.minioconfig;
 
+import lombok.Data;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+
+import java.time.Duration;
+import java.util.Set;
 
 @ConfigurationProperties(prefix = "minio")
 @Component
-public class MinioProperties {
+@Data
+public class MinioProperties implements InitializingBean {
     /**
      * 连接地址
      */
@@ -23,35 +30,28 @@ public class MinioProperties {
      */
     private String nginxHost;
 
-    public String getEndpoint() {
-        return endpoint;
-    }
+    private Duration connectTimeout = Duration.ofSeconds(10);
 
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
+    private Duration writeTimeout = Duration.ofSeconds(60);
 
-    public String getAccessKey() {
-        return accessKey;
-    }
+    private Duration readTimeout = Duration.ofSeconds(10);
 
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
+    private boolean checkBucket = true;
 
-    public String getSecretKey() {
-        return secretKey;
-    }
+    private boolean createBucketIfNotExist = true;
 
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
+    // 分类
+    private Set<String> classifications;
 
-    public String getNginxHost() {
-        return nginxHost;
-    }
+    private String bucketName;
 
-    public void setNginxHost(String nginxHost) {
-        this.nginxHost = nginxHost;
+    private String objectPrefix;
+
+    @Override
+    public void afterPropertiesSet() {
+        Assert.hasText(accessKey, "accessKey must not be empty.");
+        Assert.hasText(secretKey, "secretKey must not be empty.");
+        Assert.hasText(bucketName, "bucketName must not be empty.");
+        Assert.hasText(objectPrefix, "objectPrefix must not be empty.");
     }
 }

@@ -1,13 +1,18 @@
 package com.ztt.consumer.cloudconsumer.controller;
 
+import com.ztt.common.config.otherconfig.OauthContext;
 import com.ztt.consumer.cloudconsumer.interfaceprovider.GitHubFeign;
 import com.ztt.consumer.cloudconsumer.service.TaskService;
+import com.ztt.entity.LoginVal;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.annotation.Resource;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,22 +22,29 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/consumer/mvc")
 @RestController
+@Tag(name = "TEST", description = "测试接口")
 public class MvcController {
 
 
-    @Autowired
+    @Resource
     private TaskService taskService;
 
-    /* @Autowired
-     private FileSystemService fileSystemService;*/
-    @Autowired
+
+    @Resource
     private GitHubFeign gitHubFeign;
 
 
+    @Operation(tags = {"TEST"}, description = "测试接口")
+    @Parameter(name = "c")
     @RequestMapping(value = "/test")
     public String mvcTest() {
         // 在多线程里面调用了feign的服务,无法回去到父请求对象,需要加上这一行代码 加在需要开始子线程任务开始的地方
         RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
+        LoginVal loginVal = new LoginVal();
+        loginVal.setLoginKey("zhang");
+        loginVal.setAppKey("key");
+        loginVal.setLoginName("zhangTingTing");
+        OauthContext.set(loginVal);
         for (int i = 0; i < 2; i++) {
             taskService.task();
         }
@@ -41,18 +53,17 @@ public class MvcController {
     }
 
     @PostMapping(value = "/hello")
-    public String mvcHello() {
+    public String mvcHello() throws Exception {
         log.info("MvcController.mvcHello()");
         return taskService.mvcHello();
     }
 
     @GetMapping(path = "/git/{query}")
     public Map<String, Object> search(@PathVariable String query) {
-        Map<String, Object> stringObjectMap = gitHubFeign.searchRepositories(query);
-        return stringObjectMap;
+        return gitHubFeign.searchRepositories(query);
     }
 
-    @GetMapping("/list")
+    @GetMapping(path = "/list")
     public void list() throws IOException {
         ArrayList<String> strings = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
