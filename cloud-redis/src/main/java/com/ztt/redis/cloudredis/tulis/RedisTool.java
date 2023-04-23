@@ -1,8 +1,8 @@
 package com.ztt.redis.cloudredis.tulis;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Set;
 

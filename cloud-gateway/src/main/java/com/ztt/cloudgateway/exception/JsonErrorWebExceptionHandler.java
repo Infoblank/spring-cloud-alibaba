@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ztt.responsecode.ResultData;
 import com.ztt.responsecode.ReturnCode;
+import jakarta.annotation.Resource;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 @Order(-10)
@@ -53,12 +53,12 @@ public class JsonErrorWebExceptionHandler implements ErrorWebExceptionHandler {
             data = "您请求的服务不存在";
         } else if (ex instanceof WebExchangeBindException webExchangeBindException) {
             // 参数验证
-            response.setStatusCode(webExchangeBindException.getStatus());
+            response.setStatusCode(webExchangeBindException.getStatusCode());
             message = webExchangeBindException.getLocalizedMessage();
             data = ReturnCode.RC202.getMessage();
         } else if (ex instanceof ResponseStatusException responseStatusException) {
-            response.setStatusCode(responseStatusException.getStatus());
-            if (responseStatusException.getStatus().value() == ReturnCode.RC404.getCode()) {
+            response.setStatusCode(responseStatusException.getStatusCode());
+            if (responseStatusException.getStatusCode().value() == ReturnCode.RC404.getCode()) {
                 message = ReturnCode.RC404.getMessage();
             } else {
                 message = responseStatusException.getLocalizedMessage();

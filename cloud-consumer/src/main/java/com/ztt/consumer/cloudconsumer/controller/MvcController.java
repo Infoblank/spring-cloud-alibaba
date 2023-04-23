@@ -7,12 +7,12 @@ import com.ztt.entity.LoginVal;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import javax.annotation.Resource;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;

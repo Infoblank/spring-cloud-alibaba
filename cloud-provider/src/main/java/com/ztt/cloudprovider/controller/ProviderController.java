@@ -3,11 +3,11 @@ package com.ztt.cloudprovider.controller;
 import com.ztt.cloudprovider.clouddaointerface.CloudDaoService;
 import com.ztt.common.util.EnvironmentUtil;
 import com.ztt.entity.CommonUser;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

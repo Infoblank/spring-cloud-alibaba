@@ -15,19 +15,18 @@
         <module>cloud-common</module>
         <module>cloud-dao</module>
         <module>cloud-minio</module>
-        <module>cloud-shiro-sso</module>
-        <module>spring-boot-webflux</module>
         <module>cloud-gateway</module>
         <module>cloud-redis</module>
+        <module>cloud-class</module>
     </modules>
     <properties>
         <java.version>17</java.version>
         <project.encoding>UTF-8</project.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot.version>2.6.8</spring.boot.version>
-        <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
-        <spring.cloud.version>2021.0.1</spring.cloud.version>
+        <spring.boot.version>3.0.0</spring.boot.version>
+        <spring.cloud.alibaba.version>2022.0.0.0-RC1</spring.cloud.alibaba.version>
+        <spring.cloud.version>2022.0.0</spring.cloud.version>
         <spring.cloud.durid.version>1.2.4</spring.cloud.durid.version>
         <spring.cloud.loadbalancer.version>3.1.2</spring.cloud.loadbalancer.version>
         <spring.cloud.mybatis.plus.version>3.4.3</spring.cloud.mybatis.plus.version>
@@ -35,8 +34,8 @@
         <spring.cloud.postgresql.version>42.3.1</spring.cloud.postgresql.version>
         <spring.boot.hutool.version>5.7.14</spring.boot.hutool.version>
         <jasypt.version>3.0.4</jasypt.version>
-        <java.jwt.version>3.19.2</java.jwt.version>
-        <shiro.spring.version>1.9.0</shiro.spring.version>
+        <java.jwt.version>4.4.0</java.jwt.version>
+        <shiro.spring.version>2.0.0-alpha-1</shiro.spring.version>
         <jnanoid.version>2.0.0</jnanoid.version>
         <transmittable.thread.local.version>2.13.2</transmittable.thread.local.version>
         <clou.ztt.version>0.0.1-SNAPSHOT</clou.ztt.version>

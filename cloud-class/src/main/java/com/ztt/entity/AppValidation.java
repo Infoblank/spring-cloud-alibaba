@@ -1,26 +1,25 @@
 package com.ztt.entity;
 
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class AppValidation {
+public class AppValidation implements Serializable {
 
+    @NotNull(message = "id不能为空")
     @Max(Integer.MAX_VALUE)
     @Min(1)
-    @NotNull(message = "id不能为空")
     private int id;
+    @NotEmpty(message = "appId不能为空字符串")
     @NotNull(message = "appId不能为空")
     @Length(max = 225)
     private String appId;
