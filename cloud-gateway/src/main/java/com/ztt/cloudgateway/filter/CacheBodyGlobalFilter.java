@@ -24,7 +24,6 @@ public class CacheBodyGlobalFilter implements GlobalFilter, Ordered {
     //private static final String CACHE_REQUEST_BODY_OBJECT_KEY = "cachedRequestBodyObject";
 
     @Override
-    @SuppressWarnings("all")
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         log.info("开始订阅请求数据....");
         if (exchange.getRequest().getHeaders().getContentType() == null) {

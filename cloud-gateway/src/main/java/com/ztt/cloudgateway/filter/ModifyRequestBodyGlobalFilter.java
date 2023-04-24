@@ -40,7 +40,6 @@ public class ModifyRequestBodyGlobalFilter implements GlobalFilter, Ordered {
         //构建新数据流,当body为空时,构建空流
         ServerHttpRequestDecorator requestDecorator = new ServerHttpRequestDecorator(exchange.getRequest()) {
             @Override
-            @SuppressWarnings("all")
             public @NonNull Flux<DataBuffer> getBody() {
                 Flux<DataBuffer> body = super.getBody();
                 InputStreamHolder holder = new InputStreamHolder();
@@ -53,7 +52,7 @@ public class ModifyRequestBodyGlobalFilter implements GlobalFilter, Ordered {
                         Assert.isTrue(jsonNode instanceof ObjectNode, "JSON格式异常");
                         ObjectNode objectNode = (ObjectNode) jsonNode;
                         // JSON节点最外层写入新的属性 CLOUD-APPLICATION
-                        DataBuffer dataBuffer = dataBufferFactory.allocateBuffer();
+                        DataBuffer dataBuffer = dataBufferFactory.allocateBuffer(1024);
                         String json = objectNode.toString();
                         log.info("请求body修改完成,最终的JSON数据为:{}", json);
                         dataBuffer.write(json.getBytes(StandardCharsets.UTF_8));

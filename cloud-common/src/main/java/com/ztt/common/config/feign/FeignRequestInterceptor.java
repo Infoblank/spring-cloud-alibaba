@@ -1,6 +1,7 @@
 package com.ztt.common.config.feign;
 
 import com.ztt.common.util.EnvironmentUtil;
+import com.ztt.common.util.RequestIdUtils;
 import com.ztt.constant.CommonConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -57,7 +58,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
 
     public void customHeaders(RequestTemplate template) {
         template.header(CommonConstant.APPLICATION_NAME, EnvironmentUtil.getLocationAppName());
-        // template.header(CommonConstant.REQUEST_ID, RequestIdUtils.getRequestId());
+        template.header(CommonConstant.REQUEST_ID, RequestIdUtils.getRequestId());
         template.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         // 如果设置了Transfer-Encoding为chunked,content-length将被忽略
         template.header(HttpHeaders.TRANSFER_ENCODING, "chunked");

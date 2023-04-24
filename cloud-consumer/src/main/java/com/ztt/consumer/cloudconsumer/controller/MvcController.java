@@ -4,9 +4,6 @@ import com.ztt.common.config.otherconfig.OauthContext;
 import com.ztt.consumer.cloudconsumer.interfaceprovider.GitHubFeign;
 import com.ztt.consumer.cloudconsumer.service.TaskService;
 import com.ztt.entity.LoginVal;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +19,6 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/consumer/mvc")
 @RestController
-@Tag(name = "TEST", description = "测试接口")
 public class MvcController {
 
 
@@ -34,8 +30,6 @@ public class MvcController {
     private GitHubFeign gitHubFeign;
 
 
-    @Operation(tags = {"TEST"}, description = "测试接口")
-    @Parameter(name = "c")
     @RequestMapping(value = "/test")
     public String mvcTest() {
         // 在多线程里面调用了feign的服务,无法回去到父请求对象,需要加上这一行代码 加在需要开始子线程任务开始的地方

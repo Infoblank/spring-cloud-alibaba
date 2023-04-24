@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Order(-10)
@@ -72,11 +73,13 @@ public class JsonErrorWebExceptionHandler implements ErrorWebExceptionHandler {
             message = ex.getLocalizedMessage();
             data = "请联系管理员";
         }
+        log.error("JsonErrorWebExceptionHandler...");
+        ex.printStackTrace();
         ResultData build = ResultData.builder().status(Objects.requireNonNull(response.getStatusCode()).value()).dataType("String").message(message).requestPath(request.getPath().toString()).data(data).operationTimestamp(System.nanoTime()).build();
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();
             try {
-                return bufferFactory.wrap(objectMapper.writeValueAsString(build).getBytes());
+                return bufferFactory.wrap(objectMapper.writeValueAsString(build).getBytes(StandardCharsets.UTF_8));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }

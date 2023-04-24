@@ -21,7 +21,7 @@ public class FilterConfiguration {
     }
 
     @Bean
-    public RestTemplate restTemplateBean() {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 

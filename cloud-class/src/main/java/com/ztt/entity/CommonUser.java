@@ -55,4 +55,9 @@ public class CommonUser implements Serializable {
     private String deletedFlag;
 
     private String loginTime;
+
+    public void init(){
+        this.loginName= "init";
+        this.name = "init";
+    }
 }

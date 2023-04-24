@@ -2,17 +2,12 @@ package com.ztt.cloudgateway.config;
 
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.cloud.sleuth.instrument.async.LazyTraceAsyncCustomizer;
-import org.springframework.cloud.sleuth.instrument.async.LazyTraceExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
@@ -37,7 +32,7 @@ public class ThreadPoolConfig {
      *
      * @return 异步配置类
      */
-    @Bean
+    /*@Bean
     public AsyncConfigurer asyncConfigurer() {
         //  在这里返回一个 LazyTraceAsyncCustomizer 类型的AsyncConfigurer
         new LazyTraceExecutor(this.beanFactory, threadPoolTaskExecutor());
@@ -59,7 +54,7 @@ public class ThreadPoolConfig {
                 };
             }
         });
-    }
+    }*/
 
     @Bean
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
