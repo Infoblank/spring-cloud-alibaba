@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class MinioController {
     private MinioService minioService;
 
     @PostMapping("/upload")
-    public String upload(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
+    public HashMap<String,Object> upload(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
         return MinioUtil.uploadFile(multipartFile);
     }
 

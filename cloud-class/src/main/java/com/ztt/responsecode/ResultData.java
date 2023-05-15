@@ -2,12 +2,19 @@ package com.ztt.responsecode;
 
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @ToString
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultData {
+public class ResultData implements Serializable {
+
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private int status;
     private String message;
@@ -33,7 +40,6 @@ public class ResultData {
     /**
      * @param code    返回的code
      * @param message 返回消息
-     * @param <T>     消息
      * @return ResultData
      */
     public static ResultData fail(int code, String message) {

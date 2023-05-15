@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 文件上传的基础配置,后面还有的再加
  */
-@ConfigurationProperties(prefix = "upload")
+@ConfigurationProperties(prefix = "minio.upload")
 @Setter
 @Getter
 @Configuration
@@ -20,7 +20,7 @@ public class UploadProperties {
     private float outputQuality = 0.25f;
 
     // minio上传的桶名称,在minio服务的根目录,相当于数据库的名称
-    private String bucketName = "zhang-bucket";
+    private String bucketName = "cloud-bucket";
 
     private String fileContentType = "text/plain";
 

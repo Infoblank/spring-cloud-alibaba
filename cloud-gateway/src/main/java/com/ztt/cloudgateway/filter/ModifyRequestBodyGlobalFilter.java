@@ -3,6 +3,7 @@ package com.ztt.cloudgateway.filter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.ztt.constant.CloudAction;
 import io.netty.buffer.ByteBufAllocator;
 import jakarta.annotation.Resource;
 import lombok.NonNull;
@@ -31,52 +32,57 @@ import java.util.Objects;
 @Component
 public class ModifyRequestBodyGlobalFilter implements GlobalFilter, Ordered {
 
-    private final DataBufferFactory dataBufferFactory = new NettyDataBufferFactory(ByteBufAllocator.DEFAULT);
-    @Resource
-    private ObjectMapper objectMapper;
+	private final DataBufferFactory dataBufferFactory = new NettyDataBufferFactory(ByteBufAllocator.DEFAULT);
+	@Resource
+	private ObjectMapper objectMapper;
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        //构建新数据流,当body为空时,构建空流
-        ServerHttpRequestDecorator requestDecorator = new ServerHttpRequestDecorator(exchange.getRequest()) {
-            @Override
-            public @NonNull Flux<DataBuffer> getBody() {
-                Flux<DataBuffer> body = super.getBody();
-                InputStreamHolder holder = new InputStreamHolder();
-                // 表示body被Consumer订阅
-                body.subscribe(buffer -> holder.inputStream = buffer.asInputStream());
-                if (Objects.nonNull(holder.inputStream)) {
-                    try {
-                        // 解析JSON的节点
-                        JsonNode jsonNode = objectMapper.readTree(holder.inputStream);
-                        Assert.isTrue(jsonNode instanceof ObjectNode, "JSON格式异常");
-                        ObjectNode objectNode = (ObjectNode) jsonNode;
-                        // JSON节点最外层写入新的属性 CLOUD-APPLICATION
-                        DataBuffer dataBuffer = dataBufferFactory.allocateBuffer(1024);
-                        String json = objectNode.toString();
-                        log.info("请求body修改完成,最终的JSON数据为:{}", json);
-                        dataBuffer.write(json.getBytes(StandardCharsets.UTF_8));
-                        return Flux.just(dataBuffer);
-                    } catch (Exception e) {
-                        throw new IllegalStateException("参数无法解析,请检查参数是否正确。");
-                    }
-                } else {
-                    return super.getBody();
-                }
-            }
-        };
-        // 使用修改后的ServerHttpRequestDecorator重新生成一个新的ServerWebExchange
-        return chain.filter(exchange.mutate().request(requestDecorator).build());
-    }
+	@Override
+	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+		//构建新数据流,当body为空时,构建空流
+		ServerHttpRequestDecorator requestDecorator = new ServerHttpRequestDecorator(exchange.getRequest()) {
+			@Override
+			public @NonNull Flux<DataBuffer> getBody() {
+				Flux<DataBuffer> body = super.getBody();
+				InputStreamHolder holder = new InputStreamHolder();
+				// 表示body被Consumer订阅
+				body.subscribe(buffer -> holder.inputStream = buffer.asInputStream());
+				// 如果当前的操作是文件上传,就不需要走解析JSON,不然会报错
+				boolean isUpload = exchange.getRequest().getHeaders().containsKey(CloudAction.FILES_UPLOAD.getKey()) && exchange.getRequest().getHeaders().containsValue(CloudAction.FILES_UPLOAD.getAction());
+				if (isUpload) {
+					return super.getBody();
+				}
+				if (Objects.nonNull(holder.inputStream)) {
+					try {
+						// 解析JSON的节点
+						JsonNode jsonNode = objectMapper.readTree(holder.inputStream);
+						Assert.isTrue(jsonNode instanceof ObjectNode, "JSON格式异常");
+						ObjectNode objectNode = (ObjectNode) jsonNode;
+						// JSON节点最外层写入新的属性 CLOUD-APPLICATION
+						DataBuffer dataBuffer = dataBufferFactory.allocateBuffer(1024);
+						String json = objectNode.toString();
+						log.info("请求body修改完成,最终的JSON数据为:{}", json);
+						dataBuffer.write(json.getBytes(StandardCharsets.UTF_8));
+						return Flux.just(dataBuffer);
+					} catch (Exception e) {
+						throw new IllegalStateException("参数无法解析,请检查参数是否正确。");
+					}
+				} else {
+					return super.getBody();
+				}
+			}
+		};
+		// 使用修改后的ServerHttpRequestDecorator重新生成一个新的ServerWebExchange
+		return chain.filter(exchange.mutate().request(requestDecorator).build());
+	}
 
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 1;
-    }
+	@Override
+	public int getOrder() {
+		return Ordered.HIGHEST_PRECEDENCE + 1;
+	}
 
 
-    private static class InputStreamHolder {
-        InputStream inputStream;
-    }
+	private static class InputStreamHolder {
+		InputStream inputStream;
+	}
 }
 

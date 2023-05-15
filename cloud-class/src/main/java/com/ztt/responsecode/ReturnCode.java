@@ -1,6 +1,8 @@
 package com.ztt.responsecode;
 
-public enum ReturnCode {
+import java.io.Serializable;
+
+public enum ReturnCode implements Serializable {
     /**
      * 操作成功
      **/
