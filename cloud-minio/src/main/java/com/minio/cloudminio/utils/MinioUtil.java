@@ -1,8 +1,12 @@
 package com.minio.cloudminio.utils;
 
+import cn.hutool.core.io.file.FileNameUtil;
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.minio.cloudminio.config.fileconfig.UploadProperties;
+import com.minio.cloudminio.config.minioconfig.CloudMinioProperties;
+import com.ztt.common.multipart.CloudMultipartFile;
 import com.ztt.common.util.SpringApplicationContextHolder;
+import com.ztt.constant.CommonConstant;
 import io.minio.*;
 import io.minio.messages.Bucket;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +17,12 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -24,47 +30,57 @@ public class MinioUtil {
 	public static MinioClient minioClient;
 	public static UploadProperties uploadProperties;
 
+	public static CloudMinioProperties cloudMinioProperties;
+
+	// 文件上传后的路径
+
+	public static HashMap<String, Object> hashMap = new HashMap<>(3);
+
 
 	static {
 		// SpringApplicationContextHolder :common模块提供的公共获取bean的工具类
 		minioClient = SpringApplicationContextHolder.getBean(MinioClient.class);
 		uploadProperties = SpringApplicationContextHolder.getBean(UploadProperties.class);
+		cloudMinioProperties = SpringApplicationContextHolder.getBean(CloudMinioProperties.class);
 	}
 
 
 	public static HashMap<String, Object> uploadFile(MultipartFile file, boolean isCompress) throws Exception {
 		//判断文件是否为空
-		if (null == file || 0 == file.getSize()) {
-			return null;
+		if (Objects.isNull(file) || 0 == file.getSize()) {
+			throw new Exception("文件大小为0,请重新选择文件!");
 		}
 
-		//文件名
+		CloudMultipartFile cloudMultipartFile = compressedFiles(file, isCompress);
+		file = cloudMultipartFile.getMultipartFile();
+		minioClient.putObject(
+				PutObjectArgs.builder().bucket(cloudMinioProperties.getBucketName()).object(cloudMultipartFile.getFileName()).stream(
+								file.getInputStream(), file.getSize(), -1)
+						.contentType(file.getContentType())
+						.build());
+		hashMap.put(CommonConstant.FILE_PATH, File.separator + cloudMinioProperties.getBucketName() + File.separator + file.getName());
+		return hashMap;
+	}
+
+
+	public static CloudMultipartFile compressedFiles(MultipartFile file, boolean isCompress) throws IOException {
 		String originalFilename = file.getOriginalFilename();
-		assert originalFilename != null;
-		int beginIndex = originalFilename.lastIndexOf(".");
-		String fileName = StringUtil.getSoleString() + originalFilename.substring(beginIndex);
-		//开始上传
-		if (file.getSize() > 0 && isCompress) {
-			log.info("file压缩前大小:{}", file.getSize());
+		String extName = FileNameUtil.extName(originalFilename);
+		assert extName != null;
+		String fileName = CloudStringUtil.getSoleString() + "." + extName;
+		if (isCompress) {
 			FileItemFactory fileItemFactory = new DiskFileItemFactory();
 			FileItem fileItem = fileItemFactory.createItem(fileName, uploadProperties.getFileContentType(), true, fileName);
 			OutputStream outputStream = fileItem.getOutputStream();
 			Thumbnails.of(file.getInputStream()).scale(uploadProperties.getCompressionRatio())
-					.outputFormat(originalFilename.substring(beginIndex + 1))
+					.outputFormat(extName)
 					.outputQuality(uploadProperties.getOutputQuality())
 					.toOutputStream(outputStream);
-			file = new CommonsMultipartFile(fileItem);
-			log.info("file压缩后大小:{}", file.getSize());
+			return new CloudMultipartFile(new CommonsMultipartFile(fileItem), fileName);
 		}
-		minioClient.putObject(
-				PutObjectArgs.builder().bucket(uploadProperties.getBucketName()).object(fileName).stream(
-								file.getInputStream(), file.getSize(), -1)
-						.contentType(file.getContentType())
-						.build());
-		HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("filePath", File.separator + uploadProperties.getBucketName() + File.separator + fileName);
-		return hashMap;
+		return new CloudMultipartFile(file, fileName);
 	}
+
 
 	/**
 	 * 上传文件,默认情况下是压缩的,当文件不能被压缩时可以设置
@@ -119,7 +135,7 @@ public class MinioUtil {
 	}
 
 	public static InputStream getObject(String objectName) throws Exception {
-		return getObject(uploadProperties.getBucketName(), objectName);
+		return getObject(cloudMinioProperties.getBucketName(), objectName);
 	}
 
 	/**
@@ -179,7 +195,7 @@ public class MinioUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String uploadVideo(MultipartFile file) throws Exception {
+	public static HashMap<String, Object> uploadVideo(MultipartFile file) throws Exception {
 		//判断存储桶是否存在  不存在则创建
 		//createBucket(uploadProperties.getBucketName());
 		//文件名
@@ -190,11 +206,12 @@ public class MinioUtil {
 		//开始上传
 		log.info("file大小:{}", file.getSize());
 		minioClient.putObject(
-				PutObjectArgs.builder().bucket(uploadProperties.getBucketName()).object(fileName).stream(
+				PutObjectArgs.builder().bucket(cloudMinioProperties.getBucketName()).object(fileName).stream(
 								file.getInputStream(), file.getSize(), -1)
 						.contentType(uploadProperties.getVideoContentType())
 						.build());
-		return File.separatorChar + uploadProperties.getBucketName() + File.separatorChar + fileName;
+		hashMap.put(CommonConstant.FILE_PATH, File.separator + cloudMinioProperties.getBucketName() + File.separator + fileName);
+		return hashMap;
 	}
 
 }

@@ -11,4 +11,6 @@ public interface CommonConstant {
 	String TRACE_ID = "traceId";
 
 	String SPAN_ID = "spanId";
+
+	String FILE_PATH = "filePath";
 }

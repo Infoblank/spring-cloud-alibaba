@@ -19,8 +19,6 @@ public class UploadProperties {
     // 输出的质量,在0.0f-1.0f之间,默认为0.25
     private float outputQuality = 0.25f;
 
-    // minio上传的桶名称,在minio服务的根目录,相当于数据库的名称
-    private String bucketName = "cloud-bucket";
 
     private String fileContentType = "text/plain";
 

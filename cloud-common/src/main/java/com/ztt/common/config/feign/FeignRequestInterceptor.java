@@ -1,7 +1,7 @@
 package com.ztt.common.config.feign;
 
 import com.ztt.common.util.EnvironmentUtil;
-import com.ztt.common.util.RequestIdUtils;
+import com.ztt.responsecode.RequestIdUtils;
 import com.ztt.constant.CommonConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

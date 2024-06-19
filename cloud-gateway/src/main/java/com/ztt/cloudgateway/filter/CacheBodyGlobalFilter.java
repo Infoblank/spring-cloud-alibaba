@@ -21,31 +21,32 @@ import reactor.core.publisher.Mono;
 @Component
 @Slf4j
 public class CacheBodyGlobalFilter implements GlobalFilter, Ordered {
-    //private static final String CACHE_REQUEST_BODY_OBJECT_KEY = "cachedRequestBodyObject";
+	//private static final String CACHE_REQUEST_BODY_OBJECT_KEY = "cachedRequestBodyObject";
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("开始订阅请求数据....");
-        if (exchange.getRequest().getHeaders().getContentType() == null) {
-            return chain.filter(exchange);
-        } else {
-            return DataBufferUtils.join(exchange.getRequest().getBody()).flatMap(dataBuffer -> {
-                DataBufferUtils.retain(dataBuffer);
-                Flux<DataBuffer> cachedFlux = Flux.defer(() -> Flux.just(dataBuffer.slice(0, dataBuffer.readableByteCount())));
-                ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
-                    @Override
-                    public @NonNull Flux<DataBuffer> getBody() {
-                        return cachedFlux;
-                    }
-                };
-               // exchange.getAttributes().put(CACHE_REQUEST_BODY_OBJECT_KEY, cachedFlux);
-                return chain.filter(exchange.mutate().request(mutatedRequest).build());
-            });
-        }
-    }
+	@Override
+	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
-    }
+		log.info("开始订阅请求数据....");
+		if (exchange.getRequest().getHeaders().getContentType() == null) {
+			return chain.filter(exchange);
+		} else {
+			return DataBufferUtils.join(exchange.getRequest().getBody()).flatMap(dataBuffer -> {
+				DataBufferUtils.retain(dataBuffer);
+				Flux<DataBuffer> cachedFlux = Flux.defer(() -> Flux.just(dataBuffer.split(dataBuffer.readableByteCount())));
+				ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+					@Override
+					public @NonNull Flux<DataBuffer> getBody() {
+						return cachedFlux;
+					}
+				};
+				//exchange.getAttributes().put(ServerWebExchangeUtils.CACHED_REQUEST_BODY_ATTR, cachedFlux);
+				return chain.filter(exchange.mutate().request(mutatedRequest).build());
+			});
+		}
+	}
+
+	@Override
+	public int getOrder() {
+		return Ordered.HIGHEST_PRECEDENCE;
+	}
 }

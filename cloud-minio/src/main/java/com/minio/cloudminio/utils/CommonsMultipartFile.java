@@ -1,6 +1,7 @@
 package com.minio.cloudminio.utils;
 
 
+import lombok.NonNull;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
@@ -41,7 +42,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 		this.preserveFilename = preserveFilename;
 	}
 
-	public String getName() {
+	public @NonNull String getName() {
 		return this.fileItem.getFieldName();
 	}
 
@@ -71,7 +72,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 		return this.size;
 	}
 
-	public byte[] getBytes() {
+	public byte @NonNull [] getBytes() {
 		if (!this.isAvailable()) {
 			throw new IllegalStateException("File has been moved - cannot be read again");
 		} else {

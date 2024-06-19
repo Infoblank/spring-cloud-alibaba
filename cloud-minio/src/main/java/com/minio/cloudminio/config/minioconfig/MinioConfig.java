@@ -16,40 +16,41 @@ import java.security.NoSuchAlgorithmException;
 
 @Configuration
 @Slf4j
-@EnableConfigurationProperties(MinioProperties.class)
+@EnableConfigurationProperties(CloudMinioProperties.class)
 public class MinioConfig {
 
-    private MinioProperties minioProperties;
+	private CloudMinioProperties minioProperties;
 
-    @Autowired
-    public void setMinioProperties(MinioProperties minioProperties) {
-        this.minioProperties = minioProperties;
-    }
+	@Autowired
+	public void setMinioProperties(CloudMinioProperties minioProperties) {
+		this.minioProperties = minioProperties;
+	}
 
-    @Bean(name = "minioClient")
-    public MinioClient minioClient() throws ServerException,
-            InsufficientDataException, ErrorResponseException,
-            IOException, NoSuchAlgorithmException, InvalidKeyException,
-            InvalidResponseException, XmlParserException, InternalException {
-        MinioClient minioClient = MinioClient.builder().endpoint(minioProperties.getEndpoint()).credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey()).build();
-        minioClient.setTimeout(
-                minioProperties.getConnectTimeout().toMillis(),
-                minioProperties.getWriteTimeout().toMillis(),
-                minioProperties.getReadTimeout().toMillis());
-        if (minioProperties.isCheckBucket()) {
-            String bucketName = minioProperties.getBucketName();
-            BucketExistsArgs existsArgs = BucketExistsArgs.builder().bucket(bucketName).build();
-            boolean bucketExists = minioClient.bucketExists(existsArgs);
-            if (!bucketExists) {
-                if (minioProperties.isCreateBucketIfNotExist()) {
-                    MakeBucketArgs makeBucketArgs = MakeBucketArgs.builder().bucket(bucketName).build();
-                    minioClient.makeBucket(makeBucketArgs);
-                } else {
-                    throw new IllegalStateException("Bucket does not exist: " + bucketName);
-                }
-            }
-        }
-        return minioClient;
-    }
+	@Bean(name = "minioClient")
+	public MinioClient minioClient() throws ServerException,
+			InsufficientDataException, ErrorResponseException,
+			IOException, NoSuchAlgorithmException, InvalidKeyException,
+			InvalidResponseException, XmlParserException, InternalException {
+
+		MinioClient minioClient = MinioClient.builder().endpoint(minioProperties.getEndpoint()).credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey()).build();
+		minioClient.setTimeout(
+				minioProperties.getConnectTimeout().toMillis(),
+				minioProperties.getWriteTimeout().toMillis(),
+				minioProperties.getReadTimeout().toMillis());
+		if (minioProperties.isCheckBucket()) {
+			String bucketName = minioProperties.getBucketName();
+			BucketExistsArgs existsArgs = BucketExistsArgs.builder().bucket(bucketName).build();
+			boolean bucketExists = minioClient.bucketExists(existsArgs);
+			if (!bucketExists) {
+				if (minioProperties.isCreateBucketIfNotExist()) {
+					MakeBucketArgs makeBucketArgs = MakeBucketArgs.builder().bucket(bucketName).build();
+					minioClient.makeBucket(makeBucketArgs);
+				} else {
+					throw new IllegalStateException("Bucket does not exist: " + bucketName);
+				}
+			}
+		}
+		return minioClient;
+	}
 
 }

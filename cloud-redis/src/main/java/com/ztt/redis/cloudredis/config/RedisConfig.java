@@ -38,8 +38,8 @@ public class RedisConfig {
         // 配置连接工厂
         template.setConnectionFactory(factory);
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值（默认使用JDK的序列化方式）
-        Jackson2JsonRedisSerializer<Object> JacksonSeal = new Jackson2JsonRedisSerializer<>(Object.class);
-        JacksonSeal.setObjectMapper(om);
+        Jackson2JsonRedisSerializer<Object> JacksonSeal = new Jackson2JsonRedisSerializer<>(om,Object.class);
+        //JacksonSeal.setObjectMapper(om); 3.0直接使用构造方法注入ObjectMapper对象实现
         // 值采用json序列化
         template.setValueSerializer(JacksonSeal);
         //使用StringRedisSerializer来序列化和反序列化redis的key值
@@ -70,9 +70,9 @@ public class RedisConfig {
     @Primary
     public CacheManager cacheManager(RedisConnectionFactory factory, ObjectMapper om) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(om,Object.class);
         //解决查询缓存转换异常的问题
-        jackson2JsonRedisSerializer.setObjectMapper(om);
+        //jackson2JsonRedisSerializer.setObjectMapper(om);
         // 配置序列化（解决乱码的问题）
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(timeToLive)

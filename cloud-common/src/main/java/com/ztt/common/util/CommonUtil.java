@@ -1,6 +1,7 @@
 package com.ztt.common.util;
 
 import com.ztt.constant.CommonConstant;
+import com.ztt.responsecode.RequestIdUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

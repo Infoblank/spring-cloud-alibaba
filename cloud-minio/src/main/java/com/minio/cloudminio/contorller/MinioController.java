@@ -24,31 +24,33 @@ import java.util.Optional;
 @RequestMapping("/minio")
 public class MinioController {
 
-    @Resource
-    private MinioService minioService;
+	@Resource
+	private MinioService minioService;
 
-    @PostMapping("/upload")
-    public HashMap<String,Object> upload(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
-        return MinioUtil.uploadFile(multipartFile);
-    }
+	@PostMapping("/upload")
+	public HashMap<String, Object> upload(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
+		return MinioUtil.uploadFile(multipartFile);
+	}
 
-    @RequestMapping("/download")
-    public void downloadFile(HttpServletResponse response, String fileName) throws Exception {
-        // 将传递来的名字和minio上的名字对应起来, 调用dao的接口来查询数据
-        String queryFileName = minioService.queryFileName(fileName);
-        if (Objects.nonNull(queryFileName)) {
-            InputStream object = MinioUtil.getObject(queryFileName);
-            OutputStream stream = response.getOutputStream();
-            response.setContentType("application/octet-stream;charset=UTF-8");
-            response.setHeader("Content-Disposition", "attachment;fileName=" + fileName + ";filename*=utf-8''" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
-            IoUtil.copy(object, stream, IoUtil.DEFAULT_BUFFER_SIZE);
-            IoUtil.close(object);
-            IoUtil.close(stream);
-        }
-    }
+	@RequestMapping("/download")
+	public void downloadFile(HttpServletResponse response, String fileName) {
+		// 将传递来的名字和minio上的名字对应起来, 调用dao的接口来查询数据
+		String queryFileName = minioService.queryFileName(fileName);
+		if (Objects.nonNull(queryFileName)) {
+			try (InputStream object = MinioUtil.getObject(queryFileName);
+			     OutputStream stream = response.getOutputStream()) {
+				response.setContentType("application/octet-stream;charset=UTF-8");
+				response.setHeader("Content-Disposition", "attachment;fileName=" + fileName + ";filename*=utf-8''" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+				IoUtil.copy(object, stream, IoUtil.DEFAULT_BUFFER_SIZE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-    @RequestMapping("getBucket")
-    public Optional<Bucket> getBucket(@RequestParam(value = "bucketName") String bucketName) throws Exception {
-        return MinioUtil.getBucket(bucketName);
-    }
+		}
+	}
+
+	@RequestMapping("getBucket")
+	public Optional<Bucket> getBucket(@RequestParam(value = "bucketName") String bucketName) throws Exception {
+		return MinioUtil.getBucket(bucketName);
+	}
 }

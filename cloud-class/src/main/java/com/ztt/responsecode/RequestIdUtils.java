@@ -1,4 +1,4 @@
-package com.ztt.common.util;
+package com.ztt.responsecode;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;

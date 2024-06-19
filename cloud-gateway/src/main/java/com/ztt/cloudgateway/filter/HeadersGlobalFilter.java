@@ -24,7 +24,7 @@ public class HeadersGlobalFilter implements GlobalFilter, Ordered {
         List<String> token = headers.get("accessToken");
         if (Objects.isNull(token) || token.size() == 0) {
             log.info("当前请求没有携带accessToken,重新设置accessToken.");
-            mutate.header("accessToken", "a@@jansjd");
+            mutate.header("accessToken", "infoBlank");
         }
         ServerHttpRequest build = mutate.build();
         return chain.filter(exchange.mutate().request(build).build());
