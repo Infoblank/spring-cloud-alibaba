@@ -1,6 +1,6 @@
 package com.ztt.cloudprovider.clouddaointerface;
 
-import com.ztt.common.entity.CommonUser;
+import com.ztt.entity.CommonUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,6 +1,5 @@
 package com.ztt.common.async;
 
-import com.ztt.common.util.CommonUtil;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -15,7 +14,7 @@ public class CloudAsyncUncaughtExceptionHandler implements AsyncUncaughtExceptio
     @Override
     public void handleUncaughtException(Throwable ex, @NonNull Method method, Object... params) {
         // 线程执行报错后,需要清除掉线程的请求id以面记录错误的id导致无法正确的查询到问题
-        CommonUtil.clearRequestIdAndMDCId(null, null);
+        ex.printStackTrace();
         log.error("方法:{}发生错误:{},参数:{}", method, ex.getMessage(), params);
     }
 }

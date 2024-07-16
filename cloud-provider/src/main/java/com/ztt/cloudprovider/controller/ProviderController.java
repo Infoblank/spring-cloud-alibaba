@@ -1,13 +1,13 @@
 package com.ztt.cloudprovider.controller;
 
 import com.ztt.cloudprovider.clouddaointerface.CloudDaoService;
-import com.ztt.common.entity.CommonUser;
+import com.ztt.common.util.EnvironmentUtil;
+import com.ztt.entity.CommonUser;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +20,6 @@ import java.util.Map;
 @Slf4j
 @RequestMapping(path = "/provider/v1")
 public class ProviderController {
-    @Value("${server.port}")
-    Integer port;
-
-    @Value("${spring.application.name}")
-    String providerName;
-
     @Autowired
     private CloudDaoService cloudDaoService;
 
@@ -39,18 +33,20 @@ public class ProviderController {
         return list;
     }
 
+    //@Cacheable(value = "server_port")
     @PostMapping(path = "hello")
     public String hello() {
-        return "当前服务端口:" + this.port;
+        return "当前服务端口:" + EnvironmentUtil.getLocationPort();
     }
 
     @PostMapping(path = "hello2/{name}", name = "hello2")
     public Map<Object, Object> hello2(@PathVariable("name") String name, HttpServletRequest request) {
-        HashMap<Object, Object> map = new HashMap<>(3);
+        // initialCapacity的值大概是需要存储的元素个数/0.75 -- 5/0.75=6.6-->7
+        HashMap<Object, Object> map = new HashMap<>(7);
         map.put("methodName", "hello2");
         map.put("param", name);
-        map.put("serverName", this.providerName);
-        map.put("serverPost", this.port);
+        map.put("serverName", EnvironmentUtil.getLocationAppName());
+        map.put("serverPost", EnvironmentUtil.getLocationPort());
         map.put("url", request.getRequestURL().toString());
         return map;
     }
@@ -61,8 +57,8 @@ public class ProviderController {
         HashMap<Object, Object> map = new HashMap<>(3);
         map.put("methodName", "hello3");
         map.put("param", new String[]{name, user.toString()});
-        map.put("serverName", this.providerName);
-        map.put("serverPost", this.port);
+        map.put("serverName", EnvironmentUtil.getLocationAppName());
+        map.put("serverPost", EnvironmentUtil.getLocationPort());
         map.put("url", request.getRequestURL().toString());
         return map;
     }
@@ -72,8 +68,8 @@ public class ProviderController {
         HashMap<Object, Object> map = new HashMap<>(3);
         map.put("methodName", "hello5");
         map.put("param", new String[]{name, password});
-        map.put("serverName", this.providerName);
-        map.put("serverPost", this.port);
+        map.put("serverName", EnvironmentUtil.getLocationAppName());
+        map.put("serverPost", EnvironmentUtil.getLocationPort());
         map.put("url", request.getRequestURL().toString());
         return map;
     }

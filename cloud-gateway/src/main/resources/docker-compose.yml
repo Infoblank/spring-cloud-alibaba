@@ -1,0 +1,19 @@
+version: '3'
+services:
+   nacos:
+    image: nacos/nacos-server:v2.2.2-slim
+    container_name: nacos-new
+    environment:
+      - MODE=standalone
+      - PREFER_HOST_MODE=hostname
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=120.46.172.26
+      - MYSQL_SERVICE_PORT=3389
+      - MYSQL_SERVICE_DB_NAME=nacos
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=273988
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+    ports:
+      - "9000:8848"
+      - "10000:9848"
+      - "10001:9849"

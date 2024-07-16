@@ -15,27 +15,36 @@
         <module>cloud-common</module>
         <module>cloud-dao</module>
         <module>cloud-minio</module>
-        <module>cloud-shiro-sso</module>
-        <module>spring-boot-webflux</module>
+        <module>cloud-gateway</module>
+        <module>cloud-redis</module>
+        <module>cloud-class</module>
     </modules>
     <properties>
-        <java.version>1.8</java.version>
+        <!--升级JDK21注意事项
+         Spring Cloud Alibaba 支持 JDK 21 的版本是 2023.0.0.0-RC1。在这个版本中,
+         Spring Cloud Alibaba 对应 Spring Cloud 的 2023.0.0 和 Spring Boot 的 3.2.0 版本，并且明确提到了对 JDK 21 版本的支持
+         最低要求以上版本才可以使用使用DK21
+        -->
+        <java.version>21</java.version>
+        <project.encoding>UTF-8</project.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot.version>2.6.8</spring.boot.version>
-        <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
-        <spring.cloud.version>2021.0.1</spring.cloud.version>
-        <spring.cloud.durid.version>1.2.4</spring.cloud.durid.version>
-        <spring.cloud.loadbalancer.version>3.1.2</spring.cloud.loadbalancer.version>
-        <spring.cloud.mybatis.plus.version>3.4.3</spring.cloud.mybatis.plus.version>
-        <spring.cloud.satoken.version>1.28.0</spring.cloud.satoken.version>
-        <spring.cloud.postgresql.version>42.3.1</spring.cloud.postgresql.version>
-        <spring.boot.hutool.version>5.7.14</spring.boot.hutool.version>
+        <spring.boot.version>3.2.0</spring.boot.version>
+        <spring.cloud.alibaba.version>2023.0.1.0</spring.cloud.alibaba.version>
+        <spring.cloud.version>2023.0.0</spring.cloud.version>
+        <spring.cloud.durid.version>1.2.23</spring.cloud.durid.version>
+        <spring.cloud.loadbalancer.version>4.1.3</spring.cloud.loadbalancer.version>
+        <spring.cloud.mybatis.plus.version>3.5.7</spring.cloud.mybatis.plus.version>
+        <spring.cloud.satoken.version>1.38.0</spring.cloud.satoken.version>
+        <spring.cloud.postgresql.version>42.7.3</spring.cloud.postgresql.version>
+        <spring.boot.hutool.version>5.8.28</spring.boot.hutool.version>
         <jasypt.version>3.0.4</jasypt.version>
-        <java.jwt.version>3.19.2</java.jwt.version>
-        <shiro.spring.version>1.9.0</shiro.spring.version>
+        <java.jwt.version>4.4.0</java.jwt.version>
+        <shiro.spring.version>2.0.0-alpha-1</shiro.spring.version>
         <jnanoid.version>2.0.0</jnanoid.version>
-        <transmittable.thread.local.version>2.13.2</transmittable.thread.local.version>
+        <transmittable.thread.local.version>2.14.5</transmittable.thread.local.version>
+        <clou.ztt.version>0.0.1-SNAPSHOT</clou.ztt.version>
+        <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -43,12 +52,24 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclusion>
+                </exclusions>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                    </exclusion>
+                </exclusions>
                 <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -60,6 +81,7 @@
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
             </dependency>
+            <!-- 负载均很策略 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-loadbalancer</artifactId>
@@ -70,18 +92,19 @@
             <!--ORM框架-->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId> mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${spring.cloud.mybatis.plus.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
+            <!-- 缓存 -->
+            <!--<dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
                 <version>2.8.1</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
+            </dependency>-->
             <!--阿里巴巴的druid连接池-->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -121,6 +144,7 @@
                 <type>jar</type>
                 <scope>import</scope>
             </dependency>
+            <!-- 加密配置文件,但是只解密一次 nacos动态加载后无法解密已经加密的选项 可以自己实现在读取了nacos配置后再解密一次 -->
             <dependency>
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
@@ -128,7 +152,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--子线程继承父线程的实现-->
+            <!-- 线程池的线程获取来自父线程的变量 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
@@ -143,11 +167,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.compiler.plugin}</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.encoding}</encoding>
                 </configuration>
             </plugin>
             <plugin>
